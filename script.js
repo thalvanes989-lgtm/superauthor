@@ -1,7 +1,7 @@
 (function(){
   const params = new URLSearchParams(window.location.search);
   const school = sanitize(params.get('school')) || 'Your school';
-  const grades = sanitize(params.get('grades')) || 'K–8';
+  const grades = sanitize(params.get('grades')) || 'K-8';
   const state = sanitize(params.get('state')) || 'your state';
   const owner = sanitize(params.get('owner')) || 'internal';
   const cohort = sanitize(params.get('cohort')) || 'school-impact-v2';
@@ -15,37 +15,45 @@
   const bookExamples = {
     prek: {
       grade: 'PreK–K',
-      title: 'My First Story',
-      copy: 'I see a big sun. It is yellow.',
-      heading: 'Young students can still become authors.',
-      description: 'For early grades, the book can combine simple sentences, drawings, dictated ideas, and teacher-supported writing.',
+      title: 'My Magical World of Shapes',
+      copy: 'I see a red triangle and a big blue circle.',
+      image: 'http://superauthor.com/wp-content/uploads/2026/06/Pre-kindergaten.png',
+      imageAlt: 'Student book example: My Magical World of Shapes',
+      heading: 'Early learners can become authors through simple writing and visual storytelling.',
+      description: 'For PreK and Kindergarten, the book can combine shapes, colors, drawings, dictated ideas, and teacher-supported writing.',
       bullets: ['Simple sentence structure','Drawing-led storytelling','High family pride at the Publishing Party'],
       gradient: 'linear-gradient(135deg,#E33D57,#EB801E)'
     },
     g12: {
       grade: '1st–2nd',
-      title: 'The River Explorer',
-      copy: 'I went to the river with my family. I saw fish, rocks, and a bird flying over the water.',
-      heading: 'Early writers build confidence through ownership.',
-      description: 'Students can write short scenes, describe interests, and connect their own experiences to the final book.',
+      title: "Aalam's Super Power",
+      copy: 'My superpower is flying high up to the sun to save the day!',
+      image: 'http://superauthor.com/wp-content/uploads/2026/06/2th-grade.png',
+      imageAlt: "Student book example: Aalam's Super Power",
+      heading: 'Early writers build confidence when their ideas become real books.',
+      description: 'Students can write short scenes, describe personal ideas, and connect their illustrations to a clear story.',
       bullets: ['Short narrative scenes','Personal interests and identity','Illustrations connected to text'],
       gradient: 'linear-gradient(135deg,#00A0D9,#009A80)'
     },
     g35: {
       grade: '3rd–5th',
-      title: 'The Day I Became Brave',
-      copy: 'At first, I did not think I could tell the story. Then I remembered the moment I helped my team, and I knew how to begin.',
-      heading: 'Upper elementary students can produce structured narratives.',
-      description: 'Students can work with character, setting, sequence, personal reflection, and revision while still creating an individual book.',
+      title: 'The Big Hit',
+      copy: 'I held the bat tight and looked at the ball. With one fast swing, I heard a loud crack and knew it was a home run!',
+      image: 'http://superauthor.com/wp-content/uploads/2026/06/5th-grade.png',
+      imageAlt: 'Student book example: The Big Hit',
+      heading: 'Upper elementary students can create stronger, more detailed narratives.',
+      description: 'Students can work with sequence, action, sensory detail, personal voice, and revision while still creating an individual book.',
       bullets: ['Structured narrative arc','Revision and paragraph development','Clear connection to ELA standards'],
       gradient: 'linear-gradient(135deg,#F4A801,#EB801E)'
     },
     g68: {
       grade: '6th–8th',
-      title: 'A Portfolio of Who I Am',
-      copy: 'This project shows how I think, what I notice, and what I want to explain. Each page connects an idea, evidence, and my own voice.',
-      heading: 'Middle school can be more than a children’s story.',
-      description: 'For older students, SuperAuthor can adapt into personal essays, science portfolios, identity writing, or longer-form projects.',
+      title: 'A Moment in Time',
+      copy: "Every gear turns to reflect how we perceive history. Time doesn't just pass; it shapes our choices, our growth, and who we eventually become.",
+      image: 'http://superauthor.com/wp-content/uploads/2026/06/8th-grade.png',
+      imageAlt: 'Student book example: A Moment in Time',
+      heading: 'Middle school can move into reflection, argument, and longer-form writing.',
+      description: 'For older students, SuperAuthor can adapt into personal essays, science portfolios, identity writing, or other structured projects.',
       bullets: ['Personal essay or portfolio format','Longer-form writing and reflection','Strong fit for ELA, science, or project-based learning'],
       gradient: 'linear-gradient(135deg,#2A3A4D,#00A0D9)'
     }
@@ -120,7 +128,7 @@
     const badge = document.querySelector('[data-school-logo-badge]');
     const img = document.querySelector('[data-school-logo]');
     const text = document.querySelector('[data-school-logo-text]');
-    if(text) text.textContent = `A preview of what SuperAuthor could look like at ${school}`;
+    if(text) text.textContent = `for ${school}`;
     if(!badge || !img || !logoUrl){
       if(badge) badge.hidden = true;
       return;
@@ -167,6 +175,11 @@
     document.querySelector('[data-book-heading]').textContent = item.heading;
     document.querySelector('[data-book-description]').textContent = item.description;
     document.querySelector('[data-book-cover]').style.background = item.gradient;
+    const image = document.querySelector('[data-book-image]');
+    if(image){
+      image.src = item.image;
+      image.alt = item.imageAlt || `Student book example: ${item.title}`;
+    }
     const bullets = document.querySelector('[data-book-bullets]');
     bullets.innerHTML = item.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('');
   }

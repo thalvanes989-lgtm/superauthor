@@ -1,63 +1,57 @@
-# SuperAuthor School Impact Page V2
+# SuperAuthor School Impact Page V3
 
-Static internal prototype for the personalized outbound enablement page.
-
-## How to preview locally
-
-Open `index.html` in a browser.
-
-## Dynamic URL parameters
-
-Example without school logo:
-
-```txt
-index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&owner=amanda&cohort=principal
-```
-
-Example with school logo:
-
-```txt
-index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https%3A%2F%2Fwww.mandarincharter.org%2Fpics%2Fheader_logo.png&owner=amanda&cohort=principal
-```
-
-## Supported parameters
-
-- `school`: school name
-- `students`: estimated participating students
-- `grades`: grade band
-- `state`: state abbreviation or name
-- `logo`: optional public school logo URL. If missing, broken, blocked, or invalid, no badge appears.
-- `owner`: outbound owner
-- `cohort`: campaign/cohort label
-
-## Calculation logic
-
-- Student-authors = students
-- Published books = students
-- Estimated Publishing Party attendees = students × 3
-- Estimated total book revenue = students × (7000 / 300)
-- Estimated school fund share = estimated total book revenue × 10%
-
-## V2 changes
-
-- Updated scale proof to 1M+ students and 5,000+ participating schools.
-- Added optional public school logo badge through `logo=` URL parameter.
-- Removed fallback initials for missing school logos.
-- Updated attendee estimate to `students × 3`.
-- Corrected revenue logic: $7,000 is total revenue per 300 students; school share is 10%.
-- Added Tannysha Evans and Mrs. Rivers testimonial cards with supplied images.
-- Added supplied SuperAuthor/SuperAutor icons and illustrations.
+Static internal prototype for a personalized outbound enablement page.
 
 ## Files
 
 - `index.html`
 - `styles.css`
 - `script.js`
-- `README.md`
+
+Upload all three files to the same GitHub Pages repository root.
+
+## Dynamic URL parameters
+
+Example:
+
+```txt
+index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https%3A%2F%2Fwww.mandarincharter.org%2Fpics%2Fheader_logo.png&owner=amanda&cohort=principal
+```
+
+Supported params:
+
+- `school`
+- `students`
+- `grades`
+- `state`
+- `logo`
+- `owner`
+- `cohort`
+
+## V3 updates
+
+- Removed all “snapshot” wording from visible copy.
+- Removed dash-style punctuation from visible page copy and grade labels.
+- Redesigned the school logo badge to avoid overflow.
+- Badge now shows two compact lines:
+  - `SuperAuthor preview`
+  - `for [School Name]`
+- Logo badge only appears when a public `logo=` URL loads successfully.
+- RTO training icon updated to `consultoria.svg`.
+
+## Calculator assumptions
+
+- Estimated total book revenue: `$7,000 per 300 participating students`
+- School fund share: `10%`
+- Estimated Publishing Party attendees: `3 per student`
+
+## Book gallery note
+
+Current book examples are placeholders. Replace them with approved PNG/WebP screenshots or designed crops before external launch.
 
 
-## V2.1 update
+## V4 updates
 
-- Replaced visible `school snapshot` copy with preview language.
-- School logo badge now reads: `A preview of what SuperAuthor could look like at [School Name]`.
-- Removed `snapshot` language from the main hero eyebrow and impact section label.
+- Replaced grade gallery placeholders with approved real student book images.
+- Updated grade card titles and writing-level excerpts.
+- Added dynamic image swapping in script.js for all grade tabs.
