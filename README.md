@@ -54,3 +54,10 @@ index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https
 - `styles.css`
 - `script.js`
 - `README.md`
+
+
+## V2.1 update
+
+- Replaced visible `school snapshot` copy with preview language.
+- School logo badge now reads: `A preview of what SuperAuthor could look like at [School Name]`.
+- Removed `snapshot` language from the main hero eyebrow and impact section label.

@@ -119,6 +119,8 @@
   function setupSchoolLogo(logoUrl){
     const badge = document.querySelector('[data-school-logo-badge]');
     const img = document.querySelector('[data-school-logo]');
+    const text = document.querySelector('[data-school-logo-text]');
+    if(text) text.textContent = `A preview of what SuperAuthor could look like at ${school}`;
     if(!badge || !img || !logoUrl){
       if(badge) badge.hidden = true;
       return;
