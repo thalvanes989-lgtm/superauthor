@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAuthor Link Builder</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --yellow:#F4A801;
+      --blue:#00A0D9;
+      --red:#E33D57;
+      --orange:#EB801E;
+      --green:#009A80;
+      --navy:#2A3A4D;
+      --navy-2:#3D4C5D;
+      --muted:#727F8E;
+      --line:#E1E3E5;
+      --soft:#F1F1F1;
+      --blue-soft:#D2F4FF;
+      --yellow-soft:#FCEDCA;
+      --white:#FFFFFF;
+      --shadow:0 16px 32px rgba(42,58,77,.10);
+      --shadow-sm:0 4px 8px rgba(42,58,77,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Asap',sans-serif;background:#F7F8FA;color:var(--navy)}
+    .nav{height:72px;background:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:20}
+    .nav img{height:36px;width:auto;display:block}
+    .nav-actions{display:flex;gap:12px;align-items:center}
+    .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--blue-soft);color:var(--navy);font-size:13px;font-weight:700;padding:8px 14px}
+    .wrap{max-width:1180px;margin:0 auto;padding:48px 24px 72px}
+    .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:stretch;margin-bottom:32px}
+    .hero-card{background:var(--yellow);border-radius:28px;padding:40px;box-shadow:var(--shadow);min-height:310px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+    .hero-card:after{content:"";position:absolute;right:-80px;bottom:-100px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.22)}
+    .eyebrow{display:inline-flex;width:max-content;background:var(--blue);color:var(--navy);border-radius:999px;padding:6px 14px;font-style:italic;font-weight:700;font-size:13px;margin-bottom:18px}
+    h1{font-size:44px;line-height:1.07;letter-spacing:-1px;max-width:720px;position:relative;z-index:1}
+    .hero-card p{font-size:17px;line-height:1.65;color:var(--navy-2);max-width:640px;margin-top:18px;position:relative;z-index:1}
+    .preview-card{background:var(--white);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:18px}
+    .preview-title{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+    .preview-title h2{font-size:22px;line-height:1.2;letter-spacing:-.3px}
+    .status{font-size:12px;font-weight:800;background:#E9F7F4;color:var(--green);border-radius:999px;padding:7px 10px;white-space:nowrap}
+    .impact-mini{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .mini{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}
+    .mini strong{display:block;font-size:26px;line-height:1;color:var(--navy);margin-bottom:6px}
+    .mini span{font-size:12px;color:var(--muted);font-weight:700;line-height:1.35}
+    .form-shell{display:grid;grid-template-columns:1fr .92fr;gap:24px;align-items:start}
+    .panel{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow-sm)}
+    .panel h2{font-size:24px;letter-spacing:-.3px;margin-bottom:8px}
+    .panel-sub{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:24px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .field.full{grid-column:1 / -1}
+    label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+    input,select,textarea{font:inherit;border:1px solid #D1D4D9;border-radius:12px;background:var(--white);color:var(--navy);padding:13px 14px;outline:none;width:100%}
+    input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,160,217,.12)}
+    input[type=number]{appearance:textfield}
+    .hint{font-size:12px;color:var(--muted);line-height:1.45}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .btn{height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--navy);color:white;font:inherit;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;transition:.15s ease;white-space:nowrap}
+    .btn:hover{background:#3D4C5D;transform:translateY(-1px)}
+    .btn.secondary{background:white;color:var(--navy);border:2px solid var(--navy)}
+    .btn.secondary:hover{background:#F1F1F1}
+    .btn.yellow{background:var(--yellow);color:var(--navy)}
+    .btn.yellow:hover{background:#F6C453}
+    .btn.small{height:38px;padding:0 14px;font-size:14px}
+    .output-group{display:flex;flex-direction:column;gap:18px}
+    .output-box{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff}
+    .output-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .output-head h3{font-size:16px;letter-spacing:-.2px}
+    .readonly{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;line-height:1.5;min-height:76px;resize:vertical;background:#F7F8FA;color:#25364B}
+    .snippet{font-family:'Asap',sans-serif;font-size:14px;line-height:1.55;min-height:110px;background:#F7F8FA;color:#25364B}
+    .feedback{min-height:20px;font-size:13px;font-weight:700;color:var(--green);margin-top:10px}
+    .logo-test{display:flex;align-items:center;gap:12px;border:1px dashed #D1D4D9;border-radius:16px;padding:14px;background:#FAFAFA;min-height:70px}
+    .logo-test img{display:none;max-width:120px;max-height:48px;object-fit:contain;background:white;border-radius:10px;padding:6px;border:1px solid var(--line)}
+    .logo-test .logo-copy{font-size:13px;color:var(--muted);line-height:1.4}
+    .notice{margin-top:18px;padding:14px 16px;border-radius:16px;background:var(--yellow-soft);font-size:13px;line-height:1.5;color:var(--navy-2)}
+    .base-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+    .footer-note{margin-top:28px;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
+    @media(max-width:980px){.hero,.form-shell{grid-template-columns:1fr}.nav{padding:0 20px}.nav-actions{display:none}h1{font-size:36px}.hero-card{padding:30px}.form-grid{grid-template-columns:1fr}.wrap{padding:32px 16px 56px}}
+    @media(max-width:560px){.impact-mini{grid-template-columns:1fr}.base-row{grid-template-columns:1fr}.actions .btn,.output-head .btn{width:100%}.output-head{align-items:stretch;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a href="./" aria-label="Open SuperAuthor page"><img src="https://superauthor.com/wp-content/themes/superauthor-site/assets/images/logo-header.svg" alt="SuperAuthor" /></a>
+    <div class="nav-actions">
+      <span class="pill">Internal link builder</span>
+      <a class="btn secondary small" href="./" target="_blank" rel="noopener">Open base page</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Outbound enablement</div>
+        <h1>Generate personalized SuperAuthor pages without touching URL parameters.</h1>
+        <p>Fill in the school data, generate the link, copy the email snippet, and send the preview to the right contact.</p>
+      </div>
+      <aside class="preview-card" aria-label="Impact preview">
+        <div class="preview-title">
+          <h2 id="previewSchool">Mandarin Charter</h2>
+          <span class="status">Live preview</span>
+        </div>
+        <div class="impact-mini">
+          <div class="mini"><strong id="previewStudents">750</strong><span>student-authors</span></div>
+          <div class="mini"><strong id="previewAttendees">2,250</strong><span>estimated attendees</span></div>
+          <div class="mini"><strong id="previewRevenue">$17,500</strong><span>estimated total revenue</span></div>
+          <div class="mini"><strong id="previewShare">$1,750</strong><span>school fund share</span></div>
+        </div>
+        <div class="logo-test" id="logoPreviewBox">
+          <img id="logoPreview" alt="School logo preview" />
+          <span class="logo-copy" id="logoStatus">Paste a public school logo URL to preview the badge behavior.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="form-shell">
+      <div class="panel">
+        <h2>School data</h2>
+        <p class="panel-sub">Use public or internally confirmed enrollment data. The school logo only appears on the prospect page if the URL is public and loads correctly.</p>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label for="baseUrl">Published page URL</label>
+            <div class="base-row">
+              <input id="baseUrl" type="url" value="https://thalvanes989-lgtm.github.io/superauthor/" />
+              <button class="btn secondary small" type="button" id="useCurrentBase">Use this folder</button>
+            </div>
+            <p class="hint">Change this later when the page moves to superauthor.com.</p>
+          </div>
+
+          <div class="field full">
+            <label for="schoolName">School name</label>
+            <input id="schoolName" type="text" value="Mandarin Charter" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="students">Participating students</label>
+            <input id="students" type="number" min="1" max="5000" step="1" value="750" inputmode="numeric" />
+          </div>
+
+          <div class="field">
+            <label for="grades">Grade band</label>
+            <select id="grades">
+              <option value="PreK-5">PreK-5</option>
+              <option value="K-5">K-5</option>
+              <option value="K-8" selected>K-8</option>
+              <option value="1-5">1-5</option>
+              <option value="6-8">6-8</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+
+          <div class="field" id="customGradesWrap" hidden>
+            <label for="customGrades">Custom grade band</label>
+            <input id="customGrades" type="text" placeholder="Example: 3rd-5th" />
+          </div>
+
+          <div class="field">
+            <label for="state">State</label>
+            <select id="state">
+              <option value="FL" selected>FL</option>
+              <option value="NY">NY</option>
+              <option value="NJ">NJ</option>
+              <option value="PA">PA</option>
+              <option value="GA">GA</option>
+              <option value="TX">TX</option>
+              <option value="CA">CA</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+
+          <div class="field" id="customStateWrap" hidden>
+            <label for="customState">Custom state</label>
+            <input id="customState" type="text" placeholder="Example: OH" maxlength="24" />
+          </div>
+
+          <div class="field full">
+            <label for="logoUrl">School logo URL</label>
+            <input id="logoUrl" type="url" placeholder="https://www.school.org/pics/header_logo.png" />
+            <p class="hint">Optional. If the image fails to load, the prospect page hides the logo badge automatically.</p>
+          </div>
+
+          <div class="field">
+            <label for="owner">Owner</label>
+            <select id="owner">
+              <option value="amanda" selected>Amanda</option>
+              <option value="louise">Louise</option>
+              <option value="isadora">Isadora</option>
+              <option value="matt">Matt</option>
+              <option value="bruno">Bruno</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="persona">Persona</label>
+            <select id="persona">
+              <option value="principal" selected>Principal</option>
+              <option value="assistant-principal">Assistant Principal</option>
+              <option value="instructional-coach">Instructional Coach</option>
+              <option value="enrollment-marketing">Enrollment / Marketing</option>
+              <option value="district-network">District / Network</option>
+              <option value="teacher">Teacher</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="cohort">Cohort</label>
+            <input id="cohort" type="text" value="school-impact-v1" />
+          </div>
+
+          <div class="field">
+            <label for="utmContent">UTM content</label>
+            <input id="utmContent" type="text" value="school-impact-page" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn yellow" type="button" id="generateBtn">Generate personalized link</button>
+          <button class="btn secondary" type="button" id="clearBtn">Clear fields</button>
+        </div>
+        <div class="notice">Revenue assumptions: $7,000 estimated total book revenue per 300 participating students. School fund share shown as 10% of total estimated revenue. Publishing Party attendees estimated as 3 guests per student.</div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </div>
+
+      <div class="panel output-group">
+        <div class="output-box">
+          <div class="output-head">
+            <h3>Personalized page link</h3>
+            <button class="btn small" type="button" data-copy-target="generatedUrl">Copy link</button>
+          </div>
+          <textarea id="generatedUrl" class="readonly" readonly></textarea>
+          <div class="actions" style="margin-top:12px">
+            <a class="btn secondary small" id="openPreview" href="#" target="_blank" rel="noopener">Open preview</a>
+          </div>
+        </div>
+
+        <div class="output-box">
+          <div class="output-head">
+            <h3>Email snippet</h3>
+            <button class="btn small" type="button" data-copy-target="emailSnippet">Copy snippet</button>
+          </div>
+          <textarea id="emailSnippet" class="snippet" readonly></textarea>
+        </div>
+
+        <div class="output-box">
+          <div class="output-head">
+            <h3>Champion internal snippet</h3>
+            <button class="btn small" type="button" data-copy-target="championSnippet">Copy snippet</button>
+          </div>
+          <textarea id="championSnippet" class="snippet" readonly></textarea>
+        </div>
+
+        <div class="output-box">
+          <div class="output-head">
+            <h3>WordPress iframe</h3>
+            <button class="btn small" type="button" data-copy-target="iframeCode">Copy iframe</button>
+          </div>
+          <textarea id="iframeCode" class="readonly" readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">Internal prototype. Do not send the builder page to prospects. Send only the generated personalized link.</p>
+  </main>
+
+  <script>
+    (function(){
+      const DEFAULT_BASE = 'https://thalvanes989-lgtm.github.io/superauthor/';
+      const REVENUE_PER_300 = 7000;
+      const SCHOOL_SHARE = 0.10;
+      const ATTENDEES_PER_STUDENT = 3;
+      const STORAGE_KEY = 'superauthor_link_builder_v1';
+
+      const els = {
+        baseUrl: document.getElementById('baseUrl'),
+        schoolName: document.getElementById('schoolName'),
+        students: document.getElementById('students'),
+        grades: document.getElementById('grades'),
+        customGrades: document.getElementById('customGrades'),
+        customGradesWrap: document.getElementById('customGradesWrap'),
+        state: document.getElementById('state'),
+        customState: document.getElementById('customState'),
+        customStateWrap: document.getElementById('customStateWrap'),
+        logoUrl: document.getElementById('logoUrl'),
+        owner: document.getElementById('owner'),
+        persona: document.getElementById('persona'),
+        cohort: document.getElementById('cohort'),
+        utmContent: document.getElementById('utmContent'),
+        generatedUrl: document.getElementById('generatedUrl'),
+        emailSnippet: document.getElementById('emailSnippet'),
+        championSnippet: document.getElementById('championSnippet'),
+        iframeCode: document.getElementById('iframeCode'),
+        openPreview: document.getElementById('openPreview'),
+        feedback: document.getElementById('feedback'),
+        previewSchool: document.getElementById('previewSchool'),
+        previewStudents: document.getElementById('previewStudents'),
+        previewAttendees: document.getElementById('previewAttendees'),
+        previewRevenue: document.getElementById('previewRevenue'),
+        previewShare: document.getElementById('previewShare'),
+        logoPreview: document.getElementById('logoPreview'),
+        logoStatus: document.getElementById('logoStatus')
+      };
+
+      restoreSavedValues();
+      syncConditionalFields();
+      generate();
+
+      document.getElementById('generateBtn').addEventListener('click', () => {
+        generate();
+        flash('Personalized link generated.');
+      });
+
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        els.baseUrl.value = DEFAULT_BASE;
+        els.schoolName.value = '';
+        els.students.value = '300';
+        els.grades.value = 'K-8';
+        els.customGrades.value = '';
+        els.state.value = 'FL';
+        els.customState.value = '';
+        els.logoUrl.value = '';
+        els.owner.value = 'amanda';
+        els.persona.value = 'principal';
+        els.cohort.value = 'school-impact-v1';
+        els.utmContent.value = 'school-impact-page';
+        syncConditionalFields();
+        generate();
+        flash('Fields cleared.');
+      });
+
+      document.getElementById('useCurrentBase').addEventListener('click', () => {
+        const url = new URL(window.location.href);
+        url.search = '';
+        url.hash = '';
+        url.pathname = url.pathname.replace(/builder\.html$/,'');
+        els.baseUrl.value = url.href;
+        generate();
+        flash('Base URL updated to this folder.');
+      });
+
+      ['input','change'].forEach(evt => {
+        document.querySelectorAll('input,select').forEach(field => {
+          field.addEventListener(evt, () => {
+            syncConditionalFields();
+            generate();
+          });
+        });
+      });
+
+      document.querySelectorAll('[data-copy-target]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const target = document.getElementById(button.dataset.copyTarget);
+          if(!target) return;
+          await copyText(target.value);
+          flash('Copied.');
+        });
+      });
+
+      els.logoUrl.addEventListener('change', testLogo);
+      els.logoUrl.addEventListener('input', debounce(testLogo, 400));
+
+      function generate(){
+        const data = getData();
+        const url = buildUrl(data);
+        const impact = calculateImpact(data.students);
+        els.generatedUrl.value = url;
+        els.openPreview.href = url;
+        els.emailSnippet.value = buildEmailSnippet(data, impact);
+        els.championSnippet.value = buildChampionSnippet(data, impact);
+        els.iframeCode.value = buildIframe(url);
+        updatePreview(data, impact);
+        saveValues();
+      }
+
+      function getData(){
+        const gradeValue = els.grades.value === 'custom' ? clean(els.customGrades.value) : els.grades.value;
+        const stateValue = els.state.value === 'custom' ? clean(els.customState.value) : els.state.value;
+        return {
+          baseUrl: normalizeBaseUrl(els.baseUrl.value),
+          school: clean(els.schoolName.value) || 'Your school',
+          students: parseStudents(els.students.value),
+          grades: gradeValue || 'K-8',
+          state: stateValue || 'FL',
+          logo: clean(els.logoUrl.value),
+          owner: els.owner.value || 'internal',
+          persona: els.persona.value || 'principal',
+          cohort: clean(els.cohort.value) || 'school-impact-v1',
+          utmContent: clean(els.utmContent.value) || 'school-impact-page'
+        };
+      }
+
+      function buildUrl(data){
+        const url = new URL(data.baseUrl || DEFAULT_BASE);
+        const params = url.searchParams;
+        params.set('school', data.school);
+        params.set('students', String(data.students));
+        params.set('grades', data.grades);
+        params.set('state', data.state);
+        if(data.logo && isLikelyUrl(data.logo)) params.set('logo', data.logo); else params.delete('logo');
+        params.set('owner', data.owner);
+        params.set('persona', data.persona);
+        params.set('cohort', data.cohort);
+        params.set('utm_source', 'outbound');
+        params.set('utm_medium', 'email');
+        params.set('utm_campaign', data.cohort);
+        params.set('utm_content', data.utmContent);
+        return url.toString();
+      }
+
+      function calculateImpact(students){
+        const revenue = students * (REVENUE_PER_300 / 300);
+        return {
+          students,
+          attendees: students * ATTENDEES_PER_STUDENT,
+          revenue,
+          share: revenue * SCHOOL_SHARE
+        };
+      }
+
+      function buildEmailSnippet(data, impact){
+        return `I put together a quick SuperAuthor preview for ${data.school}, including estimated student-authors, Publishing Party attendance, school fund share, and real book examples by grade level.\n\n${els.generatedUrl.value}`;
+      }
+
+      function buildChampionSnippet(data, impact){
+        return `This page shows what SuperAuthor could look like at ${data.school}: approximately ${fmtNum(impact.students)} student-authors, ${fmtNum(impact.attendees)} estimated Publishing Party attendees, real book examples by grade level, and possible implementation paths. The program is no cost to the school, and schools receive 10% revenue share from book purchases.`;
+      }
+
+      function buildIframe(url){
+        return `<iframe\n  src="${escapeAttr(url)}"\n  style="width:100%; height:7200px; border:0; display:block;"\n  loading="lazy"\n  title="SuperAuthor School Impact Preview">\n</iframe>`;
+      }
+
+      function updatePreview(data, impact){
+        els.previewSchool.textContent = data.school;
+        els.previewStudents.textContent = fmtNum(impact.students);
+        els.previewAttendees.textContent = fmtNum(impact.attendees);
+        els.previewRevenue.textContent = fmtMoney(impact.revenue);
+        els.previewShare.textContent = fmtMoney(impact.share);
+      }
+
+      function syncConditionalFields(){
+        els.customGradesWrap.hidden = els.grades.value !== 'custom';
+        els.customStateWrap.hidden = els.state.value !== 'custom';
+      }
+
+      function testLogo(){
+        const logo = clean(els.logoUrl.value);
+        els.logoPreview.style.display = 'none';
+        if(!logo){
+          els.logoStatus.textContent = 'Paste a public school logo URL to preview the badge behavior.';
+          return;
+        }
+        if(!isLikelyUrl(logo)){
+          els.logoStatus.textContent = 'This does not look like a valid public image URL.';
+          return;
+        }
+        const img = new Image();
+        img.onload = () => {
+          els.logoPreview.src = logo;
+          els.logoPreview.style.display = 'block';
+          els.logoStatus.textContent = 'Logo loads correctly. It will appear on the prospect page.';
+        };
+        img.onerror = () => {
+          els.logoPreview.style.display = 'none';
+          els.logoStatus.textContent = 'Logo did not load here. The prospect page will hide the logo badge if it fails.';
+        };
+        img.src = logo;
+      }
+
+      function restoreSavedValues(){
+        try{
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+          Object.keys(saved).forEach(key => {
+            if(els[key] && typeof saved[key] === 'string') els[key].value = saved[key];
+          });
+        }catch(err){}
+      }
+
+      function saveValues(){
+        const keys = ['baseUrl','schoolName','students','grades','customGrades','state','customState','logoUrl','owner','persona','cohort','utmContent'];
+        const data = {};
+        keys.forEach(key => data[key] = els[key].value);
+        try{localStorage.setItem(STORAGE_KEY, JSON.stringify(data));}catch(err){}
+      }
+
+      function normalizeBaseUrl(value){
+        const raw = clean(value) || DEFAULT_BASE;
+        try{
+          const url = new URL(raw);
+          if(!url.pathname.endsWith('/')){
+            const last = url.pathname.split('/').pop() || '';
+            if(!last.includes('.')) url.pathname += '/';
+          }
+          return url.href;
+        }catch(err){
+          return DEFAULT_BASE;
+        }
+      }
+
+      function parseStudents(value){
+        const n = parseInt(String(value || '').replace(/[^0-9]/g,''),10);
+        if(!Number.isFinite(n) || n <= 0) return 300;
+        return Math.min(n,5000);
+      }
+
+      function clean(value){
+        return String(value || '').replace(/[<>]/g,'').trim();
+      }
+
+      function isLikelyUrl(value){
+        try{
+          const url = new URL(value);
+          return url.protocol === 'http:' || url.protocol === 'https:';
+        }catch(err){return false;}
+      }
+
+      function fmtNum(value){return new Intl.NumberFormat('en-US').format(Math.round(value));}
+      function fmtMoney(value){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Math.round(value));}
+      function escapeAttr(value){return String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+      async function copyText(text){
+        if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(text);return;}
+        const helper = document.createElement('textarea');
+        helper.value = text;
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        document.body.removeChild(helper);
+      }
+      function flash(message){
+        els.feedback.textContent = message;
+        window.clearTimeout(flash._t);
+        flash._t = window.setTimeout(() => els.feedback.textContent = '', 2200);
+      }
+      function debounce(fn, wait){
+        let t;
+        return function(){clearTimeout(t);t=setTimeout(fn,wait);};
+      }
+    })();
+  </script>
+</body>
+</html>

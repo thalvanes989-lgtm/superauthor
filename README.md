@@ -1,57 +1,52 @@
-# SuperAuthor School Impact Page V3
+# SuperAuthor School Impact Page V5
 
-Static internal prototype for a personalized outbound enablement page.
+Static prototype for the personalized outbound enablement page.
 
 ## Files
 
-- `index.html`
-- `styles.css`
-- `script.js`
+- `index.html` — prospect-facing personalized page
+- `styles.css` — prospect-facing page styles
+- `script.js` — prospect-facing personalization logic
+- `builder.html` — internal link builder for the outbound team
 
-Upload all three files to the same GitHub Pages repository root.
-
-## Dynamic URL parameters
-
-Example:
+## Prospect page example
 
 ```txt
-index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https%3A%2F%2Fwww.mandarincharter.org%2Fpics%2Fheader_logo.png&owner=amanda&cohort=principal
+https://thalvanes989-lgtm.github.io/superauthor/?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https%3A%2F%2Fwww.mandarincharter.org%2Fpics%2Fheader_logo.png&owner=amanda&cohort=school-impact-v1
 ```
 
-Supported params:
+## Internal builder
+
+```txt
+https://thalvanes989-lgtm.github.io/superauthor/builder.html
+```
+
+The builder generates:
+
+- personalized page link
+- preview link
+- email snippet
+- internal champion snippet
+- WordPress iframe code
+
+## Dynamic URL parameters
 
 - `school`
 - `students`
 - `grades`
 - `state`
-- `logo`
+- `logo` optional, must be public URL
 - `owner`
+- `persona`
 - `cohort`
+- `utm_source`
+- `utm_medium`
+- `utm_campaign`
+- `utm_content`
 
-## V3 updates
+## Revenue assumptions
 
-- Removed all “snapshot” wording from visible copy.
-- Removed dash-style punctuation from visible page copy and grade labels.
-- Redesigned the school logo badge to avoid overflow.
-- Badge now shows two compact lines:
-  - `SuperAuthor preview`
-  - `for [School Name]`
-- Logo badge only appears when a public `logo=` URL loads successfully.
-- RTO training icon updated to `consultoria.svg`.
+- $7,000 estimated total book revenue per 300 participating students
+- 10% school fund share
+- 3 estimated Publishing Party attendees per participating student
 
-## Calculator assumptions
-
-- Estimated total book revenue: `$7,000 per 300 participating students`
-- School fund share: `10%`
-- Estimated Publishing Party attendees: `3 per student`
-
-## Book gallery note
-
-Current book examples are placeholders. Replace them with approved PNG/WebP screenshots or designed crops before external launch.
-
-
-## V4 updates
-
-- Replaced grade gallery placeholders with approved real student book images.
-- Updated grade card titles and writing-level excerpts.
-- Added dynamic image swapping in script.js for all grade tabs.
