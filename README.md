@@ -1,4 +1,4 @@
-# SuperAuthor School Impact Page V1
+# SuperAuthor School Impact Page V2
 
 Static internal prototype for the personalized outbound enablement page.
 
@@ -8,44 +8,49 @@ Open `index.html` in a browser.
 
 ## Dynamic URL parameters
 
-Example:
+Example without school logo:
 
 ```txt
 index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&owner=amanda&cohort=principal
 ```
 
-Supported params:
+Example with school logo:
+
+```txt
+index.html?school=Mandarin%20Charter&students=750&grades=K-8&state=FL&logo=https%3A%2F%2Fwww.mandarincharter.org%2Fpics%2Fheader_logo.png&owner=amanda&cohort=principal
+```
+
+## Supported parameters
 
 - `school`: school name
 - `students`: estimated participating students
-- `grades`: grade band shown on the page
-- `state`: school state
-- `owner`: outbound owner for tracking/debug
-- `cohort`: test cohort
+- `grades`: grade band
+- `state`: state abbreviation or name
+- `logo`: optional public school logo URL. If missing, broken, blocked, or invalid, no badge appears.
+- `owner`: outbound owner
+- `cohort`: campaign/cohort label
 
-## Revenue-share assumption
+## Calculation logic
 
-- $7,000 estimated annual book-order value per 300 participating students
-- 10% school fund share
-- Formula: `students * (7000 / 300) * 0.10`
+- Student-authors = students
+- Published books = students
+- Estimated Publishing Party attendees = students × 3
+- Estimated total book revenue = students × (7000 / 300)
+- Estimated school fund share = estimated total book revenue × 10%
 
-For 300 students, estimated school fund share = $700.
+## V2 changes
 
-## Assets to replace before external launch
+- Updated scale proof to 1M+ students and 5,000+ participating schools.
+- Added optional public school logo badge through `logo=` URL parameter.
+- Removed fallback initials for missing school logos.
+- Updated attendee estimate to `students × 3`.
+- Corrected revenue logic: $7,000 is total revenue per 300 students; school share is 10%.
+- Added Tannysha Evans and Mrs. Rivers testimonial cards with supplied images.
+- Added supplied SuperAuthor/SuperAutor icons and illustrations.
 
-- Real approved book images for PreK-K, 1st-2nd, 3rd-5th, 6th-8th
-- Principal testimonial video/thumbnail
-- Teacher testimonial video/thumbnail
-- Parent testimonial montage/thumbnail
-- Final CTA destination
-- GA4/GTM IDs if needed
+## Files
 
-## Tracking events pushed to dataLayer
-
-- `page_view_school_impact`
-- `calculator_adjusted`
-- `gallery_grade_viewed`
-- `gallery_middle_school_viewed`
-- `copy_summary_clicked`
-- `copy_link_clicked`
-- `placeholder_cta_clicked`
+- `index.html`
+- `styles.css`
+- `script.js`
+- `README.md`

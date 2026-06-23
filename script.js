@@ -4,11 +4,13 @@
   const grades = sanitize(params.get('grades')) || 'K–8';
   const state = sanitize(params.get('state')) || 'your state';
   const owner = sanitize(params.get('owner')) || 'internal';
-  const cohort = sanitize(params.get('cohort')) || 'school-impact-v1';
+  const cohort = sanitize(params.get('cohort')) || 'school-impact-v2';
+  const schoolLogoUrl = safePublicImageUrl(params.get('logo'));
   const initialStudents = parsePositiveInt(params.get('students'), 300);
 
-  const ASSUMED_REVENUE_PER_300_STUDENTS = 7000;
+  const ASSUMED_TOTAL_REVENUE_PER_300_STUDENTS = 7000;
   const SCHOOL_SHARE_RATE = 0.10;
+  const ESTIMATED_ATTENDEES_PER_STUDENT = 3;
 
   const bookExamples = {
     prek: {
@@ -17,7 +19,7 @@
       copy: 'I see a big sun. It is yellow.',
       heading: 'Young students can still become authors.',
       description: 'For early grades, the book can combine simple sentences, drawings, dictated ideas, and teacher-supported writing.',
-      bullets: ['Simple sentence structure','Drawing-led storytelling','High parent pride at the Publishing Party'],
+      bullets: ['Simple sentence structure','Drawing-led storytelling','High family pride at the Publishing Party'],
       gradient: 'linear-gradient(135deg,#E33D57,#EB801E)'
     },
     g12: {
@@ -52,6 +54,8 @@
   document.querySelectorAll('[data-school-name]').forEach(el => el.textContent = school);
   document.querySelectorAll('[data-grade-band]').forEach(el => el.textContent = grades);
   document.querySelectorAll('[data-state]').forEach(el => el.textContent = state);
+
+  setupSchoolLogo(schoolLogoUrl);
 
   const studentsInput = document.getElementById('studentsInput');
   studentsInput.value = initialStudents;
@@ -110,24 +114,46 @@
   });
 
   updateBookExample('prek');
-  track('page_view_school_impact',{school, students:initialStudents, grades, state, owner, cohort});
+  track('page_view_school_impact',{school, students:initialStudents, grades, state, has_school_logo:Boolean(schoolLogoUrl), owner, cohort});
+
+  function setupSchoolLogo(logoUrl){
+    const badge = document.querySelector('[data-school-logo-badge]');
+    const img = document.querySelector('[data-school-logo]');
+    if(!badge || !img || !logoUrl){
+      if(badge) badge.hidden = true;
+      return;
+    }
+    img.onload = () => {
+      if(img.naturalWidth > 0 && img.naturalHeight > 0){
+        badge.hidden = false;
+        track('school_logo_loaded',{school, logo_url:logoUrl, owner, cohort});
+      }
+    };
+    img.onerror = () => {
+      badge.hidden = true;
+      track('school_logo_failed',{school, logo_url:logoUrl, owner, cohort});
+    };
+    img.src = logoUrl;
+  }
 
   function updateImpact(students){
     const books = students;
-    const families = students;
-    const grossRevenue = students * (ASSUMED_REVENUE_PER_300_STUDENTS / 300);
+    const attendees = students * ESTIMATED_ATTENDEES_PER_STUDENT;
+    const grossRevenue = students * (ASSUMED_TOTAL_REVENUE_PER_300_STUDENTS / 300);
     const schoolShare = grossRevenue * SCHOOL_SHARE_RATE;
 
     document.querySelectorAll('[data-student-authors]').forEach(el => el.textContent = formatNumber(students));
     document.querySelectorAll('[data-books-created]').forEach(el => el.textContent = formatNumber(books));
-    document.querySelectorAll('[data-families]').forEach(el => el.textContent = formatNumber(families));
+    document.querySelectorAll('[data-attendees]').forEach(el => el.textContent = formatNumber(attendees));
+    document.querySelectorAll('[data-total-revenue]').forEach(el => el.textContent = formatCurrency(grossRevenue));
     document.querySelectorAll('[data-school-share]').forEach(el => el.textContent = formatCurrency(schoolShare));
   }
 
   function updateSummary(students){
-    const grossRevenue = students * (ASSUMED_REVENUE_PER_300_STUDENTS / 300);
+    const attendees = students * ESTIMATED_ATTENDEES_PER_STUDENT;
+    const grossRevenue = students * (ASSUMED_TOTAL_REVENUE_PER_300_STUDENTS / 300);
     const schoolShare = grossRevenue * SCHOOL_SHARE_RATE;
-    const summary = `I came across SuperAuthor, a writing and publishing program where students create individual published books and the school hosts a Publishing Party for families.\n\nFor ${school}, this could mean approximately ${formatNumber(students)} student-authors, ${formatNumber(students)} individual published books, and ${formatNumber(students)} families invited into the school.\n\nBased on current assumptions, the estimated school fund share would be around ${formatCurrency(schoolShare)}, depending on participation and book orders. The program appears to be no cost to the school, with teacher training and implementation support included. This page shows grade-level examples and possible implementation options.`;
+    const summary = `I came across SuperAuthor, a writing and publishing program where students create individual published books and the school hosts a Publishing Party for families and guests.\n\nFor ${school}, this could mean approximately ${formatNumber(students)} student-authors, ${formatNumber(students)} individual published books, and ${formatNumber(attendees)} estimated Publishing Party attendees.\n\nBased on current assumptions, this represents about ${formatCurrency(grossRevenue)} in estimated total book revenue, with an estimated ${formatCurrency(schoolShare)} school fund share at 10%. Final results depend on participation and book orders. The program appears to be no cost to the school, with teacher training and implementation support included. This page shows grade-level examples and possible implementation options.`;
     document.getElementById('summaryText').value = summary;
   }
 
@@ -152,6 +178,18 @@
   function sanitize(value){
     if(!value) return '';
     return String(value).replace(/[<>]/g,'').trim().slice(0,80);
+  }
+
+  function safePublicImageUrl(value){
+    if(!value) return '';
+    const raw = String(value).trim();
+    try{
+      const url = new URL(raw);
+      if(url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+      return url.href;
+    }catch(err){
+      return '';
+    }
   }
 
   function escapeHtml(value){
@@ -192,7 +230,6 @@
   function track(eventName, payload){
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({event:eventName,...payload});
-    // Internal prototype debug. Remove console output in production if preferred.
     console.log('[SuperAuthor tracking]', eventName, payload || {});
   }
 })();

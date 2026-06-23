@@ -26,7 +26,7 @@
       <div class="hero-copy">
         <div class="eyebrow">Personalized school snapshot</div>
         <h1><span data-school-name>Your school</span> has <span data-student-authors>300</span> student-authors waiting to be published.</h1>
-        <p class="hero-sub">SuperAuthor helps students turn classroom writing into individual published books, culminating in a Publishing Party for families — at no cost to the school.</p>
+        <p class="hero-sub">SuperAuthor helps students turn classroom writing into individual published books, culminating in a Publishing Party for families and guests — at no cost to the school.</p>
         <div class="hero-ctas">
           <button class="btn btn-primary btn-large" type="button" data-scroll-target="#impact">See the impact</button>
           <button class="btn btn-secondary btn-large" type="button" data-copy-link>Copy this page link</button>
@@ -34,6 +34,10 @@
         <p class="microcopy">Built for <span data-grade-band>K–8</span> schools in <span data-state>your state</span>. Estimates can be adjusted below.</p>
       </div>
       <div class="hero-visual">
+        <div class="school-logo-badge" data-school-logo-badge hidden>
+          <span>School snapshot</span>
+          <img data-school-logo src="" alt="School logo" />
+        </div>
         <img src="https://superauthor.com/wp-content/uploads/2026/04/image_hero_tlp1.png" alt="Student holding a published SuperAuthor book" />
         <div class="floating-card">
           <span class="floating-number" data-student-authors>300</span>
@@ -45,12 +49,12 @@
     <section class="band-dark">
       <div class="band-grid">
         <div>
-          <div class="band-number">500+ schools</div>
-          <p>have already run the SuperAuthor program.</p>
+          <div class="band-number">1M+ students</div>
+          <p>have become SuperAuthors.</p>
         </div>
         <div>
-          <div class="band-number">5K+ students</div>
-          <p>have already published their first book.</p>
+          <div class="band-number">5,000+ schools</div>
+          <p>have participated in the program.</p>
         </div>
         <div>
           <div class="band-number">No cost</div>
@@ -63,7 +67,7 @@
       <div class="section-head">
         <div class="eyebrow">Impact snapshot</div>
         <h2>What SuperAuthor could look like at <span data-school-name>Your school</span>.</h2>
-        <p>Adjust the student count to estimate published books, families invited into the school, and the school fund share.</p>
+        <p>Adjust the student count to estimate published books, Publishing Party attendees, and the school fund share.</p>
       </div>
 
       <div class="calculator-panel">
@@ -72,29 +76,34 @@
           <input id="studentsInput" type="number" min="1" max="5000" step="1" value="300" inputmode="numeric" />
           <button class="btn btn-primary" type="button" data-recalculate>Update estimate</button>
         </div>
-        <p class="assumption">Current assumption: $7,000 estimated annual book-order value per 300 participating students. School fund share shown at 10%.</p>
+        <p class="assumption">Current assumption: $7,000 estimated total book revenue per 300 participating students. Schools receive 10% revenue share.</p>
       </div>
 
       <div class="impact-grid">
         <article class="metric-card metric-yellow">
+          <img class="metric-icon" src="https://www.superautor.com.br/wp-content/themes/superAutorV2/assets/images/svgs/autorAluno.svg" alt="" loading="lazy" />
           <span class="metric-kicker">Potential</span>
           <strong data-student-authors>300</strong>
           <span>student-authors</span>
         </article>
         <article class="metric-card metric-blue">
+          <img class="metric-icon" src="https://superauthor.com/wp-content/uploads/2026/04/icon_Your-school-gets-card.png" alt="" loading="lazy" />
           <span class="metric-kicker">Created by students</span>
           <strong data-books-created>300</strong>
           <span>individual published books</span>
         </article>
         <article class="metric-card metric-green">
+          <img class="metric-icon" src="https://www.superautor.com.br/wp-content/themes/superAutorV2/assets/images/svgs/eventoAutografo.svg" alt="" loading="lazy" />
           <span class="metric-kicker">Invited to celebrate</span>
-          <strong data-families>300</strong>
-          <span>families at the Publishing Party</span>
+          <strong data-attendees>900</strong>
+          <span>estimated Publishing Party attendees</span>
         </article>
         <article class="metric-card metric-pink">
+          <img class="metric-icon" src="https://superauthor.com/wp-content/uploads/2026/04/icon_we-provide-card.png" alt="" loading="lazy" />
           <span class="metric-kicker">Illustrative estimate</span>
           <strong data-school-share>$700</strong>
           <span>school fund share</span>
+          <small class="metric-note">Based on <span data-total-revenue>$7,000</span> estimated total book revenue.</small>
         </article>
       </div>
 
@@ -160,7 +169,28 @@
       </div>
     </section>
 
-    <section class="section section-grey">
+    <section class="section section-grey testimonial-section">
+      <div class="section-head narrow">
+        <div class="eyebrow">What school leaders and teachers say</div>
+        <h2>Proof that supports the internal conversation.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card">
+          <img class="testimonial-avatar" src="https://superauthor.com/wp-content/uploads/2026/05/Principal-.png" alt="Tannysha Evans" loading="lazy" />
+          <blockquote>“The SuperAuthor support has been above and beyond... they really truly care about the kids.”</blockquote>
+          <strong>Tannysha Evans</strong>
+          <span>Assistant Principal · Hollywood Academy of Arts and Sciences</span>
+        </article>
+        <article class="testimonial-card">
+          <img class="testimonial-avatar" src="https://superauthor.com/wp-content/uploads/2026/05/Teacher.png" alt="Mrs. Rivers" loading="lazy" />
+          <blockquote>“My children made a beautiful book, and I love that at the end of the day you gave me one with all of my kids.”</blockquote>
+          <strong>Mrs. Rivers</strong>
+          <span>Kindergarten Teacher · Hollywood Academy of Arts and Sciences</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-white">
       <div class="section-head narrow">
         <div class="eyebrow">Implementation paths</div>
         <h2>Ways schools launch without overloading teachers.</h2>
@@ -168,26 +198,32 @@
       </div>
       <div class="path-grid">
         <article class="path-card">
+          <img class="path-icon" src="https://www.superautor.com.br/wp-content/themes/superAutorV2/assets/images/svgs/menina_depoimentos.svg" alt="" loading="lazy" />
           <strong>Whole-school launch</strong>
           <p>Best for principals ready to create a school-wide signature event.</p>
         </article>
         <article class="path-card">
+          <img class="path-icon" src="https://www.superautor.com.br/wp-content/themes/superAutorV2/assets/images/svgs/autorAluno.svg" alt="" loading="lazy" />
           <strong>K–2 pilot</strong>
           <p>Best for cautious teams that want proof before scaling.</p>
         </article>
         <article class="path-card">
+          <img class="path-icon" src="https://superauthor.com/wp-content/uploads/2026/04/icon_Your-school-gets-card.png" alt="" loading="lazy" />
           <strong>Grade-band pilot</strong>
           <p>Best for APs or coaches validating fit with teachers first.</p>
         </article>
         <article class="path-card">
+          <img class="path-icon" src="https://www.superautor.com.br/wp-content/themes/superAutorV2/assets/images/svgs/eventoAutografo.svg" alt="" loading="lazy" />
           <strong>Young Authors Club</strong>
           <p>Best when instructional time is constrained.</p>
         </article>
         <article class="path-card">
+          <img class="path-icon" src="https://superauthor.com/wp-content/uploads/2026/04/icon_we-provide-card.png" alt="" loading="lazy" />
           <strong>PD day training</strong>
           <p>Best when RTO week is already crowded.</p>
         </article>
         <article class="path-card">
+          <img class="path-icon" src="https://superauthor.com/wp-content/uploads/2026/04/icon_we-provide-card.png" alt="" loading="lazy" />
           <strong>RTO training</strong>
           <p>Best when teachers are onsite before students return.</p>
         </article>
@@ -209,30 +245,6 @@
       </div>
     </section>
 
-    <section class="section section-white proof-library">
-      <div class="section-head narrow">
-        <div class="eyebrow">Proof library</div>
-        <h2>Use the right proof for the right contact.</h2>
-      </div>
-      <div class="proof-grid">
-        <article class="proof-card">
-          <div class="video-placeholder principal">Principal</div>
-          <h3>Principal proof</h3>
-          <p>Best for decision-makers who need confidence that teachers, students, and parents will buy in.</p>
-        </article>
-        <article class="proof-card">
-          <div class="video-placeholder teacher">Teacher</div>
-          <h3>Teacher proof</h3>
-          <p>Best for APs, coaches, and anyone worried about teacher workload.</p>
-        </article>
-        <article class="proof-card">
-          <div class="video-placeholder parent">Parent</div>
-          <h3>Parent proof</h3>
-          <p>Best for family engagement, enrollment, and Publishing Party conversations.</p>
-        </article>
-      </div>
-    </section>
-
     <section class="final-cta">
       <h2>Ready to see the best launch path for <span data-school-name>your school</span>?</h2>
       <p>For internal testing, this button can later connect to a form, calendar, or Pipedrive flow.</p>
@@ -242,7 +254,7 @@
 
   <footer class="footer">
     <span>SuperAuthor</span>
-    <span>School Impact Page V1 · Internal prototype</span>
+    <span>School Impact Page V2 · Internal prototype</span>
   </footer>
 
   <script src="script.js"></script>
