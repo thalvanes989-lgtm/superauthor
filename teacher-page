@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your class, read closely · SuperAuthor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --yellow:#FFCC2A;
+    --yellow-deep:#F5B800;
+    --cream:#FFF6DC;
+    --cream-soft:#FFFBEE;
+    --paper:#FFFFFF;
+    --navy:#12294B;
+    --navy-deep:#0C1D36;
+    --ink:#1B2430;
+    --grey:#6A7382;
+    --grey-soft:#93A0B2;
+    --line:#E8DEC2;
+    --blue:#00A0D9;
+    --green:#009A80;
+    --pink:#E33D57;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Asap',system-ui,sans-serif;
+    background:var(--cream-soft);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.is-locked{overflow:hidden}
+  img{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+  .wrap{max-width:780px;margin:0 auto;padding:36px 22px 100px}
+
+  /* ================= Masthead ================= */
+  .mast{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    gap:20px;flex-wrap:wrap;
+    padding-bottom:22px;border-bottom:2px solid var(--navy);
+  }
+  .mast h1{font-size:clamp(28px,6vw,38px);letter-spacing:-.035em;line-height:1.08;font-weight:800;color:var(--navy)}
+  .mast .ctx{font-size:14px;color:var(--grey);margin-top:6px;font-weight:600}
+  .lockup{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--navy);color:var(--cream);
+    border-radius:999px;padding:8px 14px;
+    font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+  }
+  .lockup svg{width:13px;height:13px}
+  .privacy{margin-top:14px;font-size:13.5px;color:var(--grey);max-width:66ch}
+  .privacy b{color:var(--navy);font-weight:700}
+
+  /* ================= Sections ================= */
+  section{margin-top:56px}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft)}
+  h2{font-size:clamp(21px,4.4vw,26px);letter-spacing:-.03em;line-height:1.2;font-weight:800;color:var(--navy);margin-top:8px}
+  .note{font-size:14px;color:var(--grey);margin-top:8px;max-width:56ch}
+
+  /* ================= Book tile (shared) ================= */
+  .bk{
+    position:relative;background:var(--cream);
+    border-radius:3px;overflow:hidden;
+    box-shadow:0 3px 8px rgba(18,41,75,.16);
+  }
+  .bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:15%;background:var(--navy);z-index:0}
+  .bk::after{content:"";position:absolute;right:14%;top:18%;width:34%;height:24%;background:var(--yellow);border-radius:2px;z-index:0}
+  .bk img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+
+  /* ================= Retrospective entry ================= */
+  .retro{
+    background:var(--navy);color:var(--cream);
+    border-radius:22px;padding:26px;margin-top:26px;
+    display:grid;grid-template-columns:1fr 210px;gap:26px;align-items:center;
+  }
+  @media (max-width:640px){.retro{grid-template-columns:1fr;gap:22px}}
+  .retro .kicker{color:var(--yellow)}
+  .retro h2{color:var(--cream);margin-top:8px}
+  .retro .blurb{font-size:15px;line-height:1.55;color:#C6D6EC;margin-top:10px;max-width:40ch}
+  .retro .fence{font-size:13px;color:#9DB4D4;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);max-width:44ch}
+  .retro-acts{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .ract{
+    border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:800;
+    display:inline-flex;align-items:center;gap:8px;transition:transform .16s ease;
+  }
+  .ract:hover{transform:translateY(-2px)}
+  .ract-solid{background:var(--yellow);color:var(--navy)}
+  .ract-ghost{border:2px solid rgba(255,255,255,.3);color:var(--cream)}
+  .ract svg{width:16px;height:16px}
+
+  .mini{background:var(--paper);border-radius:16px;padding:18px 16px;color:var(--navy);box-shadow:0 16px 34px rgba(0,0,0,.28)}
+  .mini .mark{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  .mini .who{font-family:'Caveat',cursive;font-size:27px;line-height:1.05;margin-top:5px}
+  .mini .big{font-size:40px;line-height:.9;font-weight:800;letter-spacing:-.05em;margin-top:10px}
+  .mini .big span{color:var(--yellow-deep)}
+  .mini .meta{font-size:11.5px;font-weight:700;color:#4C5A6E;margin-top:6px;line-height:1.35}
+  .mini .strip{display:flex;gap:4px;margin-top:12px}
+  .mini .strip .bk{flex:1;aspect-ratio:3/4}
+
+  /* ================= Shape panel ================= */
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;margin-top:22px;overflow:hidden}
+  .panel-head{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:18px 22px;border-bottom:1px solid var(--line);background:var(--cream);flex-wrap:wrap;
+  }
+  .panel-head .who{font-weight:800;letter-spacing:-.02em;color:var(--navy);font-size:17px}
+  .panel-head .who small{display:block;font-size:13px;font-weight:600;color:var(--grey);letter-spacing:0}
+  .back{font-size:13px;font-weight:800;color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:7px 14px;display:none}
+  .back.is-on{display:inline-block}
+  .back:hover{background:var(--navy);color:var(--cream)}
+
+  .panel-body{display:grid;grid-template-columns:1fr 1fr}
+  @media (max-width:640px){.panel-body{grid-template-columns:1fr}}
+  .chart{padding:18px 10px 22px;display:grid;place-items:center}
+  .chart svg{width:100%;max-width:330px;height:auto;overflow:visible}
+  .axes{border-left:1px solid var(--line);padding:18px 22px 22px}
+  @media (max-width:640px){.axes{border-left:0;border-top:1px solid var(--line)}}
+
+  .ax{padding:11px 0;border-bottom:1px dashed var(--line)}
+  .ax:last-child{border-bottom:0}
+  .ax-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .ax-name{font-weight:800;letter-spacing:-.01em;color:var(--navy);font-size:15px}
+  .ax-band{font-size:12.5px;font-weight:700;color:var(--grey)}
+  .ax-band.empty{color:var(--pink)}
+  .ax-band.edited::after{content:" · yours";color:var(--navy)}
+  .ax-ev{font-size:13.5px;color:var(--grey);margin-top:5px;font-style:italic;line-height:1.45}
+  .ax-ev.none{font-style:normal;color:var(--pink)}
+  .ax-fix{margin-top:8px;display:none;gap:6px;flex-wrap:wrap}
+  .ax.is-fixing .ax-fix{display:flex}
+  .chip{font-size:11.5px;font-weight:800;border:1.5px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--grey)}
+  .chip:hover{border-color:var(--navy);color:var(--navy)}
+  .chip.is-on{background:var(--navy);border-color:var(--navy);color:var(--cream)}
+  .ax-adjust{font-size:12px;font-weight:800;color:var(--blue);margin-top:6px;text-decoration:underline;text-underline-offset:3px}
+
+  /* ================= The reading ================= */
+  .reading{margin-top:24px;background:var(--navy);color:var(--cream);border-radius:20px;padding:28px 26px}
+  .reading .kicker{color:var(--yellow)}
+  .reading p{font-family:'Caveat',cursive;font-size:clamp(27px,6vw,34px);line-height:1.25;margin-top:10px;max-width:26ch}
+  .reading .by{font-size:12.5px;color:#9DB4D4;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16)}
+
+  /* ================= Cases ================= */
+  .cases{display:grid;gap:14px;margin-top:22px}
+  .case{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;border-left:5px solid var(--yellow)}
+  .case:nth-child(2){border-left-color:var(--blue)}
+  .case:nth-child(3){border-left-color:var(--green)}
+  .case .why{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-soft)}
+  .case .head{font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--navy);margin-top:6px}
+  .case .head span{color:var(--grey);font-weight:600}
+  .case blockquote{font-size:16.5px;line-height:1.5;font-style:italic;color:var(--ink);margin-top:12px;padding-left:14px;border-left:2px solid var(--line)}
+  .case .because{font-size:14px;color:var(--grey);margin-top:12px}
+
+  /* ================= Roster ================= */
+  .roster{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .row{width:100%;display:flex;align-items:center;gap:14px;padding:13px 20px;text-align:left;border-bottom:1px solid var(--line);transition:background .14s ease}
+  .row:last-child{border-bottom:0}
+  .row:hover,.row.is-sel{background:var(--cream)}
+  .row .nm{font-weight:700;color:var(--navy);font-size:15px;flex:0 0 auto}
+  .row .tt{font-size:14px;color:var(--grey);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic}
+  .row .go{font-size:12px;font-weight:800;color:var(--blue);flex:0 0 auto}
+  .row .flag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);flex:0 0 auto}
+
+  /* ================= Parent voices ================= */
+  .voices{columns:2;column-gap:14px;margin-top:22px}
+  @media (max-width:640px){.voices{columns:1}}
+  .voice{break-inside:avoid;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+  .voice p{font-size:16px;line-height:1.5;color:var(--ink)}
+  .voice p::before{content:"\201C"}
+  .voice p::after{content:"\201D"}
+  .voice .from{font-size:12.5px;font-weight:800;color:var(--grey);margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+  .voice.is-teacher{border-left:5px solid var(--yellow)}
+  .voice-count{font-size:13px;color:var(--grey-soft);margin-top:4px}
+
+  /* ================= Suggestions ================= */
+  .sugs{display:grid;gap:14px;margin-top:22px}
+  .sug{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
+  .sug .anchor{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:var(--cream);color:var(--navy);border-radius:999px;padding:5px 11px}
+  .sug .txt{font-size:16px;line-height:1.5;margin-top:12px;color:var(--ink);border-radius:10px;padding:8px 10px;margin-left:-10px;margin-right:-10px;transition:background .14s ease}
+  .sug .txt:hover{background:var(--cream-soft)}
+  .sug .txt:focus{background:var(--cream);outline:2px solid var(--blue)}
+  .sug .state{font-size:12.5px;font-weight:700;color:var(--grey-soft);margin-top:10px}
+  .sug.is-edited .state{color:var(--green)}
+
+  /* ================= What to say ================= */
+  .says{display:grid;gap:12px;margin-top:22px}
+  .say{background:var(--navy);color:var(--cream);border-radius:16px;padding:20px 22px}
+  .say .to{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow)}
+  .say p{font-size:16px;line-height:1.5;margin-top:10px;color:#E7EFFA}
+  .say button{margin-top:14px;font-size:12.5px;font-weight:800;border:2px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 14px;color:var(--cream)}
+  .say button:hover{background:rgba(255,255,255,.14)}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--grey-soft)}
+
+  /* =====================================================================
+     RETROSPECTIVE OVERLAY — the one layer the teacher can send outward.
+     Scoped so none of it leaks into the private page above.
+     ===================================================================== */
+  #retroOverlay{
+    position:fixed;inset:0;z-index:200;
+    background:var(--navy-deep);
+    display:none;place-items:center;
+    padding:20px 16px;
+  }
+  #retroOverlay.is-open{display:grid}
+
+  #retroOverlay .frame{width:min(430px,100%);position:relative}
+  #retroOverlay .stage{
+    position:relative;aspect-ratio:9/15.2;
+    border-radius:30px;overflow:hidden;
+    box-shadow:0 34px 80px rgba(0,0,0,.5);
+    background:var(--navy);
+  }
+  @media (max-height:760px){#retroOverlay .stage{aspect-ratio:auto;height:min(82vh,760px)}}
+
+  #retroOverlay .close{
+    position:absolute;top:-46px;right:0;
+    display:inline-flex;align-items:center;gap:7px;
+    color:#9DB4D4;font-size:13px;font-weight:800;
+    border:1.5px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 14px;
+  }
+  #retroOverlay .close:hover{color:var(--cream);border-color:rgba(255,255,255,.45)}
+
+  #retroOverlay .progress{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:5px;z-index:30}
+  #retroOverlay .seg{flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.26);overflow:hidden}
+  #retroOverlay .seg i{display:block;height:100%;width:0;background:var(--yellow);border-radius:99px;transition:width .35s ease}
+  #retroOverlay .seg.done i,#retroOverlay .seg.active i{width:100%}
+  #retroOverlay .stage.on-light .seg{background:rgba(18,41,75,.18)}
+  #retroOverlay .stage.on-light .seg i{background:var(--navy)}
+
+  #retroOverlay .card{
+    position:absolute;inset:0;padding:60px 32px 92px;
+    display:flex;flex-direction:column;
+    opacity:0;visibility:hidden;transform:translateY(14px);
+    transition:opacity .45s ease,transform .45s ease,visibility .45s;
+  }
+  #retroOverlay .card.is-on{opacity:1;visibility:visible;transform:none}
+  #retroOverlay .card-navy{background:var(--navy)}
+  #retroOverlay .card-cream{background:var(--cream);color:var(--ink)}
+
+  #retroOverlay .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,204,42,.13);filter:blur(6px);pointer-events:none}
+  #retroOverlay .glow-tr{right:-170px;top:-180px}
+  #retroOverlay .glow-bl{left:-190px;bottom:-160px;background:rgba(0,160,217,.14)}
+
+  #retroOverlay .eyebrow{
+    display:inline-flex;align-self:flex-start;border-radius:999px;padding:6px 13px;
+    font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    background:rgba(255,255,255,.13);color:var(--yellow);border:1px solid rgba(255,255,255,.15);
+    position:relative;z-index:2;
+  }
+  #retroOverlay .card-cream .eyebrow{background:var(--navy);color:var(--yellow);border-color:transparent}
+
+  #retroOverlay .rbody{margin-top:auto;position:relative;z-index:2}
+  #retroOverlay .huge{font-size:clamp(74px,22vw,106px);line-height:.86;letter-spacing:-.055em;font-weight:800;color:var(--yellow)}
+  #retroOverlay .card-cream .huge{color:var(--navy)}
+  #retroOverlay .lede{font-size:clamp(20px,5vw,25px);line-height:1.28;letter-spacing:-.028em;font-weight:700;margin-top:18px;max-width:20ch}
+  #retroOverlay .sub{font-size:15px;line-height:1.6;margin-top:14px;color:#C6D6EC;max-width:32ch}
+  #retroOverlay .card-cream .sub{color:#4C5A6E}
+  #retroOverlay .rule{width:44px;height:4px;border-radius:99px;background:var(--yellow);margin-top:24px}
+  #retroOverlay .card-cream .rule{background:var(--navy)}
+
+  #retroOverlay .years{display:flex;align-items:center;gap:9px;margin-top:22px;flex-wrap:wrap}
+  #retroOverlay .yr{font-size:13px;font-weight:800;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);color:#C6D6EC}
+  #retroOverlay .yr.is-now{background:var(--yellow);color:var(--navy);border-color:transparent}
+  #retroOverlay .yr.is-next{background:transparent;border:1.5px dashed rgba(255,204,42,.5);width:34px;height:34px;padding:0}
+
+  #retroOverlay .portrait-wrap{position:relative;z-index:2;margin:auto auto 0;width:158px}
+  #retroOverlay .portrait{width:158px;height:158px;border-radius:50%;object-fit:cover;border:5px solid var(--yellow);box-shadow:0 18px 40px rgba(0,0,0,.34);background:var(--navy-deep)}
+  #retroOverlay .portrait-fallback{width:158px;height:158px;border-radius:50%;display:none;place-items:center;font-size:50px;font-weight:800;color:var(--navy);background:var(--yellow);border:5px solid var(--yellow)}
+  #retroOverlay .portrait-wrap.no-photo .portrait{display:none}
+  #retroOverlay .portrait-wrap.no-photo .portrait-fallback{display:grid}
+  #retroOverlay .card-portrait .rbody{margin-top:24px;text-align:center}
+  #retroOverlay .card-portrait .lede,#retroOverlay .card-portrait .sub{max-width:none;margin-left:auto;margin-right:auto}
+  #retroOverlay .card-portrait .rule{margin-left:auto;margin-right:auto}
+
+  #retroOverlay .shelf{position:relative;z-index:2;margin-top:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+  #retroOverlay .shelf .bk{aspect-ratio:3/4;opacity:0;transform:translateY(6px)}
+  #retroOverlay .card.is-on .shelf .bk{animation:bkIn .34s ease forwards}
+  @keyframes bkIn{to{opacity:1;transform:none}}
+
+  #retroOverlay .titles{margin-top:auto;position:relative;z-index:2}
+  #retroOverlay .title-line{font-size:clamp(18px,4.4vw,22px);line-height:1.3;font-weight:700;letter-spacing:-.02em;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+  #retroOverlay .title-line:first-child{border-top:1px solid rgba(255,255,255,.16)}
+  #retroOverlay .title-line em{font-style:normal;color:var(--yellow)}
+
+  #retroOverlay .share-card{position:relative;z-index:2;margin-top:auto;background:var(--paper);border-radius:22px;padding:28px 24px 24px;color:var(--navy);box-shadow:0 22px 50px rgba(0,0,0,.3)}
+  #retroOverlay .share-card .mark{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  #retroOverlay .share-card .who{font-family:'Caveat',cursive;font-size:42px;line-height:1.05;margin-top:8px}
+  #retroOverlay .share-card .big{font-size:56px;line-height:.9;font-weight:800;letter-spacing:-.05em;margin-top:16px}
+  #retroOverlay .share-card .big span{color:var(--yellow-deep)}
+  #retroOverlay .share-card .meta{font-size:14px;font-weight:700;color:#4C5A6E;margin-top:9px}
+  #retroOverlay .share-strip{display:flex;gap:5px;margin-top:18px}
+  #retroOverlay .share-strip .bk{flex:1;aspect-ratio:3/4}
+  #retroOverlay .share-card .sfoot{margin-top:18px;padding-top:15px;border-top:1px solid #EDE6D0;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+  #retroOverlay .share-card .sfoot b{color:var(--navy);letter-spacing:-.01em;text-transform:none;font-size:14px}
+
+  #retroOverlay .actions{margin-top:18px;display:grid;gap:9px;position:relative;z-index:2}
+  #retroOverlay .act{width:100%;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .16s ease}
+  #retroOverlay .act svg{width:17px;height:17px}
+  #retroOverlay .act-primary{background:var(--yellow);color:var(--navy)}
+  #retroOverlay .act-ghost{background:transparent;color:var(--cream);border:2px solid rgba(255,255,255,.3)}
+  #retroOverlay .act:hover{transform:translateY(-2px)}
+
+  #retroOverlay .tap{position:absolute;top:0;bottom:0;width:34%;z-index:20;background:transparent}
+  #retroOverlay .tap-prev{left:0}
+  #retroOverlay .tap-next{right:0;width:66%}
+  #retroOverlay .dots{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center;gap:14px;z-index:25}
+  #retroOverlay .nav-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center}
+  #retroOverlay .nav-btn:hover{background:rgba(255,255,255,.26)}
+  #retroOverlay .nav-btn svg{width:16px;height:16px}
+  #retroOverlay .nav-btn[disabled]{opacity:.3;cursor:default}
+  #retroOverlay .stage.on-light .nav-btn{background:rgba(18,41,75,.1);border-color:rgba(18,41,75,.16)}
+  #retroOverlay .stage.on-light .nav-btn svg path{stroke:var(--navy)}
+
+  @media (prefers-reduced-motion:reduce){
+    #retroOverlay .card{transition:none}
+    #retroOverlay .shelf .bk{opacity:1;transform:none}
+    #retroOverlay .card.is-on .shelf .bk{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div>
+      <h1>Your class, read closely.</h1>
+      <div class="ctx" id="ctx"></div>
+    </div>
+    <span class="lockup">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 10V7a6 6 0 1112 0v3M5 10h14v11H5z" stroke="#FFF6DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Private
+    </span>
+  </header>
+
+  <p class="privacy">
+    <b>Only you can see this page.</b> Not your principal, not the families, not other teachers. The one exception is your Year in Review below — and only if you decide to send it.
+  </p>
+
+  <!-- ============ Retrospective entry ============ -->
+  <section class="retro" style="margin-top:26px">
+    <div>
+      <div class="kicker">Yours to share</div>
+      <h2>Your Year in Review is ready.</h2>
+      <p class="blurb" id="retroBlurb"></p>
+      <div class="retro-acts">
+        <button class="ract ract-solid" type="button" id="openRetro">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#12294B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Open your Year in Review
+        </button>
+        <button class="ract ract-ghost" type="button" data-share>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 8a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6zM15 22a3 3 0 100-6 3 3 0 000 6zM8.6 13.5l5.8 3.4M14.4 7.1L8.6 10.5" stroke="#FFF6DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Share
+        </button>
+      </div>
+      <p class="fence">No scores, no comparisons and no student names travel with it. Just the count, the words and the year.</p>
+    </div>
+
+    <div class="mini" aria-hidden="true">
+      <div class="mark">SuperAuthor</div>
+      <div class="who" id="miniWho"></div>
+      <div class="big" id="miniBig"></div>
+      <div class="meta" id="miniMeta"></div>
+      <div class="strip" id="miniStrip"></div>
+    </div>
+  </section>
+
+  <!-- ============ The shape ============ -->
+  <section>
+    <div class="kicker">The shape of your class</div>
+    <h2>Five things every SuperAuthor builds.</h2>
+    <p class="note">Read from the finished books. Nothing here was graded by a person — and nothing here is a grade. Where a book didn't give enough evidence, we leave the point blank instead of guessing.</p>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div class="who" id="whoName"></div>
+        <button class="back" id="backBtn" type="button">← Back to the whole class</button>
+      </div>
+      <div class="panel-body">
+        <div class="chart"><svg id="radar" viewBox="0 0 340 300" role="img" aria-label="Five-dimension shape"></svg></div>
+        <div class="axes" id="axes"></div>
+      </div>
+    </div>
+
+    <div class="reading">
+      <div class="kicker">The reading</div>
+      <p id="readingText"></p>
+      <div class="by">Written from the finished books. Change it if it's wrong — you know them and we don't.</div>
+    </div>
+  </section>
+
+  <!-- ============ Cases ============ -->
+  <section>
+    <div class="kicker">Three worth rereading</div>
+    <h2>Not the three best. Three that did something.</h2>
+    <p class="note">Each one picked for a different reason, so the list isn't just the students you already knew about.</p>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <!-- ============ Roster ============ -->
+  <section>
+    <div class="kicker">Author by author</div>
+    <h2 id="rosterTitle"></h2>
+    <p class="note">Open one to see their shape against the class, and the lines from their book behind it.</p>
+    <div class="roster" id="roster"></div>
+  </section>
+
+  <!-- ============ Parent voices ============ -->
+  <section id="voicesSection">
+    <div class="kicker">What families said</div>
+    <h2>The part we can't read from the books.</h2>
+    <p class="note">Collected from families in the week after the publishing party. One question, answered by whoever wanted to answer — so read it as what some families felt, not as what all of them did.</p>
+    <p class="voice-count" id="voiceCount"></p>
+    <div class="voices" id="voices"></div>
+  </section>
+
+  <!-- ============ Suggestions ============ -->
+  <section>
+    <div class="kicker">Next year</div>
+    <h2>Three things to try, inside the sessions you already run.</h2>
+    <p class="note">Nothing here adds a session. Edit any of them — once you do, it's your plan and not ours.</p>
+    <div class="sugs" id="sugs"></div>
+  </section>
+
+  <!-- ============ What to say ============ -->
+  <section>
+    <div class="kicker">If someone asks</div>
+    <h2>What to say about this year.</h2>
+    <p class="note">Built from your class's own numbers. Nothing here needs checking before you use it.</p>
+    <div class="says" id="says"></div>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<!-- ===================== RETROSPECTIVE OVERLAY ===================== -->
+<div id="retroOverlay" role="dialog" aria-modal="true" aria-label="Your Year in Review">
+  <div class="frame">
+    <button class="close" type="button" id="closeRetro">Close ✕</button>
+    <div class="stage" id="stage">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <article class="card card-navy is-on" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow" data-party-month></span>
+        <div class="rbody">
+          <div class="huge" data-party-ordinal></div>
+          <p class="lede">publishing party you've walked a class through.</p>
+          <div class="rule"></div>
+          <div class="years" data-years></div>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">Your authors</span>
+        <div class="rbody">
+          <div class="huge" data-legacy-number></div>
+          <p class="lede" data-legacy-line></p>
+          <div class="rule"></div>
+          <p class="sub" data-legacy-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-navy card-portrait" data-card>
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">The author page</span>
+        <div class="portrait-wrap" id="portraitWrap">
+          <img class="portrait" id="portrait" src="" alt="" />
+          <div class="portrait-fallback" data-initials aria-hidden="true"></div>
+        </div>
+        <div class="rbody">
+          <p class="lede">Behind every young writer is someone who believed first.</p>
+          <div class="rule"></div>
+          <p class="sub" data-believed-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-cream" data-card data-light>
+        <span class="eyebrow" data-shelf-eyebrow></span>
+        <div class="shelf" data-shelf></div>
+        <div class="rbody">
+          <div class="huge" data-shelf-count></div>
+          <p class="lede">books that did not exist in September.</p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow" data-words-eyebrow></span>
+        <div class="rbody">
+          <div class="huge" data-words-number></div>
+          <p class="lede">words written by hand and by keyboard.</p>
+          <div class="rule"></div>
+          <p class="sub" data-words-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">What they wrote about</span>
+        <div class="titles" data-titles></div>
+        <div class="rbody">
+          <p class="lede" data-titles-line></p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">Share your year</span>
+        <div class="share-card">
+          <div class="mark">SuperAuthor</div>
+          <div class="who" data-share-who></div>
+          <div class="big" data-share-number></div>
+          <div class="meta" data-share-meta></div>
+          <div class="share-strip" data-share-strip></div>
+          <div class="sfoot">
+            <span data-share-class></span>
+            <b data-share-school></b>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="act act-primary" type="button" data-share>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M12 3v12M8 7l4-4 4 4" stroke="#12294B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Send to your principal
+          </button>
+          <button class="act act-ghost" type="button" data-share>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 8a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6zM15 22a3 3 0 100-6 3 3 0 000 6zM8.6 13.5l5.8 3.4M14.4 7.1L8.6 10.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Share
+          </button>
+        </div>
+      </article>
+
+      <button class="tap tap-prev" type="button" id="tapPrev" aria-label="Previous"></button>
+      <button class="tap tap-next" type="button" id="tapNext" aria-label="Next"></button>
+
+      <div class="dots">
+        <button class="nav-btn" type="button" id="btnPrev" aria-label="Previous card">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="nav-btn" type="button" id="btnNext" aria-label="Next card">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   PILOT CONFIG — the analyst edits this block only.
+
+   Two kinds of data live here. Anything under "the teacher" belongs to the
+   person and travels with her between rooms and schools. Everything else
+   belongs to this cycle only.
+
+   Scores are 0-100 and are never shown as numbers. They set the shape and
+   the band. Bands are relative to the grade band, so "Expanding" in 2nd
+   grade means expanding for 2nd grade.
+
+   A null score means the final book gave no usable evidence. That is a
+   legitimate outcome: the point is left blank, never inferred.
+   ========================================================================= */
+var CONFIG = {
+
+  /* --- The teacher. Permanent. --- */
+  teacher:        "Ms. Rivera",
+  initials:       "MR",
+  photo:          "https://superauthor.com/wp-content/uploads/2026/05/Teacher.png",
+  authorsAllTime: 142,
+  partyYears:     ["2023", "2024", "2026"],
+
+  /* --- This cycle only. --- */
+  school:          "Mandarin Charter",
+  room:            "Room 12",
+  grade:           "2",
+  gradeBand:       "2-3",
+  classYear:       "2026",
+  partyMonth:      "March 2026",
+  authorsThisYear: 26,
+  words:           41308,
+  wordsCompare:    "The Wonderful Wizard of Oz",
+
+  titles: [
+    ["A dragon who was ", "afraid of fire"],
+    ["A grandmother's kitchen in ", "Caracas"],
+    ["A dog named Pickle who ", "ran for president"]
+  ],
+
+  /* Generic grade-level cover art — illustration, not the students' real
+     covers. The class's own grade leads; the others carry the pattern. */
+  covers: {
+    "pre-k": "https://superauthor.com/wp-content/uploads/2026/06/Pre-kindergaten.png",
+    "2":     "https://superauthor.com/wp-content/uploads/2026/06/2th-grade.png",
+    "5":     "https://superauthor.com/wp-content/uploads/2026/06/5th-grade.png",
+    "8":     "https://superauthor.com/wp-content/uploads/2026/06/8th-grade.png"
+  },
+
+  dims: ["Voice", "Craft", "Arc", "World", "Audience"],
+
+  classScores: { Voice:78, Craft:61, Arc:54, World:84, Audience:69 },
+
+  classEvidence: {
+    Voice:    "Opinions land on the page — 19 of 26 books state what the narrator thinks, not just what happens.",
+    Craft:    "Dialogue is punctuated in most books; sentence length stays fairly even throughout.",
+    Arc:      "Problems arrive late and resolve in a page or two. Endings arrive before the middle has done its work.",
+    World:    "Invented places carry rules that hold — weather, currency, who is allowed where.",
+    Audience: "Titles, covers and dedications are present in every book; openings often start at the action."
+  },
+
+  reading: "This class invents boldly and finishes fast — big worlds, quick endings.",
+
+  cases: [
+    { why:"Boldest risk", name:"Amara", title:"The Last Bus on Tuesday",
+      quote:"The bus only comes on Tuesday and nobody knows where it goes, so I got on.",
+      because:"She wrote a story with no safe ending and didn't back out of it. Most second graders resolve their problem by page four; she stayed inside it for nine pages." },
+    { why:"Most distinct voice", name:"Elias", title:"My Grandmother's Kitchen in Caracas",
+      quote:"My grandmother says the smell of a kitchen is a whole country you can carry.",
+      because:"Nobody else in the class writes like this. The rhythm is his, and it holds from the first page to the last." },
+    { why:"Biggest leap", name:"Diego", title:"Pickle Runs for President",
+      quote:"Pickle promised more parks and less baths. He won by a lot.",
+      because:"Started the year writing single sentences under drawings. Finished with a fourteen-page book that has a joke running through it." }
+  ],
+
+  suggestions: [
+    { anchor:"Session 4 · The problem",
+      text:"Your class builds worlds faster than it builds trouble. Next year, hold the problem open for one extra session before anyone is allowed to solve it — ask each author what makes it worse before asking what fixes it." },
+    { anchor:"Session 6 · The middle",
+      text:"Endings arrived early this year. Try a middle-page check: every author reads page 5 out loud and says what has changed since page 1. If nothing has, that's the session's work." },
+    { anchor:"Session 2 · Character",
+      text:"World is your strongest dimension — lean on it. Have authors write one rule their world obeys before they write a character, then make the character break it." }
+  ],
+
+  says: [
+    { to:"To a parent",
+      text:"Your child is a published author. She wrote every word of her book and it went into the world with her name on the cover. What struck me most was how much of her own voice is in it — you can hear her on the page." },
+    { to:"To your principal",
+      text:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words. The books are in the room if you want to see what second graders can do." },
+    { to:"To a colleague thinking about it",
+      text:"It isn't a separate program. I used what I was already teaching, just inside the book. Eight sessions across the year, and the kids ran the publishing party themselves." }
+  ],
+
+  /* --- Parent voices. FICTIONAL PLACEHOLDERS for the pilot. ---
+     Collection rules when these become real:
+     · asked once, in the week after the publishing party, one open question
+     · never edited for polish — a tidied quote stops sounding like a parent
+     · no impact claims (reading levels, scores, improvement). A metric in a
+       parent's mouth is still an unvalidated metric.
+     · a child's name appears only where the family recorded consent at
+       collection. Default attribution is the parent's first name and grade.
+     · respondents and families are always displayed. Only happy parents
+       answer, and the honest denominator is what stops this block from
+       being read as evidence. */
+  voices: {
+    respondents: 14,
+    families: 26,
+    quotes: [
+      { text:"He read it to his little sister four times the first night. He has never once volunteered to read anything before.",
+        from:"Renata", child:"Diego", grade:"2nd grade" },
+      { text:"I did not know he thought about his grandmother that way until I got to page six. I had to leave the room for a minute.",
+        from:"Ana Lucia", child:"Elias", grade:"2nd grade" },
+      { text:"English is not the language we speak at home. Her book is the first thing she has written that I could read out loud with her.",
+        from:"Fatima", child:"Layla", grade:"2nd grade" },
+      { text:"She keeps it on the shelf turned face out, like a store. She rearranges the other books so hers has room.",
+        from:"Michelle", child:null, grade:"2nd grade" },
+      { text:"My husband took it to work. His entire office has read it now. He will not stop.",
+        from:"Deborah", child:null, grade:"2nd grade" },
+      { text:"He talks about you like you are the reason he can do it. I wanted you to hear that from me and not from him.",
+        from:"Kelly", child:"Jonah", grade:"2nd grade", forTeacher:true }
+    ]
+  },
+
+  /* name, title, [Voice, Craft, Arc, World, Audience], evidence by dimension.
+     null = no usable evidence in the final book. */
+  students: [
+    { n:"Amara",  t:"The Last Bus on Tuesday", s:[88,64,71,92,74],
+      e:{ Voice:"\"...so I got on.\" She puts herself in the sentence.", World:"The bus route has rules and she never breaks them." } },
+    { n:"Elias",  t:"My Grandmother's Kitchen in Caracas", s:[94,70,58,79,72],
+      e:{ Voice:"\"...a whole country you can carry.\"", Craft:"Long sentence, then a short one. Repeatedly, on purpose." } },
+    { n:"Diego",  t:"Pickle Runs for President", s:[81,58,66,77,80],
+      e:{ Voice:"\"More parks and less baths.\" The joke is his.", Audience:"Opens on the campaign, not on the dog." } },
+    { n:"Priya",  t:"The Girl Who Counted Clouds", s:[72,74,48,81,66],
+      e:{ Craft:"Paragraphs break where the thought breaks.", World:"Cloud names recur and stay consistent." } },
+    { n:"Marcus", t:"Robot Recess", s:[66,55,52,88,61],
+      e:{ World:"The playground has an economy. Tokens for turns.", Arc:"Problem appears on page 7 of 9." } },
+    { n:"Sofia",  t:"The Quiet Shark", s:[79,62,59,70,73],
+      e:{ Voice:"The shark's shyness is described from inside.", Audience:"Dedication to her brother, by name." } },
+    { n:"Jonah",  t:"How to Catch a Sunday", s:[84,49,44,86,58],
+      e:{ Voice:"Title tells you everything about how he thinks.", World:"Days of the week are physical objects here." } },
+    { n:"Leila",  t:"The Library at the Bottom", s:[70,71,63,83,69],
+      e:{ Craft:"Dialogue tags vary and never repeat twice running.", World:"Underwater rules are stated once and obeyed." } },
+    { n:"Ben",    t:"My Dad's Truck", s:[75,53,50,48,64],
+      e:{ Voice:"\"It smells like work in there.\"", Craft:"Short declaratives throughout — a choice, not a limit." } },
+    { n:"Nadia",  t:"The Snow That Stayed", s:[68,66,57,74,71],
+      e:{ Arc:"Snow arrives, refuses to melt, changes the town.", Audience:"Ends on a question to the reader." } },
+    { n:"Theo",   t:"Two Moons Over Maple Street", s:[73,57,61,90,63],
+      e:{ World:"Second moon has its own tides and he tracked them.", Arc:"The complication is astronomical and it lands." } },
+    { n:"Aisha",  t:"The Bakery That Never Opened", s:[77,68,55,76,75],
+      e:{ Voice:"Wry. The narrator is a little annoyed the whole book.", Audience:"Cover copy written like a real book jacket." } },
+    { n:"Owen",   t:"Dragon Afraid of Fire", s:[80,54,68,85,67],
+      e:{ Arc:"Fear introduced page 2, tested page 6, resolved page 11.", World:"Dragon society has jobs and the fear costs him one." } },
+    { n:"Maya",   t:"Grandpa's Hands", s:[86,59,46,52,70],
+      e:{ Voice:"Every description comes back to hands. Deliberate.", Audience:"Written to her grandfather, and says so." } },
+    { n:"Caleb",  t:"The Big Game", s:[54,60,58,44,57],
+      e:{ Craft:"Clean sentences, consistent tense.", Arc:"Game is won. Something changes, if only the score." } },
+    { n:"Zoe",    t:"Cactus Friend", s:[71,63,49,72,68],
+      e:{ Voice:"The cactus has opinions and she shares them.", World:"Desert details are specific — heat at different hours." } },
+    { n:"Ryan",   t:"Under the Porch", s:[64,52,53,79,55],
+      e:{ World:"The space under the porch is fully mapped.", Craft:"Sentences run on, but the images arrive." } },
+    { n:"Hana",   t:"The Girl With Two Names", s:[89,67,60,68,76],
+      e:{ Voice:"Both names get a different narrator. Same girl.", Audience:"Explains the two names before you need to ask." } },
+    { n:"Luis",   t:"Soccer on the Moon", s:[69,56,64,87,62],
+      e:{ World:"Low gravity changes the rules and the rules are listed.", Arc:"Loses, adapts, plays again." } },
+    { n:"Grace",  t:"The Last Firefly", s:[76,70,57,73,72],
+      e:{ Craft:"Paragraph breaks carry the pacing.", Voice:"Sad without saying sad." } },
+    { n:"Andre",  t:"My Brother Is a Werewolf", s:[82,55,65,80,66],
+      e:{ Voice:"Deadpan the entire way through.", Arc:"The reveal is placed, not dumped." } },
+    { n:"Isabel", t:"The House That Moved", s:[74,64,51,84,64],
+      e:{ World:"The house relocates by rules she invented and kept.", Craft:"Tense stays put even when the house doesn't." } },
+    { n:"Noah",   t:"Fishing With Nobody", s:[78,58,null,61,60],
+      e:{ Voice:"Loneliness is stated plainly and once." } },
+    { n:"Layla",  t:"The Colour Nobody Named", s:[85,61,56,88,71],
+      e:{ World:"An entire colour with a history and a ban.", Voice:"She argues with the reader about it." } },
+    { n:"Tomas",  t:"Recess Rules", s:[60,57,54,66,59],
+      e:{ Craft:"Numbered rules, cleanly formatted.", Audience:"Written as a guide for next year's class." } },
+    { n:"Ruby",   t:"My Cat Went to Space", s:[72,50,null,78,63],
+      e:{ World:"The cat's ship is drawn and labelled throughout." } }
+  ]
+};
+
+/* ========================================================================= */
+
+var ORDINALS = ["", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
+var SPELLED = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+  "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+  "Eighteen", "Nineteen", "Twenty", "Twenty-one", "Twenty-two", "Twenty-three",
+  "Twenty-four", "Twenty-five", "Twenty-six", "Twenty-seven", "Twenty-eight",
+  "Twenty-nine", "Thirty"];
+
+var BANDS = [
+  { min:80, label:"Expanding" },
+  { min:60, label:"Consolidated" },
+  { min:40, label:"Building" },
+  { min:0,  label:"Emerging" }
+];
+
+var DIMS = CONFIG.dims;
+var edits = {};
+var selected = null;
+
+function $(s){ return document.querySelector(s); }
+function el(tag, cls, txt){
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+}
+function ordinal(n){ return ORDINALS[n] || (n + "th"); }
+function spelled(n){ return SPELLED[n] || String(n); }
+function bandOf(v){
+  if (v == null) return null;
+  for (var i = 0; i < BANDS.length; i++) if (v >= BANDS[i].min) return BANDS[i].label;
+  return BANDS[BANDS.length - 1].label;
+}
+
+/* A book tile. The cover art is drawn in CSS underneath, so a missing or
+   slow image still reads as a book instead of a hole. */
+function bookTile(url, delay){
+  var d = el("div", "bk");
+  if (delay != null) d.style.animationDelay = delay + "ms";
+  if (url){
+    var img = document.createElement("img");
+    img.src = url; img.alt = ""; img.loading = "lazy";
+    img.addEventListener("error", function(){ if (img.parentNode) img.parentNode.removeChild(img); });
+    d.appendChild(img);
+  }
+  return d;
+}
+
+/* The class's own grade leads the pattern; the others give it texture. */
+function coverSequence(n){
+  var all = [], k;
+  for (k in CONFIG.covers) all.push(CONFIG.covers[k]);
+  var lead = CONFIG.covers[CONFIG.grade] || all[0];
+  var rest = [];
+  for (var j = 0; j < all.length; j++) if (all[j] !== lead) rest.push(all[j]);
+  var out = [];
+  for (var i = 0; i < n; i++){
+    out.push((i % 3 === 2 && rest.length) ? rest[Math.floor(i / 3) % rest.length] : lead);
+  }
+  return out;
+}
+
+/* ================= Radar ================= */
+var CX = 170, CY = 148, R = 104;
+
+function point(i, val){
+  var a = -Math.PI / 2 + (i * 2 * Math.PI / DIMS.length);
+  var r = R * (val / 100);
+  return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+}
+function axisEnd(i, mult){
+  var a = -Math.PI / 2 + (i * 2 * Math.PI / DIMS.length);
+  return [CX + R * mult * Math.cos(a), CY + R * mult * Math.sin(a)];
+}
+function svgEl(tag, attrs){
+  var n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (var k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+}
+
+/* Draws only runs of consecutive scored points, so a blank dimension opens a
+   real gap in the shape instead of being silently bridged over. */
+function shapeRuns(vals){
+  var n = vals.length, i, complete = true;
+  for (i = 0; i < n; i++) if (vals[i] == null) complete = false;
+
+  if (complete){
+    var full = [];
+    for (i = 0; i < n; i++) full.push(point(i, vals[i]));
+    return { runs:[full], closed:true };
+  }
+
+  var firstNull = 0;
+  for (i = 0; i < n; i++) if (vals[i] == null){ firstNull = i; break; }
+
+  var runs = [], cur = [];
+  for (var k = 1; k <= n; k++){
+    var idx = (firstNull + k) % n;
+    if (vals[idx] == null){
+      if (cur.length > 1) runs.push(cur);
+      cur = [];
+    } else {
+      cur.push(point(idx, vals[idx]));
+    }
+  }
+  if (cur.length > 1) runs.push(cur);
+  return { runs:runs, closed:false };
+}
+
+function drawRadar(vals, ghost){
+  var svg = $("#radar");
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  [0.25, 0.5, 0.75, 1].forEach(function(m){
+    var pts = DIMS.map(function(_, i){ return axisEnd(i, m).join(","); }).join(" ");
+    svg.appendChild(svgEl("polygon", {
+      points: pts, fill:"none",
+      stroke: m === 1 ? "#D9CBA6" : "#EDE4CC",
+      "stroke-width": m === 1 ? 1.4 : 1
+    }));
+  });
+
+  DIMS.forEach(function(_, i){
+    var e = axisEnd(i, 1);
+    svg.appendChild(svgEl("line", { x1:CX, y1:CY, x2:e[0], y2:e[1], stroke:"#EDE4CC", "stroke-width":1 }));
+  });
+
+  if (ghost){
+    var g = shapeRuns(ghost);
+    g.runs.forEach(function(run){
+      var pts = run.map(function(p){ return p.join(","); }).join(" ");
+      if (g.closed) pts += " " + run[0].join(",");
+      svg.appendChild(svgEl("polyline", {
+        points: pts, fill:"none", stroke:"#12294B", "stroke-width":1.6,
+        "stroke-dasharray":"4 4", "stroke-linejoin":"round", opacity:".5"
+      }));
+    });
+  }
+
+  var s = shapeRuns(vals);
+  s.runs.forEach(function(run){
+    var pts = run.map(function(p){ return p.join(","); }).join(" ");
+    if (s.closed){
+      svg.appendChild(svgEl("polygon", {
+        points: pts, fill:"#FFCC2A", "fill-opacity":".55",
+        stroke:"#12294B", "stroke-width":2.4, "stroke-linejoin":"round"
+      }));
+    } else {
+      svg.appendChild(svgEl("polyline", {
+        points: pts, fill:"none", stroke:"#12294B", "stroke-width":2.4,
+        "stroke-linejoin":"round", "stroke-linecap":"round"
+      }));
+    }
+  });
+
+  DIMS.forEach(function(d, i){
+    if (vals[i] == null) return;
+    var p = point(i, vals[i]);
+    svg.appendChild(svgEl("circle", { cx:p[0], cy:p[1], r:4.2, fill:"#12294B" }));
+  });
+
+  DIMS.forEach(function(d, i){
+    var e = axisEnd(i, 1.3);
+    var blank = vals[i] == null;
+    var t = svgEl("text", {
+      x:e[0], y:e[1],
+      "text-anchor": Math.abs(e[0] - CX) < 8 ? "middle" : (e[0] > CX ? "start" : "end"),
+      "dominant-baseline":"middle",
+      "font-family":"Asap, sans-serif", "font-size":"12.5", "font-weight":"800",
+      fill: blank ? "#E33D57" : "#12294B"
+    });
+    t.textContent = blank ? d + " —" : d;
+    svg.appendChild(t);
+  });
+}
+
+/* ================= Axis list ================= */
+function renderAxes(scores, evidence, isClass){
+  var box = $("#axes");
+  while (box.firstChild) box.removeChild(box.firstChild);
+
+  DIMS.forEach(function(d){
+    var raw = scores[d];
+    var key = (isClass ? "class" : selected) + "|" + d;
+    var band = edits[key] || bandOf(raw);
+
+    var ax = el("div", "ax");
+    var top = el("div", "ax-top");
+    top.appendChild(el("span", "ax-name", d));
+    top.appendChild(el("span",
+      "ax-band" + (band ? (edits[key] ? " edited" : "") : " empty"),
+      band || "Not enough evidence"));
+    ax.appendChild(top);
+
+    var ev = evidence && evidence[d];
+    ax.appendChild(el("div", "ax-ev" + (ev ? "" : " none"),
+      ev || "No line in the final book supports a reading here, so we left it blank."));
+
+    if (band){
+      var fixBtn = el("button", "ax-adjust",
+        edits[key] ? "Adjusted by you · change" : "This doesn't read right");
+      fixBtn.type = "button";
+      fixBtn.addEventListener("click", function(){ ax.classList.toggle("is-fixing"); });
+      ax.appendChild(fixBtn);
+
+      var fix = el("div", "ax-fix");
+      BANDS.slice().reverse().forEach(function(b){
+        var c = el("button", "chip" + (band === b.label ? " is-on" : ""), b.label);
+        c.type = "button";
+        c.addEventListener("click", function(){
+          edits[key] = b.label;
+          renderPanel();
+          renderFoot();
+        });
+        fix.appendChild(c);
+      });
+      ax.appendChild(fix);
+    }
+
+    box.appendChild(ax);
+  });
+}
+
+/* ================= Panel ================= */
+function renderPanel(){
+  if (selected == null){
+    var vals = DIMS.map(function(d){ return CONFIG.classScores[d]; });
+    drawRadar(vals, null);
+    renderAxes(CONFIG.classScores, CONFIG.classEvidence, true);
+    $("#whoName").innerHTML = CONFIG.room +
+      " <small>All " + CONFIG.students.length + " authors together</small>";
+    $("#backBtn").classList.remove("is-on");
+  } else {
+    var st = CONFIG.students[selected];
+    var sc = {};
+    DIMS.forEach(function(d, i){ sc[d] = st.s[i]; });
+    drawRadar(st.s, DIMS.map(function(d){ return CONFIG.classScores[d]; }));
+    renderAxes(sc, st.e, false);
+    $("#whoName").innerHTML = st.n +
+      " <small>Dashed outline is the class · <i>" + st.t + "</i></small>";
+    $("#backBtn").classList.add("is-on");
+  }
+}
+
+/* ================= Static page content ================= */
+$("#ctx").textContent = CONFIG.room + " · Class of " + CONFIG.classYear + " · " +
+  CONFIG.students.length + " published authors";
+$("#readingText").textContent = CONFIG.reading;
+$("#rosterTitle").textContent = "All " + CONFIG.students.length + ".";
+
+CONFIG.cases.forEach(function(c){
+  var box = el("article", "case");
+  box.appendChild(el("div", "why", c.why));
+  var h = el("div", "head", c.name + " ");
+  h.appendChild(el("span", null, "· " + c.title));
+  box.appendChild(h);
+  box.appendChild(el("blockquote", null, c.quote));
+  box.appendChild(el("div", "because", c.because));
+  $("#cases").appendChild(box);
+});
+
+CONFIG.students.forEach(function(st, i){
+  var row = el("button", "row");
+  row.type = "button";
+  row.appendChild(el("span", "nm", st.n));
+  row.appendChild(el("span", "tt", st.t));
+  var blanks = 0;
+  st.s.forEach(function(v){ if (v == null) blanks++; });
+  if (blanks) row.appendChild(el("span", "flag", blanks + " blank"));
+  row.appendChild(el("span", "go", "Open →"));
+  row.addEventListener("click", function(){
+    selected = (selected === i) ? null : i;
+    var rows = document.querySelectorAll(".row");
+    for (var j = 0; j < rows.length; j++) {
+      if (j === selected) rows[j].classList.add("is-sel");
+      else rows[j].classList.remove("is-sel");
+    }
+    renderPanel();
+    $("#radar").scrollIntoView({ behavior:"smooth", block:"center" });
+  });
+  $("#roster").appendChild(row);
+});
+
+$("#backBtn").addEventListener("click", function(){
+  selected = null;
+  var rows = document.querySelectorAll(".row");
+  for (var j = 0; j < rows.length; j++) rows[j].classList.remove("is-sel");
+  renderPanel();
+});
+
+/* Parent voices. If nobody answered, the section is removed rather than shown
+   empty — an empty praise block reads as an absence of praise. */
+(function(){
+  var v = CONFIG.voices;
+  if (!v || !v.quotes || !v.quotes.length){
+    var s = $("#voicesSection");
+    if (s) s.parentNode.removeChild(s);
+    return;
+  }
+  $("#voiceCount").textContent = v.respondents + " of " + v.families + " families answered.";
+  v.quotes.forEach(function(q){
+    var card = el("article", "voice" + (q.forTeacher ? " is-teacher" : ""));
+    card.appendChild(el("p", null, q.text));
+    card.appendChild(el("div", "from",
+      q.from + (q.child ? " · " + q.child + "'s mom" : " · parent") +
+      (q.grade ? " · " + q.grade : "")));
+    $("#voices").appendChild(card);
+  });
+})();
+
+CONFIG.suggestions.forEach(function(s){
+  var box = el("article", "sug");
+  box.appendChild(el("span", "anchor", s.anchor));
+  var t = el("div", "txt", s.text);
+  t.contentEditable = "true";
+  t.spellcheck = false;
+  var state = el("div", "state", "Ours until you change it.");
+  t.addEventListener("input", function(){
+    box.classList.add("is-edited");
+    state.textContent = "Edited by you. This is your plan now.";
+  });
+  box.appendChild(t);
+  box.appendChild(state);
+  $("#sugs").appendChild(box);
+});
+
+CONFIG.says.forEach(function(s){
+  var box = el("article", "say");
+  box.appendChild(el("div", "to", s.to));
+  box.appendChild(el("p", null, s.text));
+  var b = el("button", null, "Copy");
+  b.type = "button";
+  b.addEventListener("click", function(){
+    if (navigator.clipboard) navigator.clipboard.writeText(s.text);
+    b.textContent = "Copied";
+    setTimeout(function(){ b.textContent = "Copy"; }, 1600);
+  });
+  box.appendChild(b);
+  $("#says").appendChild(box);
+});
+
+function renderFoot(){
+  var n = 0, k;
+  for (k in edits) n++;
+  $("#foot").textContent = n === 0
+    ? "Read from " + CONFIG.students.length + " final books · " + CONFIG.school +
+      " · Bands are relative to grade " + CONFIG.gradeBand + "."
+    : n + " reading" + (n === 1 ? "" : "s") + " corrected by you. Corrections are kept and used to fix how we read next year.";
+}
+
+/* ================= Retrospective ================= */
+var parties = CONFIG.partyYears.length;
+var partyOrd = ordinal(parties);
+
+function renderRetro(){
+  $("#retroBlurb").textContent = CONFIG.authorsThisYear + " authors, " +
+    CONFIG.words.toLocaleString("en-US") + " words, and your " + partyOrd +
+    " publishing party. Built from the finished books.";
+
+  $("#miniWho").textContent = CONFIG.teacher + "'s Authors";
+  $("#miniBig").innerHTML = CONFIG.authorsAllTime + "<span>.</span>";
+  $("#miniMeta").textContent = parties > 1
+    ? "published authors since " + CONFIG.partyYears[0] + " · " + partyOrd + " publishing party"
+    : "first published authors · " + partyOrd + " publishing party";
+  var mini = $("#miniStrip");
+  coverSequence(4).forEach(function(u){ mini.appendChild(bookTile(u, null)); });
+
+  var context = CONFIG.room + " · Class of " + CONFIG.classYear;
+
+  $("[data-party-month]").textContent = CONFIG.partyMonth;
+  $("[data-party-ordinal]").textContent = partyOrd;
+
+  var years = $("[data-years]");
+  CONFIG.partyYears.forEach(function(y, i){
+    var s = el("span", "yr" + (i === parties - 1 ? " is-now" : ""), y);
+    years.appendChild(s);
+  });
+  var ghost = el("span", "yr is-next");
+  ghost.setAttribute("aria-hidden", "true");
+  years.appendChild(ghost);
+
+  $("[data-legacy-number]").textContent = CONFIG.authorsAllTime;
+  $("[data-legacy-line]").textContent = parties > 1
+    ? "children have become published authors with you since " + CONFIG.partyYears[0] + "."
+    : "children became published authors with you this year.";
+  $("[data-legacy-sub]").textContent = parties > 1
+    ? spelled(parties) + " classes. One teacher."
+    : "The first " + spelled(CONFIG.authorsThisYear).toLowerCase() + ". This is where it starts.";
+
+  var portrait = $("#portrait");
+  portrait.src = CONFIG.photo;
+  portrait.alt = CONFIG.teacher;
+  portrait.addEventListener("error", function(){
+    $("#portraitWrap").classList.add("no-photo");
+  });
+  $("[data-initials]").textContent = CONFIG.initials;
+  $("[data-believed-sub]").textContent = "For " + CONFIG.authorsAllTime +
+    " kids, that was you. Your photo is on the author page of every one of their books.";
+
+  $("[data-shelf-eyebrow]").textContent = context;
+  $("[data-shelf-count]").textContent = CONFIG.authorsThisYear;
+  var shelf = $("[data-shelf]");
+  coverSequence(CONFIG.authorsThisYear).forEach(function(u, i){
+    shelf.appendChild(bookTile(u, i * 26));
+  });
+
+  $("[data-words-eyebrow]").textContent = context;
+  $("[data-words-number]").textContent = CONFIG.words.toLocaleString("en-US");
+  $("[data-words-sub]").innerHTML = "That's longer than <em>" + CONFIG.wordsCompare + "</em>.";
+
+  var titles = $("[data-titles]");
+  CONFIG.titles.forEach(function(t){
+    var line = el("div", "title-line");
+    line.appendChild(document.createTextNode(t[0]));
+    line.appendChild(el("em", null, t[1]));
+    titles.appendChild(line);
+  });
+  $("[data-titles-line]").textContent =
+    spelled(CONFIG.authorsThisYear) + " stories nobody had ever told before.";
+
+  $("[data-share-who]").textContent = CONFIG.teacher + "'s Authors";
+  $("[data-share-number]").innerHTML = CONFIG.authorsAllTime + "<span>.</span>";
+  $("[data-share-meta]").textContent = parties > 1
+    ? "published authors since " + CONFIG.partyYears[0] + " · " + partyOrd + " publishing party"
+    : "first published authors · " + partyOrd + " publishing party";
+  $("[data-share-class]").textContent = "Class of " + CONFIG.classYear;
+  $("[data-share-school]").textContent = CONFIG.school;
+  var strip = $("[data-share-strip]");
+  coverSequence(4).forEach(function(u){ strip.appendChild(bookTile(u, null)); });
+}
+
+/* ---- Story navigation ---- */
+var overlay = $("#retroOverlay");
+var stage = $("#stage");
+var progress = $("#progress");
+var btnPrev = $("#btnPrev");
+var btnNext = $("#btnNext");
+var cards = [].slice.call(document.querySelectorAll("[data-card]"));
+var index = 0;
+
+cards.forEach(function(){
+  var seg = el("span", "seg");
+  seg.appendChild(document.createElement("i"));
+  progress.appendChild(seg);
+});
+var segs = [].slice.call(progress.children);
+
+function renderStory(){
+  cards.forEach(function(card, i){
+    if (i === index) card.classList.add("is-on");
+    else card.classList.remove("is-on");
+  });
+  segs.forEach(function(seg, i){
+    seg.className = "seg" + (i < index ? " done" : i === index ? " active" : "");
+  });
+  if (cards[index].hasAttribute("data-light")) stage.classList.add("on-light");
+  else stage.classList.remove("on-light");
+  btnPrev.disabled = index === 0;
+  btnNext.disabled = index === cards.length - 1;
+}
+
+function go(step){
+  var next = index + step;
+  if (next < 0 || next > cards.length - 1) return;
+  index = next;
+  renderStory();
+}
+
+btnPrev.addEventListener("click", function(){ go(-1); });
+btnNext.addEventListener("click", function(){ go(1); });
+$("#tapPrev").addEventListener("click", function(){ go(-1); });
+$("#tapNext").addEventListener("click", function(){ go(1); });
+
+function openRetro(){
+  index = 0;
+  renderStory();
+  overlay.classList.add("is-open");
+  document.body.classList.add("is-locked");
+  $("#closeRetro").focus();
+}
+function closeRetro(){
+  overlay.classList.remove("is-open");
+  document.body.classList.remove("is-locked");
+  $("#openRetro").focus();
+}
+
+$("#openRetro").addEventListener("click", openRetro);
+$("#closeRetro").addEventListener("click", closeRetro);
+overlay.addEventListener("click", function(e){ if (e.target === overlay) closeRetro(); });
+
+document.addEventListener("keydown", function(e){
+  if (!overlay.classList.contains("is-open")) return;
+  if (e.key === "Escape") closeRetro();
+  if (e.key === "ArrowRight") go(1);
+  if (e.key === "ArrowLeft") go(-1);
+});
+
+/* Share is a stub in the prototype — the real build exports a story-sized
+   and a post-sized image. */
+[].slice.call(document.querySelectorAll("[data-share]")).forEach(function(b){
+  b.addEventListener("click", function(){
+    var label = b.textContent.trim();
+    b.textContent = "Prototype — export not wired";
+    setTimeout(function(){ b.textContent = label; }, 1800);
+  });
+});
+
+/* ================= Boot ================= */
+renderRetro();
+renderPanel();
+renderFoot();
+renderStory();
+</script>
+</body>
+</html>
