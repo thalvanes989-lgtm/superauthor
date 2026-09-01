@@ -178,6 +178,33 @@
   .voice.is-teacher{border-left:5px solid var(--yellow)}
   .voice-count{font-size:13px;color:var(--grey-soft);margin-top:4px}
 
+  /* =====================================================================
+     SPOTLIGHT — the outermost ring. The books left the building and people
+     who never met these children read them. Reach only: no rank, no
+     comparison to other rooms, no prize.
+     ===================================================================== */
+  .spot-mark{margin-top:14px}
+  .spot-mark img{height:38px;width:auto}
+  .spot-band{position:relative;border-radius:20px;overflow:hidden;margin-top:20px;background:var(--navy);color:var(--cream)}
+  .spot-band .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .spot-band .scrim{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(100deg,
+      rgba(12,29,54,.95) 0%,
+      rgba(12,29,54,.90) 40%,
+      rgba(12,29,54,.66) 78%,
+      rgba(12,29,54,.50) 100%);
+  }
+  .spot-band .inner{position:relative;z-index:2;padding:30px 28px}
+  .spot-figs{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .fig .n{font-size:clamp(40px,8.5vw,54px);line-height:.9;font-weight:800;letter-spacing:-.05em;color:var(--yellow)}
+  .fig .l{font-size:14.5px;line-height:1.4;font-weight:600;color:#C6D6EC;margin-top:9px;max-width:22ch}
+
+  .spot-say{margin-top:20px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px 26px 28px}
+  .spot-say p{font-size:16.5px;line-height:1.55;color:var(--ink);max-width:60ch}
+  .spot-say p + p{margin-top:14px}
+  .spot-say .close{font-family:'Caveat',cursive;font-size:clamp(25px,5.4vw,31px);line-height:1.25;color:var(--navy);margin-top:20px;max-width:30ch}
+
   /* ================= Suggestions ================= */
   .sugs{display:grid;gap:14px;margin-top:22px}
   .sug{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
@@ -295,6 +322,10 @@
     position:relative;z-index:2;
   }
   #retroOverlay .card-cream .eyebrow{background:var(--navy);color:var(--yellow);border-color:transparent}
+
+  /* Spotlight card carries the contest lockup instead of a text eyebrow. */
+  #retroOverlay .spot-lockup{align-self:flex-start;position:relative;z-index:2}
+  #retroOverlay .spot-lockup img{height:34px;width:auto}
 
   #retroOverlay .rbody{margin-top:auto;position:relative;z-index:2}
   #retroOverlay .huge{font-size:clamp(74px,22vw,106px);line-height:.86;letter-spacing:-.055em;font-weight:800;color:var(--yellow)}
@@ -462,6 +493,22 @@
     <div class="voices" id="voices"></div>
   </section>
 
+  <!-- ============ Spotlight ============ -->
+  <section id="spotSection">
+    <div class="kicker">Out in the country</div>
+    <h2>Their words left the building.</h2>
+    <div class="spot-mark"><img id="spotLogo" src="" alt="SuperAuthor Spotlight" /></div>
+    <p class="note" id="spotNote"></p>
+
+    <div class="spot-band">
+      <img class="bg" id="spotBg" src="" alt="" />
+      <div class="scrim" aria-hidden="true"></div>
+      <div class="inner"><div class="spot-figs" id="spotFigs"></div></div>
+    </div>
+
+    <div class="spot-say" id="spotSay"></div>
+  </section>
+
   <!-- ============ Suggestions ============ -->
   <section>
     <div class="kicker">Next year</div>
@@ -560,8 +607,20 @@
         </div>
       </article>
 
-      <article class="card card-navy" data-card>
+      <!-- Spotlight card. Removed entirely when voting hasn't closed. -->
+      <article class="card card-navy" data-card id="spotCard">
         <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="spot-lockup"><img data-spot-logo src="" alt="SuperAuthor Spotlight" /></span>
+        <div class="rbody">
+          <div class="huge" data-spot-votes></div>
+          <p class="lede">votes for books written in your room.</p>
+          <div class="rule"></div>
+          <p class="sub" data-spot-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-bl" aria-hidden="true"></div>
         <span class="eyebrow">Share your year</span>
         <div class="share-card">
           <div class="mark">SuperAuthor</div>
@@ -655,6 +714,41 @@ var CONFIG = {
     "8":     "https://superauthor.com/wp-content/uploads/2026/06/8th-grade.png"
   },
 
+  /* --- Spotlight. FICTIONAL PLACEHOLDERS for the pilot. ---
+
+     Voting closes in May; the publishing party is in March. So this block is
+     null on the teacher's first visit and only fills two months later. Set
+     spotlight to null to see that state: the page section, the retrospective
+     card and the Spotlight line in the principal script all disappear
+     together, and nothing is left waiting for data.
+
+     Reach only. No rank, no position, no comparison to other rooms, no
+     prize. The contest page can be competitive; this page is not.
+
+     · votes ................ total votes across this room's book pages
+     · votedAuthors ......... authors who received at least one vote
+     · participatingAuthors . authors with a live voting page. NOT the class
+                              size — only students whose parents opted in get
+                              a page, so counting against 26 would read as
+                              the teacher's shortfall when it is a consent
+                              rate. If this field is unavailable, set it to
+                              null and the copy drops the denominator.
+     · readers .............. unique people who opened a book page from this
+                              room. Set to null if the product doesn't
+                              expose it; the third figure is dropped rather
+                              than estimated.
+     · closedMonth .......... when voting ended, printed so the teacher knows
+                              why this appeared after her party. */
+  spotlight: {
+    votes:                 7412,
+    votedAuthors:          19,
+    participatingAuthors:  22,
+    readers:               1180,
+    closedMonth:           "May 2026",
+    logo:  "https://superauthor.com/wp-content/uploads/2026/07/logo-concurso.png",
+    image: "https://superauthor.com/wp-content/uploads/2026/07/imagem-4.png"
+  },
+
   dims: ["Voice", "Craft", "Arc", "World", "Audience"],
 
   classScores: { Voice:78, Craft:61, Arc:54, World:84, Audience:69 },
@@ -690,11 +784,13 @@ var CONFIG = {
       text:"World is your strongest dimension — lean on it. Have authors write one rule their world obeys before they write a character, then make the character break it." }
   ],
 
+  /* spotlightText, where present, replaces text once Spotlight data exists. */
   says: [
     { to:"To a parent",
       text:"Your child is a published author. She wrote every word of her book and it went into the world with her name on the cover. What struck me most was how much of her own voice is in it — you can hear her on the page." },
     { to:"To your principal",
-      text:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words. The books are in the room if you want to see what second graders can do." },
+      text:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words. The books are in the room if you want to see what second graders can do.",
+      spotlightText:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words, and their books drew 7,412 votes from the community in the national Spotlight contest. The books are in the room if you want to see what second graders can do." },
     { to:"To a colleague thinking about it",
       text:"It isn't a separate program. I used what I was already teaching, just inside the book. Eight sessions across the year, and the kids ran the publishing party themselves." }
   ],
@@ -806,6 +902,7 @@ var BANDS = [
 ];
 
 var DIMS = CONFIG.dims;
+var SPOT = CONFIG.spotlight || null;
 var edits = {};
 var selected = null;
 
@@ -818,11 +915,14 @@ function el(tag, cls, txt){
 }
 function ordinal(n){ return ORDINALS[n] || (n + "th"); }
 function spelled(n){ return SPELLED[n] || String(n); }
+function lower(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+function num(n){ return Number(n).toLocaleString("en-US"); }
 function bandOf(v){
   if (v == null) return null;
   for (var i = 0; i < BANDS.length; i++) if (v >= BANDS[i].min) return BANDS[i].label;
   return BANDS[BANDS.length - 1].label;
 }
+function drop(node){ if (node && node.parentNode) node.parentNode.removeChild(node); }
 
 /* A book tile. The cover art is drawn in CSS underneath, so a missing or
    slow image still reads as a book instead of a hole. */
@@ -1085,8 +1185,7 @@ $("#backBtn").addEventListener("click", function(){
 (function(){
   var v = CONFIG.voices;
   if (!v || !v.quotes || !v.quotes.length){
-    var s = $("#voicesSection");
-    if (s) s.parentNode.removeChild(s);
+    drop($("#voicesSection"));
     return;
   }
   $("#voiceCount").textContent = v.respondents + " of " + v.families + " families answered.";
@@ -1098,6 +1197,79 @@ $("#backBtn").addEventListener("click", function(){
       (q.grade ? " · " + q.grade : "")));
     $("#voices").appendChild(card);
   });
+})();
+
+/* ================= Spotlight =================
+   Runs before the story-navigation block below reads [data-card], so a
+   removed Spotlight card never enters the card sequence or the progress bar. */
+(function(){
+  if (!SPOT || !SPOT.votes){
+    drop($("#spotSection"));
+    drop($("#spotCard"));
+    return;
+  }
+
+  var logos = [].slice.call(document.querySelectorAll("#spotLogo, [data-spot-logo]"));
+  logos.forEach(function(img){
+    img.src = SPOT.logo;
+    img.addEventListener("error", function(){ img.style.display = "none"; });
+  });
+
+  var bg = $("#spotBg");
+  bg.src = SPOT.image;
+  bg.addEventListener("error", function(){ bg.style.display = "none"; });
+
+  $("#spotNote").textContent = "Spotlight is the national contest where communities " +
+    "vote for books written by published SuperAuthors. Voting for the Class of " +
+    CONFIG.classYear + " closed in " + SPOT.closedMonth + ", which is why this arrived " +
+    "after your publishing party.";
+
+  /* Figures. Each one is dropped rather than estimated when its field is
+     missing, so the band never carries a number the product can't produce. */
+  var figs = [
+    { n:num(SPOT.votes), l:"votes for books written in " + CONFIG.room },
+    SPOT.participatingAuthors
+      ? { n:SPOT.votedAuthors + " of " + SPOT.participatingAuthors,
+          l:"authors with a voting page were voted for" }
+      : { n:num(SPOT.votedAuthors), l:"of your authors were voted for" },
+    SPOT.readers
+      ? { n:num(SPOT.readers), l:"people opened a book page from your room" }
+      : null
+  ];
+
+  var box = $("#spotFigs");
+  figs.forEach(function(f){
+    if (!f) return;
+    var d = el("div", "fig");
+    d.appendChild(el("div", "n", f.n));
+    d.appendChild(el("div", "l", f.l));
+    box.appendChild(d);
+  });
+
+  var gradeWord = ORDINAL_WORDS[Number(CONFIG.grade)]
+    ? lower(ORDINAL_WORDS[Number(CONFIG.grade)]) + " grade"
+    : "your grade";
+
+  var say = $("#spotSay");
+  say.appendChild(el("p", null,
+    "A vote isn't a prize and it isn't a score. It's a person who read a " +
+    ordinal(Number(CONFIG.grade)) + " grader's name on a cover and decided that what " +
+    "she had to say was worth their attention."));
+  say.appendChild(el("p", null,
+    spelled(SPOT.votedAuthors) + " of your authors got that from people who had never " +
+    "met them. Not from a teacher, not from a parent — from strangers who chose their " +
+    "book out of a country full of books."));
+  say.appendChild(el("p", "close",
+    "That is what protagonism looks like in " + gradeWord +
+    ": finding out your ideas travel."));
+
+  /* Retrospective card. */
+  $("[data-spot-votes]").textContent = num(SPOT.votes);
+  $("[data-spot-sub]").textContent = "From families, neighbours and people who had " +
+    "never met them. " + spelled(SPOT.votedAuthors) + " of your " +
+    (SPOT.participatingAuthors
+      ? lower(spelled(SPOT.participatingAuthors)) + " Spotlight authors"
+      : "authors") + " were voted for.";
 })();
 
 CONFIG.suggestions.forEach(function(s){
@@ -1117,13 +1289,14 @@ CONFIG.suggestions.forEach(function(s){
 });
 
 CONFIG.says.forEach(function(s){
+  var text = (s.spotlightText && SPOT && SPOT.votes) ? s.spotlightText : s.text;
   var box = el("article", "say");
   box.appendChild(el("div", "to", s.to));
-  box.appendChild(el("p", null, s.text));
+  box.appendChild(el("p", null, text));
   var b = el("button", null, "Copy");
   b.type = "button";
   b.addEventListener("click", function(){
-    if (navigator.clipboard) navigator.clipboard.writeText(s.text);
+    if (navigator.clipboard) navigator.clipboard.writeText(text);
     b.textContent = "Copied";
     setTimeout(function(){ b.textContent = "Copy"; }, 1600);
   });
@@ -1146,7 +1319,7 @@ var partyOrd = ordinal(parties);
 
 function renderRetro(){
   $("#retroBlurb").textContent = CONFIG.authorsThisYear + " authors, " +
-    CONFIG.words.toLocaleString("en-US") + " words, and your " + partyOrd +
+    num(CONFIG.words) + " words, and your " + partyOrd +
     " publishing party. Built from the finished books.";
 
   $("#miniWho").textContent = CONFIG.teacher + "'s Authors";
@@ -1189,7 +1362,7 @@ function renderRetro(){
     : "children became published authors with you this year.";
   $("[data-legacy-sub]").textContent = parties > 1
     ? spelled(parties) + " classes. One teacher."
-    : "The first " + spelled(CONFIG.authorsThisYear).toLowerCase() + ". This is where it starts.";
+    : "The first " + lower(spelled(CONFIG.authorsThisYear)) + ". This is where it starts.";
 
   var portrait = $("#portrait");
   portrait.src = CONFIG.photo;
@@ -1209,7 +1382,7 @@ function renderRetro(){
   });
 
   $("[data-words-eyebrow]").textContent = context;
-  $("[data-words-number]").textContent = CONFIG.words.toLocaleString("en-US");
+  $("[data-words-number]").textContent = num(CONFIG.words);
   $("[data-words-sub]").innerHTML = "That's longer than <em>" + CONFIG.wordsCompare + "</em>.";
 
   var titles = $("[data-titles]");
