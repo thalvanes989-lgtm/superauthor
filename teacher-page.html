@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Your class, read closely · SuperAuthor</title>
+<title>Your year of authors · SuperAuthor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -39,6 +39,10 @@
   a{color:inherit}
   :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
 
+  /* Pilot strip. Visible whenever CONFIG.pilot is true so a screenshot of
+     this prototype can never travel as real data. */
+  .pilot{background:var(--pink);color:#fff;font-size:12.5px;font-weight:700;text-align:center;padding:8px 14px}
+
   .wrap{max-width:780px;margin:0 auto;padding:36px 22px 100px}
 
   /* ================= Masthead ================= */
@@ -63,6 +67,7 @@
   section{margin-top:56px}
   .kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft)}
   h2{font-size:clamp(21px,4.4vw,26px);letter-spacing:-.03em;line-height:1.2;font-weight:800;color:var(--navy);margin-top:8px}
+  h3{font-size:18px;letter-spacing:-.02em;line-height:1.25;font-weight:800;color:var(--navy)}
   .note{font-size:14px;color:var(--grey);margin-top:8px;max-width:56ch}
 
   /* ================= Book tile (shared) ================= */
@@ -78,9 +83,10 @@
   /* ================= Retrospective entry ================= */
   .retro{
     background:var(--navy);color:var(--cream);
-    border-radius:22px;padding:26px;margin-top:26px;
+    border-radius:22px;padding:26px;
     display:grid;grid-template-columns:1fr 210px;gap:26px;align-items:center;
   }
+  section.retro{margin-top:26px}
   @media (max-width:640px){.retro{grid-template-columns:1fr;gap:22px}}
   .retro .kicker{color:var(--yellow)}
   .retro h2{color:var(--cream);margin-top:8px}
@@ -105,46 +111,98 @@
   .mini .strip{display:flex;gap:4px;margin-top:12px}
   .mini .strip .bk{flex:1;aspect-ratio:3/4}
 
-  /* ================= Shape panel ================= */
-  .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;margin-top:22px;overflow:hidden}
-  .panel-head{
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-    padding:18px 22px;border-bottom:1px solid var(--line);background:var(--cream);flex-wrap:wrap;
+  /* =====================================================================
+     YOUR IMPRINT — the teacher's progression. Levels move with publishing
+     parties only, never with book counts, so a small class never climbs
+     slower than a large one. The rail below echoes the year bars on the
+     physical Publishing House Plate.
+     ===================================================================== */
+  .imprint{
+    margin-top:22px;background:var(--navy);color:var(--cream);
+    border-radius:22px;padding:28px 26px;
+    display:grid;grid-template-columns:156px 1fr;gap:28px;align-items:center;
   }
-  .panel-head .who{font-weight:800;letter-spacing:-.02em;color:var(--navy);font-size:17px}
-  .panel-head .who small{display:block;font-size:13px;font-weight:600;color:var(--grey);letter-spacing:0}
-  .back{font-size:13px;font-weight:800;color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:7px 14px;display:none}
-  .back.is-on{display:inline-block}
-  .back:hover{background:var(--navy);color:var(--cream)}
+  @media (max-width:640px){.imprint{grid-template-columns:1fr;justify-items:start;gap:22px}}
 
-  .panel-body{display:grid;grid-template-columns:1fr 1fr}
-  @media (max-width:640px){.panel-body{grid-template-columns:1fr}}
-  .chart{padding:18px 10px 22px;display:grid;place-items:center}
-  .chart svg{width:100%;max-width:330px;height:auto;overflow:visible}
-  .axes{border-left:1px solid var(--line);padding:18px 22px 22px}
-  @media (max-width:640px){.axes{border-left:0;border-top:1px solid var(--line)}}
+  .seal{
+    width:156px;height:156px;border-radius:50%;
+    border:3px solid var(--yellow);
+    box-shadow:inset 0 0 0 8px var(--navy),inset 0 0 0 10px rgba(255,204,42,.45);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:18px;
+  }
+  .seal .s-name{font-family:'Caveat',cursive;font-size:28px;line-height:.95;color:var(--cream)}
+  .seal .s-est{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-top:8px}
+  .seal .s-stars{display:flex;gap:4px;margin-top:10px}
+  .seal .s-stars svg{width:13px;height:13px}
 
-  .ax{padding:11px 0;border-bottom:1px dashed var(--line)}
-  .ax:last-child{border-bottom:0}
-  .ax-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-  .ax-name{font-weight:800;letter-spacing:-.01em;color:var(--navy);font-size:15px}
-  .ax-band{font-size:12.5px;font-weight:700;color:var(--grey)}
-  .ax-band.empty{color:var(--pink)}
-  .ax-band.edited::after{content:" · yours";color:var(--navy)}
-  .ax-ev{font-size:13.5px;color:var(--grey);margin-top:5px;font-style:italic;line-height:1.45}
-  .ax-ev.none{font-style:normal;color:var(--pink)}
-  .ax-fix{margin-top:8px;display:none;gap:6px;flex-wrap:wrap}
-  .ax.is-fixing .ax-fix{display:flex}
-  .chip{font-size:11.5px;font-weight:800;border:1.5px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--grey)}
-  .chip:hover{border-color:var(--navy);color:var(--navy)}
-  .chip.is-on{background:var(--navy);border-color:var(--navy);color:var(--cream)}
-  .ax-adjust{font-size:12px;font-weight:800;color:var(--blue);margin-top:6px;text-decoration:underline;text-underline-offset:3px}
+  .lvl-of{font-size:12.5px;font-weight:800;color:var(--yellow)}
+  .lvl-name{font-size:clamp(27px,5.8vw,35px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-top:6px}
+  .lvl-line{font-size:15px;line-height:1.55;color:#C6D6EC;margin-top:10px;max-width:44ch}
+  .lvl-tot{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
+  .tot .n{font-size:32px;font-weight:800;color:var(--yellow);letter-spacing:-.045em;line-height:1}
+  .tot .l{font-size:12.5px;color:#9DB4D4;font-weight:700;margin-top:5px}
 
-  /* ================= The reading ================= */
-  .reading{margin-top:24px;background:var(--navy);color:var(--cream);border-radius:20px;padding:28px 26px}
-  .reading .kicker{color:var(--yellow)}
-  .reading p{font-family:'Caveat',cursive;font-size:clamp(27px,6vw,34px);line-height:1.25;margin-top:10px;max-width:26ch}
-  .reading .by{font-size:12.5px;color:#9DB4D4;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16)}
+  /* Level ladder */
+  .ladder-scroll{overflow-x:auto;margin-top:20px;padding-bottom:4px}
+  .ladder{display:grid;grid-template-columns:repeat(5,1fr);min-width:540px}
+  .step{position:relative;text-align:center;padding:0 6px}
+  .step::before{
+    content:"";position:absolute;top:17px;left:-50%;width:100%;height:3px;
+    background:var(--line);z-index:0;
+  }
+  .step:first-child::before{display:none}
+  .step.done::before,.step.now::before{background:var(--yellow-deep)}
+  .dot{
+    position:relative;z-index:1;margin:0 auto;
+    width:36px;height:36px;border-radius:50%;
+    display:grid;place-items:center;
+    font-size:14px;font-weight:800;
+    background:var(--paper);border:2px solid var(--line);color:var(--grey-soft);
+  }
+  .dot svg{width:16px;height:16px}
+  .step.done .dot{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+  .step.now .dot{background:var(--navy);border-color:var(--navy);color:var(--yellow);box-shadow:0 0 0 5px rgba(255,204,42,.55)}
+  .step.next .dot{border-style:dashed;border-color:var(--yellow-deep);color:var(--navy)}
+  .step .sn{font-size:13px;font-weight:800;color:var(--navy);margin-top:10px;line-height:1.25}
+  .step .sy{font-size:11.5px;font-weight:700;color:var(--grey);margin-top:3px}
+  .step.locked .sn{color:var(--grey-soft)}
+  .step.now .sy{color:var(--navy)}
+
+  /* Year rail */
+  .rail{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:4px 22px}
+  .bar{display:grid;grid-template-columns:70px 1fr 80px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .bar:last-child{border-bottom:0}
+  .bar .yr{font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-.03em;line-height:1}
+  .bar .yr small{display:block;font-size:11.5px;color:var(--grey);font-weight:700;letter-spacing:0;margin-top:5px}
+  .spines{display:flex;flex-wrap:wrap;gap:3px;align-items:flex-end;min-height:36px}
+  .spine{width:8px;border-radius:2px 2px 1px 1px;transform-origin:bottom;transform:scaleY(0);transition:transform .45s ease}
+  .rail.is-in .spine{transform:none}
+  .bar .standout{font-size:13px;color:var(--grey);margin-top:8px}
+  .bar .standout i{color:var(--ink)}
+  .bar .ct{text-align:right}
+  .bar .ct .n{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.04em;line-height:1}
+  .bar .ct .l{font-size:11.5px;color:var(--grey);font-weight:700;margin-top:4px}
+  .bar.next .yr{color:var(--grey-soft)}
+  .slot{border:2px dashed var(--yellow-deep);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--navy);background:var(--cream-soft)}
+  @media (max-width:560px){
+    .bar{grid-template-columns:1fr auto}
+    .bar .body{grid-column:1 / -1;grid-row:2}
+  }
+
+  /* Community Champion seal slot */
+  .champ{
+    margin-top:14px;display:flex;gap:16px;align-items:center;
+    background:var(--cream);border:1.5px dashed var(--yellow-deep);
+    border-radius:16px;padding:16px 18px;
+  }
+  .champ .cs{flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--grey-soft)}
+  .champ .cs svg{width:22px;height:22px}
+  .champ.is-earned{border-style:solid}
+  .champ.is-earned .cs{background:var(--yellow);border:2px solid var(--yellow-deep)}
+  .champ .ct-name{font-weight:800;color:var(--navy);font-size:15px}
+  .champ .ct-txt{font-size:13.5px;color:var(--grey);margin-top:2px}
+  .champ a{font-weight:800;color:var(--blue);text-underline-offset:3px}
 
   /* ================= Cases ================= */
   .cases{display:grid;gap:14px;margin-top:22px}
@@ -157,17 +215,7 @@
   .case blockquote{font-size:16.5px;line-height:1.5;font-style:italic;color:var(--ink);margin-top:12px;padding-left:14px;border-left:2px solid var(--line)}
   .case .because{font-size:14px;color:var(--grey);margin-top:12px}
 
-  /* ================= Roster ================= */
-  .roster{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-  .row{width:100%;display:flex;align-items:center;gap:14px;padding:13px 20px;text-align:left;border-bottom:1px solid var(--line);transition:background .14s ease}
-  .row:last-child{border-bottom:0}
-  .row:hover,.row.is-sel{background:var(--cream)}
-  .row .nm{font-weight:700;color:var(--navy);font-size:15px;flex:0 0 auto}
-  .row .tt{font-size:14px;color:var(--grey);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic}
-  .row .go{font-size:12px;font-weight:800;color:var(--blue);flex:0 0 auto}
-  .row .flag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);flex:0 0 auto}
-
-  /* ================= Parent voices ================= */
+  /* ================= Voices ================= */
   .voices{columns:2;column-gap:14px;margin-top:22px}
   @media (max-width:640px){.voices{columns:1}}
   .voice{break-inside:avoid;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
@@ -178,11 +226,41 @@
   .voice.is-teacher{border-left:5px solid var(--yellow)}
   .voice-count{font-size:13px;color:var(--grey-soft);margin-top:4px}
 
-  /* =====================================================================
-     SPOTLIGHT — the outermost ring. The books left the building and people
-     who never met these children read them. Reach only: no rank, no
-     comparison to other rooms, no prize.
-     ===================================================================== */
+  .kids{margin-top:26px}
+  .kids .note{margin-top:6px}
+  .kid-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  @media (max-width:640px){.kid-grid{grid-template-columns:1fr}}
+  .kid{background:var(--cream);border-radius:16px;padding:22px 22px 18px;border:1px solid var(--line)}
+  .kid p{font-family:'Caveat',cursive;font-size:25px;line-height:1.2;color:var(--navy)}
+  .kid .from{font-size:12.5px;font-weight:800;color:var(--grey);margin-top:12px}
+
+  /* ================= Family survey ================= */
+  .survey{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .sv-top{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;padding:24px 24px 22px;background:var(--cream);border-bottom:1px solid var(--line)}
+  @media (max-width:560px){.sv-top{grid-template-columns:1fr;gap:10px}}
+  .sv-score{display:flex;align-items:baseline;gap:6px}
+  .sv-score .n{font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:.9;color:var(--navy)}
+  .sv-score .of{font-size:16px;font-weight:700;color:var(--grey)}
+  .stars{position:relative;display:inline-block;font-size:21px;letter-spacing:2px;line-height:1;margin-top:8px}
+  .stars .bg{color:var(--line)}
+  .stars .fg{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:var(--yellow-deep)}
+  .sv-lab{font-size:14.5px;color:var(--ink);font-weight:600;max-width:42ch}
+  .sv-lab small{display:block;font-size:13px;color:var(--grey);font-weight:600;margin-top:6px}
+
+  .sv-item{padding:20px 24px;border-bottom:1px dashed var(--line)}
+  .sv-item:last-child{border-bottom:0}
+  .sv-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  .sv-head .cnt{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.03em;white-space:nowrap}
+  .sv-head .txt{font-size:15.5px;color:var(--ink);font-weight:600}
+  .sv-dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+  .sv-dots i{width:13px;height:13px;border-radius:50%;background:var(--line)}
+  .sv-dots i.on{background:var(--navy)}
+  .sv-all{font-size:13px;font-weight:700;color:var(--grey);margin-top:10px}
+  .sv-all b{color:var(--navy)}
+  .sv-q{font-size:12.5px;color:var(--grey-soft);margin-top:4px;font-style:italic}
+  .sv-fine{font-size:13px;color:var(--grey);padding:16px 24px;background:var(--cream-soft);border-top:1px solid var(--line)}
+
+  /* ================= Spotlight ================= */
   .spot-mark{margin-top:14px}
   .spot-mark img{height:38px;width:auto}
   .spot-band{position:relative;border-radius:20px;overflow:hidden;margin-top:20px;background:var(--navy);color:var(--cream)}
@@ -205,16 +283,6 @@
   .spot-say p + p{margin-top:14px}
   .spot-say .close{font-family:'Caveat',cursive;font-size:clamp(25px,5.4vw,31px);line-height:1.25;color:var(--navy);margin-top:20px;max-width:30ch}
 
-  /* ================= Suggestions ================= */
-  .sugs{display:grid;gap:14px;margin-top:22px}
-  .sug{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
-  .sug .anchor{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:var(--cream);color:var(--navy);border-radius:999px;padding:5px 11px}
-  .sug .txt{font-size:16px;line-height:1.5;margin-top:12px;color:var(--ink);border-radius:10px;padding:8px 10px;margin-left:-10px;margin-right:-10px;transition:background .14s ease}
-  .sug .txt:hover{background:var(--cream-soft)}
-  .sug .txt:focus{background:var(--cream);outline:2px solid var(--blue)}
-  .sug .state{font-size:12.5px;font-weight:700;color:var(--grey-soft);margin-top:10px}
-  .sug.is-edited .state{color:var(--green)}
-
   /* ================= What to say ================= */
   .says{display:grid;gap:12px;margin-top:22px}
   .say{background:var(--navy);color:var(--cream);border-radius:16px;padding:20px 22px}
@@ -223,11 +291,35 @@
   .say button{margin-top:14px;font-size:12.5px;font-weight:800;border:2px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 14px;color:var(--cream)}
   .say button:hover{background:rgba(255,255,255,.14)}
 
+  /* ================= Pass the Pen ================= */
+  .pass{
+    margin-top:64px;background:var(--yellow);color:var(--navy);
+    border-radius:24px;padding:32px 28px;position:relative;overflow:hidden;
+  }
+  .pass .kicker{color:var(--navy);opacity:.7}
+  .pass h2{font-size:clamp(25px,5.4vw,32px);max-width:18ch}
+  .pass p{font-size:16px;line-height:1.55;margin-top:12px;max-width:52ch;color:var(--navy-deep)}
+  .pass .reward{font-size:14.5px;font-weight:700;background:rgba(255,255,255,.55);border-radius:14px;padding:14px 16px;margin-top:18px;max-width:56ch}
+  .pass-btn{
+    display:inline-flex;align-items:center;gap:9px;margin-top:22px;
+    background:var(--navy);color:var(--cream);text-decoration:none;
+    border-radius:999px;padding:14px 24px;font-size:15.5px;font-weight:800;
+    transition:transform .16s ease;
+  }
+  .pass-btn:hover{transform:translateY(-2px)}
+  .pass-btn svg{width:17px;height:17px}
+  .pass .alt{font-size:13.5px;margin-top:16px;color:var(--navy)}
+  .pass .alt a{font-weight:800;text-underline-offset:3px}
+  .pass .pen{position:absolute;right:-30px;bottom:-40px;width:210px;height:210px;opacity:.14;pointer-events:none}
+
   .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--grey-soft)}
+
+  @media (prefers-reduced-motion:reduce){
+    .spine{transform:none;transition:none}
+  }
 
   /* =====================================================================
      RETROSPECTIVE OVERLAY — the one layer the teacher can send outward.
-     Scoped so none of it leaks into the private page above.
      ===================================================================== */
   #retroOverlay{
     position:fixed;inset:0;z-index:200;
@@ -238,9 +330,6 @@
   }
   #retroOverlay.is-open{display:grid}
 
-  /* Cover card. The photo sits behind a scrim that closes to solid navy, so
-     the type stays legible whatever the image happens to contain — and the
-     card still reads if the image never loads. */
   #retroOverlay .card-cover{padding:0;overflow:hidden}
   #retroOverlay .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
   #retroOverlay .cover-scrim{
@@ -323,7 +412,6 @@
   }
   #retroOverlay .card-cream .eyebrow{background:var(--navy);color:var(--yellow);border-color:transparent}
 
-  /* Spotlight card carries the contest lockup instead of a text eyebrow. */
   #retroOverlay .spot-lockup{align-self:flex-start;position:relative;z-index:2}
   #retroOverlay .spot-lockup img{height:34px;width:auto}
 
@@ -341,6 +429,20 @@
   #retroOverlay .yr{font-size:13px;font-weight:800;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);color:#C6D6EC}
   #retroOverlay .yr.is-now{background:var(--yellow);color:var(--navy);border-color:transparent}
   #retroOverlay .yr.is-next{background:transparent;border:1.5px dashed rgba(255,204,42,.5);width:34px;height:34px;padding:0}
+
+  /* Path card */
+  #retroOverlay .path-imprint{font-family:'Caveat',cursive;font-size:32px;line-height:1;color:#C6D6EC}
+  #retroOverlay .path-of{font-size:12.5px;font-weight:800;color:var(--yellow);margin-top:10px}
+  #retroOverlay .path-level{font-size:clamp(32px,8.6vw,42px);font-weight:800;letter-spacing:-.045em;line-height:.98;color:var(--cream);margin-top:6px;max-width:12ch}
+  #retroOverlay .railmini{display:flex;align-items:flex-end;gap:10px;height:150px;margin-top:26px}
+  #retroOverlay .rm-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  #retroOverlay .rm-n{font-size:19px;font-weight:800;color:var(--cream);margin-bottom:6px;letter-spacing:-.02em}
+  #retroOverlay .rm-bar{width:100%;border-radius:9px 9px 3px 3px;background:var(--yellow);transform-origin:bottom;transform:scaleY(0)}
+  #retroOverlay .card.is-on .rm-bar{animation:rmGrow .6s ease forwards}
+  #retroOverlay .rm-bar.ghost{background:transparent;border:2px dashed rgba(255,204,42,.55);transform:none}
+  #retroOverlay .card.is-on .rm-bar.ghost{animation:none}
+  #retroOverlay .rm-y{font-size:12.5px;font-weight:800;color:#9DB4D4;margin-top:8px}
+  @keyframes rmGrow{to{transform:none}}
 
   #retroOverlay .portrait-wrap{position:relative;z-index:2;margin:auto auto 0;width:158px}
   #retroOverlay .portrait{width:158px;height:158px;border-radius:50%;object-fit:cover;border:5px solid var(--yellow);box-shadow:0 18px 40px rgba(0,0,0,.34);background:var(--navy-deep)}
@@ -394,16 +496,20 @@
     #retroOverlay .card{transition:none}
     #retroOverlay .shelf .bk{opacity:1;transform:none}
     #retroOverlay .card.is-on .shelf .bk{animation:none}
+    #retroOverlay .rm-bar{transform:none}
+    #retroOverlay .card.is-on .rm-bar{animation:none}
   }
 </style>
 </head>
 <body>
 
+<div class="pilot" id="pilotStrip">Pilot prototype. Every name, number and quote on this page is sample data.</div>
+
 <div class="wrap">
 
   <header class="mast">
     <div>
-      <h1>Your class, read closely.</h1>
+      <h1 id="pageTitle"></h1>
       <div class="ctx" id="ctx"></div>
     </div>
     <span class="lockup">
@@ -413,11 +519,11 @@
   </header>
 
   <p class="privacy">
-    <b>Only you can see this page.</b> Not your principal, not the families, not other teachers. The one exception is your Year in Review below — and only if you decide to send it.
+    <b>Only you can see this page.</b> Not your principal, not the families, not other teachers. The one exception is your Year in Review below, and only if you decide to send it.
   </p>
 
   <!-- ============ Retrospective entry ============ -->
-  <section class="retro" style="margin-top:26px">
+  <section class="retro">
     <div>
       <div class="kicker">Yours to share</div>
       <h2>Your Year in Review is ready.</h2>
@@ -432,7 +538,7 @@
           Share
         </button>
       </div>
-      <p class="fence">No scores, no comparisons and no student names travel with it. Just the count, the words and the year.</p>
+      <p class="fence">No scores, no comparisons and no student names travel with it. Just the count, the words and your years.</p>
     </div>
 
     <div class="mini" aria-hidden="true">
@@ -444,27 +550,38 @@
     </div>
   </section>
 
-  <!-- ============ The shape ============ -->
-  <section>
-    <div class="kicker">The shape of your class</div>
-    <h2>Five things every SuperAuthor builds.</h2>
-    <p class="note">Read from the finished books. Nothing here was graded by a person — and nothing here is a grade. Where a book didn't give enough evidence, we leave the point blank instead of guessing.</p>
+  <!-- ============ Your imprint ============ -->
+  <section id="pathSection">
+    <div class="kicker">Your imprint</div>
+    <h2 id="pathTitle"></h2>
+    <p class="note">Every publishing party adds a list to your imprint. It belongs to you, not to a school: if you change rooms or schools, it comes with you.</p>
 
-    <div class="panel">
-      <div class="panel-head">
-        <div class="who" id="whoName"></div>
-        <button class="back" id="backBtn" type="button">← Back to the whole class</button>
+    <div class="imprint">
+      <div class="seal" aria-hidden="true">
+        <div class="s-name" id="sealName"></div>
+        <div class="s-est" id="sealEst"></div>
+        <div class="s-stars" id="sealStars"></div>
       </div>
-      <div class="panel-body">
-        <div class="chart"><svg id="radar" viewBox="0 0 340 300" role="img" aria-label="Five-dimension shape"></svg></div>
-        <div class="axes" id="axes"></div>
+      <div>
+        <div class="lvl-of" id="lvlOf"></div>
+        <div class="lvl-name" id="lvlName"></div>
+        <p class="lvl-line" id="lvlLine"></p>
+        <div class="lvl-tot" id="lvlTot"></div>
       </div>
     </div>
 
-    <div class="reading">
-      <div class="kicker">The reading</div>
-      <p id="readingText"></p>
-      <div class="by">Written from the finished books. Change it if it's wrong — you know them and we don't.</div>
+    <div class="ladder-scroll"><div class="ladder" id="ladder"></div></div>
+
+    <div class="rail" id="rail"></div>
+
+    <div class="champ" id="champ">
+      <div class="cs" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" stroke="#93A0B2" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="ct-name">Community Champion seal</div>
+        <div class="ct-txt" id="champTxt"></div>
+      </div>
     </div>
   </section>
 
@@ -476,21 +593,39 @@
     <div class="cases" id="cases"></div>
   </section>
 
-  <!-- ============ Roster ============ -->
-  <section>
-    <div class="kicker">Author by author</div>
-    <h2 id="rosterTitle"></h2>
-    <p class="note">Open one to see their shape against the class, and the lines from their book behind it.</p>
-    <div class="roster" id="roster"></div>
-  </section>
-
-  <!-- ============ Parent voices ============ -->
+  <!-- ============ Voices ============ -->
   <section id="voicesSection">
     <div class="kicker">What families said</div>
     <h2>The part we can't read from the books.</h2>
-    <p class="note">Collected from families in the week after the publishing party. One question, answered by whoever wanted to answer — so read it as what some families felt, not as what all of them did.</p>
-    <p class="voice-count" id="voiceCount"></p>
-    <div class="voices" id="voices"></div>
+    <div id="parentBlock">
+      <p class="note">Collected from families in the week after the publishing party. One question, answered by whoever wanted to answer, so read it as what some families felt, not as what all of them did.</p>
+      <p class="voice-count" id="voiceCount"></p>
+      <div class="voices" id="voices"></div>
+    </div>
+
+    <div class="kids" id="kidsBlock">
+      <h3>And from the authors themselves.</h3>
+      <p class="note" id="kidsNote"></p>
+      <div class="kid-grid" id="kids"></div>
+    </div>
+  </section>
+
+  <!-- ============ Family survey ============ -->
+  <section id="surveySection">
+    <div class="kicker">The family survey</div>
+    <h2>What families told us, in numbers.</h2>
+    <p class="note" id="surveyNote"></p>
+    <div class="survey">
+      <div class="sv-top">
+        <div>
+          <div class="sv-score"><span class="n" id="svRating"></span><span class="of" id="svOf"></span></div>
+          <div class="stars" aria-hidden="true"><span class="bg">★★★★★</span><span class="fg" id="svStars">★★★★★</span></div>
+        </div>
+        <div class="sv-lab" id="svLab"></div>
+      </div>
+      <div id="svItems"></div>
+      <div class="sv-fine">This is what families said, not a measurement of anyone's writing. Families who answer surveys are usually the ones who had a good year, so these numbers lean positive.</div>
+    </div>
   </section>
 
   <!-- ============ Spotlight ============ -->
@@ -509,20 +644,26 @@
     <div class="spot-say" id="spotSay"></div>
   </section>
 
-  <!-- ============ Suggestions ============ -->
-  <section>
-    <div class="kicker">Next year</div>
-    <h2>Three things to try, inside the sessions you already run.</h2>
-    <p class="note">Nothing here adds a session. Edit any of them — once you do, it's your plan and not ours.</p>
-    <div class="sugs" id="sugs"></div>
-  </section>
-
   <!-- ============ What to say ============ -->
   <section>
     <div class="kicker">If someone asks</div>
     <h2>What to say about this year.</h2>
     <p class="note">Built from your class's own numbers. Nothing here needs checking before you use it.</p>
     <div class="says" id="says"></div>
+  </section>
+
+  <!-- ============ Pass the Pen ============ -->
+  <section class="pass" id="passpen">
+    <svg class="pen" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l4-1 11-11a2.1 2.1 0 00-3-3L5 16l-1 4zM14 7l3 3" stroke="#12294B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="kicker">Pass the Pen</div>
+    <h2>Start another school's first list.</h2>
+    <p>You know what this year looked like from inside the room. Somewhere there's a school, down the road, in your old district, where a friend teaches, whose students haven't found out yet that they're authors. Invite them, and they start next year in the same network you're part of.</p>
+    <p class="reward" id="passReward"></p>
+    <a class="pass-btn" id="passBtn" href="#" target="_blank" rel="noopener">
+      Invite a school
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#FFF6DC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <p class="alt">Someone in your own building? <a href="#say-colleague">The note for a colleague</a> is yours to copy and send.</p>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -553,14 +694,17 @@
         </div>
       </article>
 
+      <!-- Your imprint: the progression, in story form. -->
       <article class="card card-navy" data-card>
         <div class="glow glow-tr" aria-hidden="true"></div>
-        <span class="eyebrow">Your authors</span>
+        <span class="eyebrow">Your imprint</span>
         <div class="rbody">
-          <div class="huge" data-legacy-number></div>
-          <p class="lede" data-legacy-line></p>
+          <div class="path-imprint" data-path-imprint></div>
+          <div class="path-of" data-path-of></div>
+          <div class="path-level" data-path-level></div>
+          <div class="railmini" data-railmini></div>
           <div class="rule"></div>
-          <p class="sub" data-legacy-sub></p>
+          <p class="sub" data-path-sub></p>
         </div>
       </article>
 
@@ -664,40 +808,69 @@
 /* =========================================================================
    PILOT CONFIG — the analyst edits this block only.
 
-   Two kinds of data live here. Anything under "the teacher" belongs to the
-   person and travels with her between rooms and schools. Everything else
-   belongs to this cycle only.
+   Anything under "the teacher" belongs to the person and travels with her
+   between rooms and schools. Everything else belongs to this cycle.
 
-   Scores are 0-100 and are never shown as numbers. They set the shape and
-   the band. Bands are relative to the grade band, so "Expanding" in 2nd
-   grade means expanding for 2nd grade.
-
-   A null score means the final book gave no usable evidence. That is a
-   legitimate outcome: the point is left blank, never inferred.
+   Every data-dependent block is optional: set it to null (or leave its list
+   empty) and its section, its retrospective card and any line that quotes it
+   disappear together.
    ========================================================================= */
 var CONFIG = {
 
+  /* Shows the red "sample data" strip at the top. Set to false only when
+     every figure on the page is real. */
+  pilot: true,
+
   /* --- The teacher. Permanent. --- */
-  teacher:        "Ms. Rivera",
-  initials:       "MR",
-  photo:          "https://superauthor.com/wp-content/uploads/2026/05/Teacher.png",
-  authorsAllTime: 142,
-  partyYears:     ["2023", "2024", "2026"],
+  teacher:  "Ms. Rivera",
+  initials: "MR",
+  photo:    "https://superauthor.com/wp-content/uploads/2026/05/Teacher.png",
+
+  /* The teacher's imprint name, shown on her seal. Portable: it follows her,
+     not the school. If null, the seal uses the teacher's name. */
+  imprint:  "Rivera Press",
+
+  /* One entry per completed publishing party, oldest first. This list drives
+     the level, the all-time author count, the year rail and the retrospective.
+     · authors .. books published that year
+     · standout . one title from that year's list, shown on the rail (optional) */
+  history: [
+    { year:"2024", authors:22, standout:"The Owl Who Couldn't Whisper" },
+    { year:"2025", authors:24, standout:"Grandpa's Garden on Mars" },
+    { year:"2026", authors:26, standout:"The Last Bus on Tuesday" }
+  ],
+
+  /* --- Imprint levels. NAMES ARE PROPOSALS, PENDING VALIDATION. ---
+     A level is reached by completed publishing parties only, never by book
+     count, so a teacher with a small class never climbs slower than one with
+     a large class. No level unlocks a prize: each one names what the teacher
+     has become. */
+  levels: [
+    { parties:1, name:"New Imprint",
+      line:"One list, one class of authors. Every imprint starts here." },
+    { parties:2, name:"Returning Imprint",
+      line:"A second list. You came back, and your room knows how this goes now." },
+    { parties:3, name:"Established Imprint",
+      line:"Three lists in a row. This isn't a project anymore. It's how your room writes." },
+    { parties:4, name:"Signature Imprint",
+      line:"Four lists. Your first authors are old enough to read your newest ones." },
+    { parties:5, name:"Landmark Imprint",
+      line:"Five lists. A body of work a school can point to." }
+  ],
+
+  /* Community Champion seal. true once a school this teacher invited has
+     completed its teacher training. */
+  championSeal: false,
 
   /* --- This cycle only. --- */
-  school:          "Mandarin Charter",
-  room:            "Room 12",
-  grade:           "2",
-  gradeBand:       "2-3",
-  classYear:       "2026",
-  partyMonth:      "March 2026",
-  authorsThisYear: 26,
-  words:           41308,
-  wordsCompare:    "The Wonderful Wizard of Oz",
+  school:     "Mandarin Charter",
+  room:       "Room 12",
+  grade:      "3",
+  partyMonth: "March 2026",
+  words:      41308,
+  wordsCompare: "The Wonderful Wizard of Oz",
 
-  /* Opening image of the Year in Review. Sits behind a scrim, so any crop
-     works and a failed load degrades to solid navy. */
-  heroImage:       "https://superauthor.com/wp-content/uploads/2026/07/imagem-1-scaled.png",
+  heroImage:  "https://superauthor.com/wp-content/uploads/2026/07/imagem-1-scaled.png",
 
   titles: [
     ["A dragon who was ", "afraid of fire"],
@@ -705,40 +878,98 @@ var CONFIG = {
     ["A dog named Pickle who ", "ran for president"]
   ],
 
-  /* Generic grade-level cover art — illustration, not the students' real
-     covers. The class's own grade leads; the others carry the pattern. */
+  /* Generic grade-level cover art. There is no 3rd-grade illustration yet,
+     so "3" reuses the 2nd-grade art until one exists. */
   covers: {
+    "3":     "https://superauthor.com/wp-content/uploads/2026/06/2th-grade.png",
     "pre-k": "https://superauthor.com/wp-content/uploads/2026/06/Pre-kindergaten.png",
-    "2":     "https://superauthor.com/wp-content/uploads/2026/06/2th-grade.png",
     "5":     "https://superauthor.com/wp-content/uploads/2026/06/5th-grade.png",
     "8":     "https://superauthor.com/wp-content/uploads/2026/06/8th-grade.png"
   },
 
+  cases: [
+    { why:"Boldest risk", name:"Amara", title:"The Last Bus on Tuesday",
+      quote:"The bus only comes on Tuesday and nobody knows where it goes, so I got on.",
+      because:"She wrote a story with no safe ending and didn't back out of it. Most third graders resolve their problem by page four; she stayed inside it for nine pages." },
+    { why:"Most distinct voice", name:"Elias", title:"My Grandmother's Kitchen in Caracas",
+      quote:"My grandmother says the smell of a kitchen is a whole country you can carry.",
+      because:"Nobody else in the class writes like this. The rhythm is his, and it holds from the first page to the last." },
+    { why:"Biggest leap", name:"Diego", title:"Pickle Runs for President",
+      quote:"Pickle promised more parks and less baths. He won by a lot.",
+      because:"Started the year writing a sentence or two under each drawing. Finished with a fourteen-page book that has a joke running through it." }
+  ],
+
+  /* --- Parent voices. FICTIONAL PLACEHOLDERS for the pilot. ---
+     · asked once, in the week after the publishing party, one open question
+     · never edited for polish
+     · no impact claims (reading levels, scores, improvement)
+     · a child's name appears only where the family recorded consent
+     · respondents and families are always displayed */
+  voices: {
+    respondents: 14,
+    families: 26,
+    quotes: [
+      { text:"He read it to his little sister four times the first night. He has never once volunteered to read anything before.",
+        from:"Renata", child:"Diego", grade:"3rd grade" },
+      { text:"I did not know he thought about his grandmother that way until I got to page six. I had to leave the room for a minute.",
+        from:"Ana Lucia", child:"Elias", grade:"3rd grade" },
+      { text:"English is not the language we speak at home. Her book is the first thing she has written that I could read out loud with her.",
+        from:"Fatima", child:"Layla", grade:"3rd grade" },
+      { text:"She keeps it on the shelf turned face out, like a store. She rearranges the other books so hers has room.",
+        from:"Michelle", child:null, grade:"3rd grade" },
+      { text:"My husband took it to work. His entire office has read it now. He will not stop.",
+        from:"Deborah", child:null, grade:"3rd grade" },
+      { text:"He talks about you like you are the reason he can do it. I wanted you to hear that from me and not from him.",
+        from:"Kelly", child:"Jonah", grade:"3rd grade", forTeacher:true }
+    ]
+  },
+
+  /* --- Student voices. FICTIONAL PLACEHOLDERS for the pilot. ---
+     From 3rd grade up, authors can leave a comment on the platform. The
+     block only renders when the class grade is at or above fromGrade.
+     · first name and grade only: no surname, no photo
+     · shown as written, spelling included, minus anything moderation removed
+     · [LEGAL PLACEHOLDER: COPPA consent and moderation rules for comments
+       from children under 13 — to be defined by the legal team] */
+  studentVoices: {
+    fromGrade: 3,
+    quotes: [
+      { text:"I didnt know I could write a whole book. Now there is one with my name on the front. My next one is about a bus again but a different bus.",
+        from:"Amara", grade:"3rd grade" },
+      { text:"The best part was reading it at the party. My grandma cried but the good kind. Ms. Rivera said my book has a rhythm. I didnt know that but now I do.",
+        from:"Elias", grade:"3rd grade" }
+    ]
+  },
+
+  /* --- Family survey. SIMULATED RESULTS for the pilot. ---
+     Every item reports what families SAID, never what changed. "Became a
+     stronger writer" is a parent's perception, and the copy always says so.
+
+     The class is shown as counts, not percentages: with 14 answers, one
+     family moves a percentage by seven points. Percentages appear only for
+     the all-families aggregate, always with its response count.
+
+     q is the question as asked. Keep it identical to the live survey.
+     Set "all" to null to hide the aggregate lines. */
+  survey: {
+    classResult: { respondents:14, families:26, rating:4.8 },
+    all: { label:"all SuperAuthor families this cycle", respondents:3214, rating:4.7 },
+    items: [
+      { says:"said their child became a stronger writer this year",
+        q:"This year, my child became a stronger writer. (Agree / Strongly agree)",
+        classYes:12, allPct:90 },
+      { says:"said their child still reads or talks about the book at home",
+        q:"Since the publishing party, my child reads or talks about their book at home.",
+        classYes:13, allPct:88 },
+      { says:"said they'd want their child to do SuperAuthor again next year",
+        q:"Would you want your child to take part in SuperAuthor again next year?",
+        classYes:13, allPct:93 }
+    ]
+  },
+
   /* --- Spotlight. FICTIONAL PLACEHOLDERS for the pilot. ---
-
-     Voting closes in May; the publishing party is in March. So this block is
-     null on the teacher's first visit and only fills two months later. Set
-     spotlight to null to see that state: the page section, the retrospective
-     card and the Spotlight line in the principal script all disappear
-     together, and nothing is left waiting for data.
-
-     Reach only. No rank, no position, no comparison to other rooms, no
-     prize. The contest page can be competitive; this page is not.
-
-     · votes ................ total votes across this room's book pages
-     · votedAuthors ......... authors who received at least one vote
-     · participatingAuthors . authors with a live voting page. NOT the class
-                              size — only students whose parents opted in get
-                              a page, so counting against 26 would read as
-                              the teacher's shortfall when it is a consent
-                              rate. If this field is unavailable, set it to
-                              null and the copy drops the denominator.
-     · readers .............. unique people who opened a book page from this
-                              room. Set to null if the product doesn't
-                              expose it; the third figure is dropped rather
-                              than estimated.
-     · closedMonth .......... when voting ended, printed so the teacher knows
-                              why this appeared after her party. */
+     Voting closes in May; the party is in March, so this block is null on the
+     teacher's first visit. Reach only: no rank, no comparison, no prize. */
   spotlight: {
     votes:                 7412,
     votedAuthors:          19,
@@ -749,138 +980,27 @@ var CONFIG = {
     image: "https://superauthor.com/wp-content/uploads/2026/07/imagem-4.png"
   },
 
-  dims: ["Voice", "Craft", "Arc", "World", "Audience"],
-
-  classScores: { Voice:78, Craft:61, Arc:54, World:84, Audience:69 },
-
-  classEvidence: {
-    Voice:    "Opinions land on the page — 19 of 26 books state what the narrator thinks, not just what happens.",
-    Craft:    "Dialogue is punctuated in most books; sentence length stays fairly even throughout.",
-    Arc:      "Problems arrive late and resolve in a page or two. Endings arrive before the middle has done its work.",
-    World:    "Invented places carry rules that hold — weather, currency, who is allowed where.",
-    Audience: "Titles, covers and dedications are present in every book; openings often start at the action."
-  },
-
-  reading: "This class invents boldly and finishes fast — big worlds, quick endings.",
-
-  cases: [
-    { why:"Boldest risk", name:"Amara", title:"The Last Bus on Tuesday",
-      quote:"The bus only comes on Tuesday and nobody knows where it goes, so I got on.",
-      because:"She wrote a story with no safe ending and didn't back out of it. Most second graders resolve their problem by page four; she stayed inside it for nine pages." },
-    { why:"Most distinct voice", name:"Elias", title:"My Grandmother's Kitchen in Caracas",
-      quote:"My grandmother says the smell of a kitchen is a whole country you can carry.",
-      because:"Nobody else in the class writes like this. The rhythm is his, and it holds from the first page to the last." },
-    { why:"Biggest leap", name:"Diego", title:"Pickle Runs for President",
-      quote:"Pickle promised more parks and less baths. He won by a lot.",
-      because:"Started the year writing single sentences under drawings. Finished with a fourteen-page book that has a joke running through it." }
-  ],
-
-  suggestions: [
-    { anchor:"Session 4 · The problem",
-      text:"Your class builds worlds faster than it builds trouble. Next year, hold the problem open for one extra session before anyone is allowed to solve it — ask each author what makes it worse before asking what fixes it." },
-    { anchor:"Session 6 · The middle",
-      text:"Endings arrived early this year. Try a middle-page check: every author reads page 5 out loud and says what has changed since page 1. If nothing has, that's the session's work." },
-    { anchor:"Session 2 · Character",
-      text:"World is your strongest dimension — lean on it. Have authors write one rule their world obeys before they write a character, then make the character break it." }
-  ],
-
-  /* spotlightText, where present, replaces text once Spotlight data exists. */
+  /* spotlightText, where present, replaces text once Spotlight data exists.
+     id "colleague" is the anchor the Pass the Pen block links to. */
   says: [
     { to:"To a parent",
-      text:"Your child is a published author. She wrote every word of her book and it went into the world with her name on the cover. What struck me most was how much of her own voice is in it — you can hear her on the page." },
+      text:"Your child is a published author. She wrote every word of her book and it went into the world with her name on the cover. What struck me most was how much of her own voice is in it. You can hear her on the page." },
     { to:"To your principal",
-      text:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words. The books are in the room if you want to see what second graders can do.",
-      spotlightText:"Twenty-six of my students published books this year. Between them they wrote over 41,000 words, and their books drew 7,412 votes from the community in the national Spotlight contest. The books are in the room if you want to see what second graders can do." },
-    { to:"To a colleague thinking about it",
+      text:"Twenty-six of my students published books this year, my third class to do it. Between them they wrote over 41,000 words. The books are in the room if you want to see what third graders can do.",
+      spotlightText:"Twenty-six of my students published books this year, my third class to do it. Between them they wrote over 41,000 words, and their books drew 7,412 votes from the community in the national Spotlight contest. The books are in the room if you want to see what third graders can do." },
+    { id:"colleague", to:"To a colleague thinking about it",
       text:"It isn't a separate program. I used what I was already teaching, just inside the book. Eight sessions across the year, and the kids ran the publishing party themselves." }
   ],
 
-  /* --- Parent voices. FICTIONAL PLACEHOLDERS for the pilot. ---
-     Collection rules when these become real:
-     · asked once, in the week after the publishing party, one open question
-     · never edited for polish — a tidied quote stops sounding like a parent
-     · no impact claims (reading levels, scores, improvement). A metric in a
-       parent's mouth is still an unvalidated metric.
-     · a child's name appears only where the family recorded consent at
-       collection. Default attribution is the parent's first name and grade.
-     · respondents and families are always displayed. Only happy parents
-       answer, and the honest denominator is what stops this block from
-       being read as evidence. */
-  voices: {
-    respondents: 14,
-    families: 26,
-    quotes: [
-      { text:"He read it to his little sister four times the first night. He has never once volunteered to read anything before.",
-        from:"Renata", child:"Diego", grade:"2nd grade" },
-      { text:"I did not know he thought about his grandmother that way until I got to page six. I had to leave the room for a minute.",
-        from:"Ana Lucia", child:"Elias", grade:"2nd grade" },
-      { text:"English is not the language we speak at home. Her book is the first thing she has written that I could read out loud with her.",
-        from:"Fatima", child:"Layla", grade:"2nd grade" },
-      { text:"She keeps it on the shelf turned face out, like a store. She rearranges the other books so hers has room.",
-        from:"Michelle", child:null, grade:"2nd grade" },
-      { text:"My husband took it to work. His entire office has read it now. He will not stop.",
-        from:"Deborah", child:null, grade:"2nd grade" },
-      { text:"He talks about you like you are the reason he can do it. I wanted you to hear that from me and not from him.",
-        from:"Kelly", child:"Jonah", grade:"2nd grade", forTeacher:true }
-    ]
-  },
-
-  /* name, title, [Voice, Craft, Arc, World, Audience], evidence by dimension.
-     null = no usable evidence in the final book. */
-  students: [
-    { n:"Amara",  t:"The Last Bus on Tuesday", s:[88,64,71,92,74],
-      e:{ Voice:"\"...so I got on.\" She puts herself in the sentence.", World:"The bus route has rules and she never breaks them." } },
-    { n:"Elias",  t:"My Grandmother's Kitchen in Caracas", s:[94,70,58,79,72],
-      e:{ Voice:"\"...a whole country you can carry.\"", Craft:"Long sentence, then a short one. Repeatedly, on purpose." } },
-    { n:"Diego",  t:"Pickle Runs for President", s:[81,58,66,77,80],
-      e:{ Voice:"\"More parks and less baths.\" The joke is his.", Audience:"Opens on the campaign, not on the dog." } },
-    { n:"Priya",  t:"The Girl Who Counted Clouds", s:[72,74,48,81,66],
-      e:{ Craft:"Paragraphs break where the thought breaks.", World:"Cloud names recur and stay consistent." } },
-    { n:"Marcus", t:"Robot Recess", s:[66,55,52,88,61],
-      e:{ World:"The playground has an economy. Tokens for turns.", Arc:"Problem appears on page 7 of 9." } },
-    { n:"Sofia",  t:"The Quiet Shark", s:[79,62,59,70,73],
-      e:{ Voice:"The shark's shyness is described from inside.", Audience:"Dedication to her brother, by name." } },
-    { n:"Jonah",  t:"How to Catch a Sunday", s:[84,49,44,86,58],
-      e:{ Voice:"Title tells you everything about how he thinks.", World:"Days of the week are physical objects here." } },
-    { n:"Leila",  t:"The Library at the Bottom", s:[70,71,63,83,69],
-      e:{ Craft:"Dialogue tags vary and never repeat twice running.", World:"Underwater rules are stated once and obeyed." } },
-    { n:"Ben",    t:"My Dad's Truck", s:[75,53,50,48,64],
-      e:{ Voice:"\"It smells like work in there.\"", Craft:"Short declaratives throughout — a choice, not a limit." } },
-    { n:"Nadia",  t:"The Snow That Stayed", s:[68,66,57,74,71],
-      e:{ Arc:"Snow arrives, refuses to melt, changes the town.", Audience:"Ends on a question to the reader." } },
-    { n:"Theo",   t:"Two Moons Over Maple Street", s:[73,57,61,90,63],
-      e:{ World:"Second moon has its own tides and he tracked them.", Arc:"The complication is astronomical and it lands." } },
-    { n:"Aisha",  t:"The Bakery That Never Opened", s:[77,68,55,76,75],
-      e:{ Voice:"Wry. The narrator is a little annoyed the whole book.", Audience:"Cover copy written like a real book jacket." } },
-    { n:"Owen",   t:"Dragon Afraid of Fire", s:[80,54,68,85,67],
-      e:{ Arc:"Fear introduced page 2, tested page 6, resolved page 11.", World:"Dragon society has jobs and the fear costs him one." } },
-    { n:"Maya",   t:"Grandpa's Hands", s:[86,59,46,52,70],
-      e:{ Voice:"Every description comes back to hands. Deliberate.", Audience:"Written to her grandfather, and says so." } },
-    { n:"Caleb",  t:"The Big Game", s:[54,60,58,44,57],
-      e:{ Craft:"Clean sentences, consistent tense.", Arc:"Game is won. Something changes, if only the score." } },
-    { n:"Zoe",    t:"Cactus Friend", s:[71,63,49,72,68],
-      e:{ Voice:"The cactus has opinions and she shares them.", World:"Desert details are specific — heat at different hours." } },
-    { n:"Ryan",   t:"Under the Porch", s:[64,52,53,79,55],
-      e:{ World:"The space under the porch is fully mapped.", Craft:"Sentences run on, but the images arrive." } },
-    { n:"Hana",   t:"The Girl With Two Names", s:[89,67,60,68,76],
-      e:{ Voice:"Both names get a different narrator. Same girl.", Audience:"Explains the two names before you need to ask." } },
-    { n:"Luis",   t:"Soccer on the Moon", s:[69,56,64,87,62],
-      e:{ World:"Low gravity changes the rules and the rules are listed.", Arc:"Loses, adapts, plays again." } },
-    { n:"Grace",  t:"The Last Firefly", s:[76,70,57,73,72],
-      e:{ Craft:"Paragraph breaks carry the pacing.", Voice:"Sad without saying sad." } },
-    { n:"Andre",  t:"My Brother Is a Werewolf", s:[82,55,65,80,66],
-      e:{ Voice:"Deadpan the entire way through.", Arc:"The reveal is placed, not dumped." } },
-    { n:"Isabel", t:"The House That Moved", s:[74,64,51,84,64],
-      e:{ World:"The house relocates by rules she invented and kept.", Craft:"Tense stays put even when the house doesn't." } },
-    { n:"Noah",   t:"Fishing With Nobody", s:[78,58,null,61,60],
-      e:{ Voice:"Loneliness is stated plainly and once." } },
-    { n:"Layla",  t:"The Colour Nobody Named", s:[85,61,56,88,71],
-      e:{ World:"An entire colour with a history and a ban.", Voice:"She argues with the reader about it." } },
-    { n:"Tomas",  t:"Recess Rules", s:[60,57,54,66,59],
-      e:{ Craft:"Numbered rules, cleanly formatted.", Audience:"Written as a guide for next year's class." } },
-    { n:"Ruby",   t:"My Cat Went to Space", s:[72,50,null,78,63],
-      e:{ World:"The cat's ship is drawn and labelled throughout." } }
-  ]
+  /* --- Pass the Pen (referral). ---
+     Rewards are tied to the invited school completing its teacher training,
+     never to an intermediate step. Set either reward to null to drop it from
+     the copy. */
+  referral: {
+    url:            "https://superauthor.com/referral/",
+    referrerReward: "a $100 gift card",
+    schoolReward:   "a $20 gift card"
+  }
 };
 
 /* ========================================================================= */
@@ -894,17 +1014,7 @@ var SPELLED = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight
   "Twenty-four", "Twenty-five", "Twenty-six", "Twenty-seven", "Twenty-eight",
   "Twenty-nine", "Thirty"];
 
-var BANDS = [
-  { min:80, label:"Expanding" },
-  { min:60, label:"Consolidated" },
-  { min:40, label:"Building" },
-  { min:0,  label:"Emerging" }
-];
-
-var DIMS = CONFIG.dims;
 var SPOT = CONFIG.spotlight || null;
-var edits = {};
-var selected = null;
 
 function $(s){ return document.querySelector(s); }
 function el(tag, cls, txt){
@@ -914,15 +1024,27 @@ function el(tag, cls, txt){
   return n;
 }
 function ordinal(n){ return ORDINALS[n] || (n + "th"); }
+function ordWordOf(n){ return ORDINAL_WORDS[n] || (n + "th"); }
 function spelled(n){ return SPELLED[n] || String(n); }
 function lower(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
 function num(n){ return Number(n).toLocaleString("en-US"); }
-function bandOf(v){
-  if (v == null) return null;
-  for (var i = 0; i < BANDS.length; i++) if (v >= BANDS[i].min) return BANDS[i].label;
-  return BANDS[BANDS.length - 1].label;
-}
 function drop(node){ if (node && node.parentNode) node.parentNode.removeChild(node); }
+
+/* ================= Derived from history ================= */
+var HISTORY = CONFIG.history;
+var PARTIES = HISTORY.length;
+var CURRENT = HISTORY[PARTIES - 1];
+var CLASS_YEAR = CURRENT.year;
+var AUTHORS_NOW = CURRENT.authors;
+var AUTHORS_ALL = 0;
+HISTORY.forEach(function(h){ AUTHORS_ALL += h.authors; });
+var NEXT_YEAR = String(Number(CLASS_YEAR) + 1);
+var IMPRINT = CONFIG.imprint || CONFIG.teacher;
+
+var LV_INDEX = 0;
+CONFIG.levels.forEach(function(l, i){ if (PARTIES >= l.parties) LV_INDEX = i; });
+var LEVEL = CONFIG.levels[LV_INDEX];
+var NEXT_LEVEL = CONFIG.levels[LV_INDEX + 1] || null;
 
 /* A book tile. The cover art is drawn in CSS underneath, so a missing or
    slow image still reads as a book instead of a hole. */
@@ -938,7 +1060,6 @@ function bookTile(url, delay){
   return d;
 }
 
-/* The class's own grade leads the pattern; the others give it texture. */
 function coverSequence(n){
   var all = [], k;
   for (k in CONFIG.covers) all.push(CONFIG.covers[k]);
@@ -952,194 +1073,170 @@ function coverSequence(n){
   return out;
 }
 
-/* ================= Radar ================= */
-var CX = 170, CY = 148, R = 104;
+/* ================= Masthead ================= */
+if (!CONFIG.pilot) drop($("#pilotStrip"));
 
-function point(i, val){
-  var a = -Math.PI / 2 + (i * 2 * Math.PI / DIMS.length);
-  var r = R * (val / 100);
-  return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
-}
-function axisEnd(i, mult){
-  var a = -Math.PI / 2 + (i * 2 * Math.PI / DIMS.length);
-  return [CX + R * mult * Math.cos(a), CY + R * mult * Math.sin(a)];
-}
-function svgEl(tag, attrs){
-  var n = document.createElementNS("http://www.w3.org/2000/svg", tag);
-  for (var k in attrs) n.setAttribute(k, attrs[k]);
-  return n;
-}
+var pageTitle = "Your " + lower(ordWordOf(PARTIES)) + " year of authors.";
+$("#pageTitle").textContent = pageTitle;
+document.title = pageTitle + " · SuperAuthor";
+$("#ctx").textContent = IMPRINT + " · " + CONFIG.room + " · " + CONFIG.school +
+  " · Class of " + CLASS_YEAR;
 
-/* Draws only runs of consecutive scored points, so a blank dimension opens a
-   real gap in the shape instead of being silently bridged over. */
-function shapeRuns(vals){
-  var n = vals.length, i, complete = true;
-  for (i = 0; i < n; i++) if (vals[i] == null) complete = false;
+/* ================= Your imprint ================= */
+var STAR = "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z";
+var CHECK = "M5 12.5l4.2 4.2L19 7";
+var SPINE_COLORS = ["#12294B", "#F5B800", "#00A0D9", "#009A80", "#E33D57", "#0C1D36"];
 
-  if (complete){
-    var full = [];
-    for (i = 0; i < n; i++) full.push(point(i, vals[i]));
-    return { runs:[full], closed:true };
+function svgIcon(path, fill, stroke){
+  var ns = "http://www.w3.org/2000/svg";
+  var s = document.createElementNS(ns, "svg");
+  s.setAttribute("viewBox", "0 0 24 24");
+  s.setAttribute("aria-hidden", "true");
+  var p = document.createElementNS(ns, "path");
+  p.setAttribute("d", path);
+  p.setAttribute("fill", fill || "none");
+  if (stroke){
+    p.setAttribute("stroke", stroke);
+    p.setAttribute("stroke-width", "2.6");
+    p.setAttribute("stroke-linecap", "round");
+    p.setAttribute("stroke-linejoin", "round");
   }
+  s.appendChild(p);
+  return s;
+}
 
-  var firstNull = 0;
-  for (i = 0; i < n; i++) if (vals[i] == null){ firstNull = i; break; }
-
-  var runs = [], cur = [];
-  for (var k = 1; k <= n; k++){
-    var idx = (firstNull + k) % n;
-    if (vals[idx] == null){
-      if (cur.length > 1) runs.push(cur);
-      cur = [];
-    } else {
-      cur.push(point(idx, vals[idx]));
-    }
+/* One spine per author. Heights and colours are deterministic, so the
+   same year always draws the same shelf. */
+function spineRow(n, seed){
+  var box = el("div", "spines");
+  for (var i = 0; i < n; i++){
+    var s = el("span", "spine");
+    s.style.height = (22 + ((i * 7 + seed * 5) % 13)) + "px";
+    s.style.background = SPINE_COLORS[(i * 5 + seed * 2) % SPINE_COLORS.length];
+    s.style.transitionDelay = (seed * 160 + i * 16) + "ms";
+    box.appendChild(s);
   }
-  if (cur.length > 1) runs.push(cur);
-  return { runs:runs, closed:false };
+  return box;
 }
 
-function drawRadar(vals, ghost){
-  var svg = $("#radar");
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
+(function(){
+  $("#pathTitle").textContent = spelled(PARTIES) +
+    (PARTIES === 1 ? " list" : " lists") + " under your name.";
 
-  [0.25, 0.5, 0.75, 1].forEach(function(m){
-    var pts = DIMS.map(function(_, i){ return axisEnd(i, m).join(","); }).join(" ");
-    svg.appendChild(svgEl("polygon", {
-      points: pts, fill:"none",
-      stroke: m === 1 ? "#D9CBA6" : "#EDE4CC",
-      "stroke-width": m === 1 ? 1.4 : 1
-    }));
+  /* Seal */
+  $("#sealName").textContent = IMPRINT;
+  $("#sealEst").textContent = "Est. " + HISTORY[0].year;
+  var stars = $("#sealStars");
+  CONFIG.levels.forEach(function(_, i){
+    stars.appendChild(i <= LV_INDEX
+      ? svgIcon(STAR, "#FFCC2A", null)
+      : svgIcon(STAR, "rgba(255,255,255,.18)", null));
   });
 
-  DIMS.forEach(function(_, i){
-    var e = axisEnd(i, 1);
-    svg.appendChild(svgEl("line", { x1:CX, y1:CY, x2:e[0], y2:e[1], stroke:"#EDE4CC", "stroke-width":1 }));
+  /* Current level */
+  $("#lvlOf").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
+  $("#lvlName").textContent = LEVEL.name;
+  $("#lvlLine").textContent = LEVEL.line;
+  var tot = $("#lvlTot");
+  [[num(AUTHORS_ALL), "published authors"],
+   [PARTIES, PARTIES === 1 ? "publishing party" : "publishing parties"]].forEach(function(t){
+    var d = el("div", "tot");
+    d.appendChild(el("div", "n", String(t[0])));
+    d.appendChild(el("div", "l", t[1]));
+    tot.appendChild(d);
   });
 
-  if (ghost){
-    var g = shapeRuns(ghost);
-    g.runs.forEach(function(run){
-      var pts = run.map(function(p){ return p.join(","); }).join(" ");
-      if (g.closed) pts += " " + run[0].join(",");
-      svg.appendChild(svgEl("polyline", {
-        points: pts, fill:"none", stroke:"#12294B", "stroke-width":1.6,
-        "stroke-dasharray":"4 4", "stroke-linejoin":"round", opacity:".5"
-      }));
-    });
-  }
+  /* Ladder */
+  var ladder = $("#ladder");
+  CONFIG.levels.forEach(function(l, i){
+    var state = i < LV_INDEX ? "done" : i === LV_INDEX ? "now" :
+                i === LV_INDEX + 1 ? "next" : "locked";
+    var step = el("div", "step " + state);
+    var dot = el("div", "dot");
+    if (state === "done") dot.appendChild(svgIcon(CHECK, null, "#12294B"));
+    else dot.textContent = String(i + 1);
+    step.appendChild(dot);
+    step.appendChild(el("div", "sn", l.name));
+    var sub;
+    if (state === "done")      sub = HISTORY[l.parties - 1] ? HISTORY[l.parties - 1].year : "Reached";
+    else if (state === "now")  sub = "You are here";
+    else if (state === "next") sub = "Class of " + NEXT_YEAR;
+    else                       sub = ordinal(l.parties) + " party";
+    step.appendChild(el("div", "sy", sub));
+    ladder.appendChild(step);
+  });
 
-  var s = shapeRuns(vals);
-  s.runs.forEach(function(run){
-    var pts = run.map(function(p){ return p.join(","); }).join(" ");
-    if (s.closed){
-      svg.appendChild(svgEl("polygon", {
-        points: pts, fill:"#FFCC2A", "fill-opacity":".55",
-        stroke:"#12294B", "stroke-width":2.4, "stroke-linejoin":"round"
-      }));
-    } else {
-      svg.appendChild(svgEl("polyline", {
-        points: pts, fill:"none", stroke:"#12294B", "stroke-width":2.4,
-        "stroke-linejoin":"round", "stroke-linecap":"round"
-      }));
+  /* Year rail */
+  var rail = $("#rail");
+  var cum = 0;
+  HISTORY.forEach(function(h, i){
+    cum += h.authors;
+    var bar = el("div", "bar");
+    var yr = el("div", "yr", h.year);
+    yr.appendChild(el("small", null, "List " + (i + 1)));
+    bar.appendChild(yr);
+
+    var body = el("div", "body");
+    body.appendChild(spineRow(h.authors, i));
+    if (h.standout){
+      var so = el("div", "standout", "From this list: ");
+      so.appendChild(el("i", null, h.standout));
+      body.appendChild(so);
     }
+    bar.appendChild(body);
+
+    var ct = el("div", "ct");
+    ct.appendChild(el("div", "n", String(h.authors)));
+    ct.appendChild(el("div", "l", num(cum) + " in all"));
+    bar.appendChild(ct);
+    rail.appendChild(bar);
   });
 
-  DIMS.forEach(function(d, i){
-    if (vals[i] == null) return;
-    var p = point(i, vals[i]);
-    svg.appendChild(svgEl("circle", { cx:p[0], cy:p[1], r:4.2, fill:"#12294B" }));
-  });
+  /* The empty slot: a future, not an absence. */
+  var nx = el("div", "bar next");
+  var nyr = el("div", "yr", NEXT_YEAR);
+  nyr.appendChild(el("small", null, "List " + (PARTIES + 1)));
+  nx.appendChild(nyr);
+  var nbody = el("div", "body");
+  nbody.appendChild(el("div", "slot",
+    "Your " + lower(ordWordOf(PARTIES + 1)) + " list starts here" +
+    (NEXT_LEVEL ? ", and it makes you a " + NEXT_LEVEL.name + "." : ".")));
+  nx.appendChild(nbody);
+  nx.appendChild(el("div", "ct"));
+  rail.appendChild(nx);
 
-  DIMS.forEach(function(d, i){
-    var e = axisEnd(i, 1.3);
-    var blank = vals[i] == null;
-    var t = svgEl("text", {
-      x:e[0], y:e[1],
-      "text-anchor": Math.abs(e[0] - CX) < 8 ? "middle" : (e[0] > CX ? "start" : "end"),
-      "dominant-baseline":"middle",
-      "font-family":"Asap, sans-serif", "font-size":"12.5", "font-weight":"800",
-      fill: blank ? "#E33D57" : "#12294B"
-    });
-    t.textContent = blank ? d + " —" : d;
-    svg.appendChild(t);
-  });
-}
-
-/* ================= Axis list ================= */
-function renderAxes(scores, evidence, isClass){
-  var box = $("#axes");
-  while (box.firstChild) box.removeChild(box.firstChild);
-
-  DIMS.forEach(function(d){
-    var raw = scores[d];
-    var key = (isClass ? "class" : selected) + "|" + d;
-    var band = edits[key] || bandOf(raw);
-
-    var ax = el("div", "ax");
-    var top = el("div", "ax-top");
-    top.appendChild(el("span", "ax-name", d));
-    top.appendChild(el("span",
-      "ax-band" + (band ? (edits[key] ? " edited" : "") : " empty"),
-      band || "Not enough evidence"));
-    ax.appendChild(top);
-
-    var ev = evidence && evidence[d];
-    ax.appendChild(el("div", "ax-ev" + (ev ? "" : " none"),
-      ev || "No line in the final book supports a reading here, so we left it blank."));
-
-    if (band){
-      var fixBtn = el("button", "ax-adjust",
-        edits[key] ? "Adjusted by you · change" : "This doesn't read right");
-      fixBtn.type = "button";
-      fixBtn.addEventListener("click", function(){ ax.classList.toggle("is-fixing"); });
-      ax.appendChild(fixBtn);
-
-      var fix = el("div", "ax-fix");
-      BANDS.slice().reverse().forEach(function(b){
-        var c = el("button", "chip" + (band === b.label ? " is-on" : ""), b.label);
-        c.type = "button";
-        c.addEventListener("click", function(){
-          edits[key] = b.label;
-          renderPanel();
-          renderFoot();
-        });
-        fix.appendChild(c);
-      });
-      ax.appendChild(fix);
-    }
-
-    box.appendChild(ax);
-  });
-}
-
-/* ================= Panel ================= */
-function renderPanel(){
-  if (selected == null){
-    var vals = DIMS.map(function(d){ return CONFIG.classScores[d]; });
-    drawRadar(vals, null);
-    renderAxes(CONFIG.classScores, CONFIG.classEvidence, true);
-    $("#whoName").innerHTML = CONFIG.room +
-      " <small>All " + CONFIG.students.length + " authors together</small>";
-    $("#backBtn").classList.remove("is-on");
+  /* The only motion on the page: the shelves fill once, when seen. */
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!("IntersectionObserver" in window) || reduced){
+    rail.classList.add("is-in");
   } else {
-    var st = CONFIG.students[selected];
-    var sc = {};
-    DIMS.forEach(function(d, i){ sc[d] = st.s[i]; });
-    drawRadar(st.s, DIMS.map(function(d){ return CONFIG.classScores[d]; }));
-    renderAxes(sc, st.e, false);
-    $("#whoName").innerHTML = st.n +
-      " <small>Dashed outline is the class · <i>" + st.t + "</i></small>";
-    $("#backBtn").classList.add("is-on");
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ rail.classList.add("is-in"); io.disconnect(); }
+      });
+    }, { threshold:.25 });
+    io.observe(rail);
   }
-}
 
-/* ================= Static page content ================= */
-$("#ctx").textContent = CONFIG.room + " · Class of " + CONFIG.classYear + " · " +
-  CONFIG.students.length + " published authors";
-$("#readingText").textContent = CONFIG.reading;
-$("#rosterTitle").textContent = "All " + CONFIG.students.length + ".";
+  /* Community Champion seal */
+  var champ = $("#champ");
+  var txt = $("#champTxt");
+  if (CONFIG.championSeal){
+    champ.classList.add("is-earned");
+    var cs = champ.querySelector(".cs");
+    while (cs.firstChild) cs.removeChild(cs.firstChild);
+    cs.appendChild(svgIcon(STAR, "#12294B", null));
+    txt.textContent = "On your imprint. A school you invited trained its teachers and started its first list.";
+  } else {
+    txt.appendChild(document.createTextNode(
+      "Not on your imprint yet. It's added when a school you invite completes its teacher training. "));
+    var a = el("a", null, "Pass the pen");
+    a.href = "#passpen";
+    txt.appendChild(a);
+  }
+})();
 
+/* ================= Cases ================= */
 CONFIG.cases.forEach(function(c){
   var box = el("article", "case");
   box.appendChild(el("div", "why", c.why));
@@ -1151,57 +1248,101 @@ CONFIG.cases.forEach(function(c){
   $("#cases").appendChild(box);
 });
 
-CONFIG.students.forEach(function(st, i){
-  var row = el("button", "row");
-  row.type = "button";
-  row.appendChild(el("span", "nm", st.n));
-  row.appendChild(el("span", "tt", st.t));
-  var blanks = 0;
-  st.s.forEach(function(v){ if (v == null) blanks++; });
-  if (blanks) row.appendChild(el("span", "flag", blanks + " blank"));
-  row.appendChild(el("span", "go", "Open →"));
-  row.addEventListener("click", function(){
-    selected = (selected === i) ? null : i;
-    var rows = document.querySelectorAll(".row");
-    for (var j = 0; j < rows.length; j++) {
-      if (j === selected) rows[j].classList.add("is-sel");
-      else rows[j].classList.remove("is-sel");
-    }
-    renderPanel();
-    $("#radar").scrollIntoView({ behavior:"smooth", block:"center" });
-  });
-  $("#roster").appendChild(row);
-});
-
-$("#backBtn").addEventListener("click", function(){
-  selected = null;
-  var rows = document.querySelectorAll(".row");
-  for (var j = 0; j < rows.length; j++) rows[j].classList.remove("is-sel");
-  renderPanel();
-});
-
-/* Parent voices. If nobody answered, the section is removed rather than shown
-   empty — an empty praise block reads as an absence of praise. */
+/* ================= Voices =================
+   Parent block and student block drop independently. If both are empty the
+   whole section goes, because an empty praise block reads as no praise. */
 (function(){
   var v = CONFIG.voices;
-  if (!v || !v.quotes || !v.quotes.length){
-    drop($("#voicesSection"));
+  var hasParents = v && v.quotes && v.quotes.length;
+  if (hasParents){
+    $("#voiceCount").textContent = v.respondents + " of " + v.families + " families answered.";
+    v.quotes.forEach(function(q){
+      var card = el("article", "voice" + (q.forTeacher ? " is-teacher" : ""));
+      card.appendChild(el("p", null, q.text));
+      card.appendChild(el("div", "from",
+        q.from + (q.child ? " · " + q.child + "'s mom" : " · parent") +
+        (q.grade ? " · " + q.grade : "")));
+      $("#voices").appendChild(card);
+    });
+  } else {
+    drop($("#parentBlock"));
+  }
+
+  var sv = CONFIG.studentVoices;
+  var hasKids = sv && sv.quotes && sv.quotes.length &&
+    Number(CONFIG.grade) >= sv.fromGrade;
+  if (hasKids){
+    $("#kidsNote").textContent = "From " + ordinal(sv.fromGrade) +
+      " grade up, authors can leave a note on the platform. " +
+      spelled(sv.quotes.length) + " from this year's class:";
+    sv.quotes.forEach(function(q){
+      var card = el("article", "kid");
+      card.appendChild(el("p", null, q.text));
+      card.appendChild(el("div", "from", q.from + " · " + q.grade + " author"));
+      $("#kids").appendChild(card);
+    });
+  } else {
+    drop($("#kidsBlock"));
+  }
+
+  if (!hasParents && !hasKids) drop($("#voicesSection"));
+})();
+
+/* ================= Family survey ================= */
+(function(){
+  var s = CONFIG.survey;
+  if (!s || !s.classResult || !s.items || !s.items.length){
+    drop($("#surveySection"));
     return;
   }
-  $("#voiceCount").textContent = v.respondents + " of " + v.families + " families answered.";
-  v.quotes.forEach(function(q){
-    var card = el("article", "voice" + (q.forTeacher ? " is-teacher" : ""));
-    card.appendChild(el("p", null, q.text));
-    card.appendChild(el("div", "from",
-      q.from + (q.child ? " · " + q.child + "'s mom" : " · parent") +
-      (q.grade ? " · " + q.grade : "")));
-    $("#voices").appendChild(card);
+  var c = s.classResult;
+
+  $("#surveyNote").textContent = "One short survey, sent to every family the week after " +
+    "the publishing party. Your class is shown as counts, because with " + c.respondents +
+    " answers a single family moves a percentage by " +
+    Math.round(100 / c.respondents) + " points.";
+
+  $("#svRating").textContent = c.rating.toFixed(1);
+  $("#svOf").textContent = "out of 5";
+  $("#svStars").style.width = (c.rating / 5 * 100) + "%";
+
+  var lab = $("#svLab");
+  lab.appendChild(document.createTextNode("Average rating for this year's experience, from the " +
+    c.respondents + " of " + c.families + " families in " + CONFIG.room + " who answered."));
+  if (s.all){
+    lab.appendChild(el("small", null, "Across " + s.all.label + ": " +
+      s.all.rating.toFixed(1) + " from " + num(s.all.respondents) + " responses."));
+  }
+
+  var box = $("#svItems");
+  s.items.forEach(function(it){
+    var row = el("div", "sv-item");
+    var head = el("div", "sv-head");
+    head.appendChild(el("span", "cnt", it.classYes + " of " + c.respondents));
+    head.appendChild(el("span", "txt", "families " + it.says + "."));
+    row.appendChild(head);
+
+    var dots = el("div", "sv-dots");
+    dots.setAttribute("aria-hidden", "true");
+    for (var k = 0; k < c.respondents; k++){
+      dots.appendChild(el("i", k < it.classYes ? "on" : null));
+    }
+    row.appendChild(dots);
+
+    if (s.all && it.allPct != null){
+      var all = el("div", "sv-all", "Across " + s.all.label + ": ");
+      all.appendChild(el("b", null, it.allPct + "%"));
+      all.appendChild(document.createTextNode(" " + it.says + "."));
+      row.appendChild(all);
+    }
+    if (it.q) row.appendChild(el("div", "sv-q", "Asked: " + it.q));
+    box.appendChild(row);
   });
 })();
 
 /* ================= Spotlight =================
-   Runs before the story-navigation block below reads [data-card], so a
-   removed Spotlight card never enters the card sequence or the progress bar. */
+   Runs before the story-navigation block reads [data-card], so a removed
+   Spotlight card never enters the card sequence or the progress bar. */
 (function(){
   if (!SPOT || !SPOT.votes){
     drop($("#spotSection"));
@@ -1221,11 +1362,9 @@ $("#backBtn").addEventListener("click", function(){
 
   $("#spotNote").textContent = "Spotlight is the national contest where communities " +
     "vote for books written by published SuperAuthors. Voting for the Class of " +
-    CONFIG.classYear + " closed in " + SPOT.closedMonth + ", which is why this arrived " +
+    CLASS_YEAR + " closed in " + SPOT.closedMonth + ", which is why this arrived " +
     "after your publishing party.";
 
-  /* Figures. Each one is dropped rather than estimated when its field is
-     missing, so the band never carries a number the product can't produce. */
   var figs = [
     { n:num(SPOT.votes), l:"votes for books written in " + CONFIG.room },
     SPOT.participatingAuthors
@@ -1257,13 +1396,12 @@ $("#backBtn").addEventListener("click", function(){
     "she had to say was worth their attention."));
   say.appendChild(el("p", null,
     spelled(SPOT.votedAuthors) + " of your authors got that from people who had never " +
-    "met them. Not from a teacher, not from a parent — from strangers who chose their " +
+    "met them. Not from a teacher, not from a parent, but from strangers who chose their " +
     "book out of a country full of books."));
   say.appendChild(el("p", "close",
     "That is what protagonism looks like in " + gradeWord +
     ": finding out your ideas travel."));
 
-  /* Retrospective card. */
   $("[data-spot-votes]").textContent = num(SPOT.votes);
   $("[data-spot-sub]").textContent = "From families, neighbours and people who had " +
     "never met them. " + spelled(SPOT.votedAuthors) + " of your " +
@@ -1272,25 +1410,11 @@ $("#backBtn").addEventListener("click", function(){
       : "authors") + " were voted for.";
 })();
 
-CONFIG.suggestions.forEach(function(s){
-  var box = el("article", "sug");
-  box.appendChild(el("span", "anchor", s.anchor));
-  var t = el("div", "txt", s.text);
-  t.contentEditable = "true";
-  t.spellcheck = false;
-  var state = el("div", "state", "Ours until you change it.");
-  t.addEventListener("input", function(){
-    box.classList.add("is-edited");
-    state.textContent = "Edited by you. This is your plan now.";
-  });
-  box.appendChild(t);
-  box.appendChild(state);
-  $("#sugs").appendChild(box);
-});
-
+/* ================= What to say ================= */
 CONFIG.says.forEach(function(s){
   var text = (s.spotlightText && SPOT && SPOT.votes) ? s.spotlightText : s.text;
   var box = el("article", "say");
+  if (s.id) box.id = "say-" + s.id;
   box.appendChild(el("div", "to", s.to));
   box.appendChild(el("p", null, text));
   var b = el("button", null, "Copy");
@@ -1303,67 +1427,110 @@ CONFIG.says.forEach(function(s){
   box.appendChild(b);
   $("#says").appendChild(box);
 });
-
-function renderFoot(){
-  var n = 0, k;
-  for (k in edits) n++;
-  $("#foot").textContent = n === 0
-    ? "Read from " + CONFIG.students.length + " final books · " + CONFIG.school +
-      " · Bands are relative to grade " + CONFIG.gradeBand + "."
-    : n + " reading" + (n === 1 ? "" : "s") + " corrected by you. Corrections are kept and used to fix how we read next year.";
+if (!document.getElementById("say-colleague")){
+  drop(document.querySelector(".pass .alt"));
 }
 
+/* ================= Pass the Pen ================= */
+(function(){
+  var r = CONFIG.referral;
+  if (!r || !r.url){ drop($("#passpen")); return; }
+  $("#passBtn").href = r.url;
+
+  var parts = [];
+  if (r.referrerReward) parts.push("you receive " + r.referrerReward);
+  if (r.schoolReward) parts.push("they receive " + r.schoolReward);
+  var reward = "When the school you invite completes its teacher training, ";
+  reward += parts.length
+    ? parts.join(" and ") + ", and the Community Champion seal is added to your imprint."
+    : "the Community Champion seal is added to your imprint.";
+  $("#passReward").textContent = reward;
+})();
+
+/* ================= Footer ================= */
+(function(){
+  var bits = ["Built from " + AUTHORS_NOW + " final books"];
+  if (CONFIG.survey && CONFIG.survey.classResult){
+    bits.push(CONFIG.survey.classResult.respondents + " family survey responses");
+  }
+  $("#foot").textContent = bits.join(" and ") + " · " + CONFIG.school + ".";
+})();
+
 /* ================= Retrospective ================= */
-var parties = CONFIG.partyYears.length;
-var partyOrd = ordinal(parties);
+var partyOrd = ordinal(PARTIES);
+var sinceLine = PARTIES > 1
+  ? "published authors since " + HISTORY[0].year + " · " + LEVEL.name
+  : "first published authors · " + LEVEL.name;
 
 function renderRetro(){
-  $("#retroBlurb").textContent = CONFIG.authorsThisYear + " authors, " +
+  $("#retroBlurb").textContent = AUTHORS_NOW + " authors, " +
     num(CONFIG.words) + " words, and your " + partyOrd +
     " publishing party. Built from the finished books.";
 
   $("#miniWho").textContent = CONFIG.teacher + "'s Authors";
-  $("#miniBig").innerHTML = CONFIG.authorsAllTime + "<span>.</span>";
-  $("#miniMeta").textContent = parties > 1
-    ? "published authors since " + CONFIG.partyYears[0] + " · " + partyOrd + " publishing party"
-    : "first published authors · " + partyOrd + " publishing party";
+  $("#miniBig").innerHTML = AUTHORS_ALL + "<span>.</span>";
+  $("#miniMeta").textContent = sinceLine;
   var mini = $("#miniStrip");
   coverSequence(4).forEach(function(u){ mini.appendChild(bookTile(u, null)); });
 
-  var context = CONFIG.room + " · Class of " + CONFIG.classYear;
+  var context = CONFIG.room + " · Class of " + CLASS_YEAR;
 
+  /* Cover */
   var cover = $("#coverImg");
   cover.src = CONFIG.heroImage;
-  cover.alt = "";
   cover.addEventListener("error", function(){ cover.style.display = "none"; });
 
   $("[data-cover-eyebrow]").textContent = CONFIG.partyMonth;
   $("[data-cover-who]").textContent = CONFIG.teacher + "'s";
-
-  var ordWord = ORDINAL_WORDS[parties] || (parties + "th");
+  var ordWord = ordWordOf(PARTIES);
   var title = $("[data-cover-title]");
   title.appendChild(el("span", null, ordWord));
   title.appendChild(document.createTextNode(" Year in Review"));
-
   $("[data-cover-meta]").textContent = ordWord + " publishing party · " +
     CONFIG.room + " · " + CONFIG.school;
 
   var years = $("[data-years]");
-  CONFIG.partyYears.forEach(function(y, i){
-    years.appendChild(el("span", "yr" + (i === parties - 1 ? " is-now" : ""), y));
+  HISTORY.forEach(function(h, i){
+    years.appendChild(el("span", "yr" + (i === PARTIES - 1 ? " is-now" : ""), h.year));
   });
   var ghost = el("span", "yr is-next");
   ghost.setAttribute("aria-hidden", "true");
   years.appendChild(ghost);
 
-  $("[data-legacy-number]").textContent = CONFIG.authorsAllTime;
-  $("[data-legacy-line]").textContent = parties > 1
-    ? "children have become published authors with you since " + CONFIG.partyYears[0] + "."
-    : "children became published authors with you this year.";
-  $("[data-legacy-sub]").textContent = parties > 1
-    ? spelled(parties) + " classes. One teacher."
-    : "The first " + lower(spelled(CONFIG.authorsThisYear)) + ". This is where it starts.";
+  /* Imprint card: cumulative authors climbing year by year, with the next
+     year drawn as an empty outline. The outline is a slot, not a forecast,
+     so it carries no number. */
+  $("[data-path-imprint]").textContent = IMPRINT;
+  $("[data-path-of]").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
+  $("[data-path-level]").textContent = LEVEL.name;
 
+  var rm = $("[data-railmini]");
+  var cum = 0, cols = [];
+  HISTORY.forEach(function(h){ cum += h.authors; cols.push({ y:h.year, v:cum }); });
+  var max = cum + AUTHORS_NOW;
+  cols.forEach(function(c, i){
+    var col = el("div", "rm-col");
+    col.appendChild(el("div", "rm-n", String(c.v)));
+    var b = el("div", "rm-bar");
+    b.style.height = Math.max(8, c.v / max * 100) + "%";
+    b.style.animationDelay = (i * 140) + "ms";
+    col.appendChild(b);
+    col.appendChild(el("div", "rm-y", c.y));
+    rm.appendChild(col);
+  });
+  var gcol = el("div", "rm-col");
+  gcol.appendChild(el("div", "rm-n", ""));
+  var gb = el("div", "rm-bar ghost");
+  gb.style.height = "100%";
+  gcol.appendChild(gb);
+  gcol.appendChild(el("div", "rm-y", NEXT_YEAR));
+  rm.appendChild(gcol);
+
+  $("[data-path-sub]").textContent = num(AUTHORS_ALL) + " authors across " +
+    lower(spelled(PARTIES)) + (PARTIES === 1 ? " publishing party" : " publishing parties") +
+    ". The next list is still unwritten.";
+
+  /* Portrait */
   var portrait = $("#portrait");
   portrait.src = CONFIG.photo;
   portrait.alt = CONFIG.teacher;
@@ -1371,20 +1538,23 @@ function renderRetro(){
     $("#portraitWrap").classList.add("no-photo");
   });
   $("[data-initials]").textContent = CONFIG.initials;
-  $("[data-believed-sub]").textContent = "For " + CONFIG.authorsAllTime +
+  $("[data-believed-sub]").textContent = "For " + AUTHORS_ALL +
     " kids, that was you. Your photo is on the author page of every one of their books.";
 
+  /* Shelf */
   $("[data-shelf-eyebrow]").textContent = context;
-  $("[data-shelf-count]").textContent = CONFIG.authorsThisYear;
+  $("[data-shelf-count]").textContent = AUTHORS_NOW;
   var shelf = $("[data-shelf]");
-  coverSequence(CONFIG.authorsThisYear).forEach(function(u, i){
+  coverSequence(AUTHORS_NOW).forEach(function(u, i){
     shelf.appendChild(bookTile(u, i * 26));
   });
 
+  /* Words */
   $("[data-words-eyebrow]").textContent = context;
   $("[data-words-number]").textContent = num(CONFIG.words);
   $("[data-words-sub]").innerHTML = "That's longer than <em>" + CONFIG.wordsCompare + "</em>.";
 
+  /* Titles */
   var titles = $("[data-titles]");
   CONFIG.titles.forEach(function(t){
     var line = el("div", "title-line");
@@ -1393,14 +1563,13 @@ function renderRetro(){
     titles.appendChild(line);
   });
   $("[data-titles-line]").textContent =
-    spelled(CONFIG.authorsThisYear) + " stories nobody had ever told before.";
+    spelled(AUTHORS_NOW) + " stories nobody had ever told before.";
 
+  /* Share */
   $("[data-share-who]").textContent = CONFIG.teacher + "'s Authors";
-  $("[data-share-number]").innerHTML = CONFIG.authorsAllTime + "<span>.</span>";
-  $("[data-share-meta]").textContent = parties > 1
-    ? "published authors since " + CONFIG.partyYears[0] + " · " + partyOrd + " publishing party"
-    : "first published authors · " + partyOrd + " publishing party";
-  $("[data-share-class]").textContent = "Class of " + CONFIG.classYear;
+  $("[data-share-number]").innerHTML = AUTHORS_ALL + "<span>.</span>";
+  $("[data-share-meta]").textContent = sinceLine;
+  $("[data-share-class]").textContent = "Class of " + CLASS_YEAR;
   $("[data-share-school]").textContent = CONFIG.school;
   var strip = $("[data-share-strip]");
   coverSequence(4).forEach(function(u){ strip.appendChild(bookTile(u, null)); });
@@ -1472,20 +1641,18 @@ document.addEventListener("keydown", function(e){
   if (e.key === "ArrowLeft") go(-1);
 });
 
-/* Share is a stub in the prototype — the real build exports a story-sized
+/* Share is a stub in the prototype. The real build exports a story-sized
    and a post-sized image. */
 [].slice.call(document.querySelectorAll("[data-share]")).forEach(function(b){
   b.addEventListener("click", function(){
     var label = b.textContent.trim();
-    b.textContent = "Prototype — export not wired";
+    b.textContent = "Prototype: export not wired";
     setTimeout(function(){ b.textContent = label; }, 1800);
   });
 });
 
 /* ================= Boot ================= */
 renderRetro();
-renderPanel();
-renderFoot();
 renderStory();
 </script>
 </body>
