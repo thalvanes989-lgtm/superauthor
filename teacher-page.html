@@ -103,6 +103,8 @@
   .ract svg{width:16px;height:16px}
 
   .mini{background:var(--paper);border-radius:16px;padding:18px 16px;color:var(--navy);box-shadow:0 16px 34px rgba(0,0,0,.28)}
+  .mini .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .mini .top .badge{width:42px;flex:0 0 auto}
   .mini .mark{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
   .mini .who{font-family:'Caveat',cursive;font-size:27px;line-height:1.05;margin-top:5px}
   .mini .big{font-size:40px;line-height:.9;font-weight:800;letter-spacing:-.05em;margin-top:10px}
@@ -124,17 +126,14 @@
   }
   @media (max-width:640px){.imprint{grid-template-columns:1fr;justify-items:start;gap:22px}}
 
-  .seal{
-    width:156px;height:156px;border-radius:50%;
-    border:3px solid var(--yellow);
-    box-shadow:inset 0 0 0 8px var(--navy),inset 0 0 0 10px rgba(255,204,42,.45);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;padding:18px;
-  }
-  .seal .s-name{font-family:'Caveat',cursive;font-size:28px;line-height:.95;color:var(--cream)}
-  .seal .s-est{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-top:8px}
-  .seal .s-stars{display:flex;gap:4px;margin-top:10px}
-  .seal .s-stars svg{width:13px;height:13px}
+  /* The year badge. One object per level, earned by completing a publishing
+     party. Drawn as SVG so it scales from the 46px ladder mini to the 156px
+     medallion and the share card without a second asset. */
+  .badge{display:block;width:100%;height:auto}
+  .badge-col{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .badge-lg{width:156px}
+  .badge-col .b-name{font-family:'Caveat',cursive;font-size:27px;line-height:1;color:var(--cream);margin-top:14px}
+  .badge-col .b-est{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-top:6px}
 
   .lvl-of{font-size:12.5px;font-weight:800;color:var(--yellow)}
   .lvl-name{font-size:clamp(27px,5.8vw,35px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-top:6px}
@@ -148,22 +147,19 @@
   .ladder{display:grid;grid-template-columns:repeat(5,1fr);min-width:540px}
   .step{position:relative;text-align:center;padding:0 6px}
   .step::before{
-    content:"";position:absolute;top:17px;left:-50%;width:100%;height:3px;
+    content:"";position:absolute;top:24px;left:-50%;width:100%;height:3px;
     background:var(--line);z-index:0;
   }
   .step:first-child::before{display:none}
   .step.done::before,.step.now::before{background:var(--yellow-deep)}
   .dot{
     position:relative;z-index:1;margin:0 auto;
-    width:36px;height:36px;border-radius:50%;
-    display:grid;place-items:center;
-    font-size:14px;font-weight:800;
-    background:var(--paper);border:2px solid var(--line);color:var(--grey-soft);
+    width:48px;height:48px;border-radius:50%;
+    display:grid;place-items:center;background:var(--cream-soft);
   }
-  .dot svg{width:16px;height:16px}
-  .step.done .dot{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
-  .step.now .dot{background:var(--navy);border-color:var(--navy);color:var(--yellow);box-shadow:0 0 0 5px rgba(255,204,42,.55)}
-  .step.next .dot{border-style:dashed;border-color:var(--yellow-deep);color:var(--navy)}
+  .dot .badge{width:48px}
+  .step.now .dot{box-shadow:0 0 0 5px rgba(255,204,42,.55)}
+  .step.locked .dot,.step.next .dot{opacity:.85}
   .step .sn{font-size:13px;font-weight:800;color:var(--navy);margin-top:10px;line-height:1.25}
   .step .sy{font-size:11.5px;font-weight:700;color:var(--grey);margin-top:3px}
   .step.locked .sn{color:var(--grey-soft)}
@@ -431,6 +427,9 @@
   #retroOverlay .yr.is-next{background:transparent;border:1.5px dashed rgba(255,204,42,.5);width:34px;height:34px;padding:0}
 
   /* Path card */
+  #retroOverlay .path-badge{width:104px;margin-bottom:10px}
+  #retroOverlay .share-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  #retroOverlay .share-badge{width:58px;flex:0 0 auto}
   #retroOverlay .path-imprint{font-family:'Caveat',cursive;font-size:32px;line-height:1;color:#C6D6EC}
   #retroOverlay .path-of{font-size:12.5px;font-weight:800;color:var(--yellow);margin-top:10px}
   #retroOverlay .path-level{font-size:clamp(32px,8.6vw,42px);font-weight:800;letter-spacing:-.045em;line-height:.98;color:var(--cream);margin-top:6px;max-width:12ch}
@@ -542,55 +541,17 @@
     </div>
 
     <div class="mini" aria-hidden="true">
-      <div class="mark">SuperAuthor</div>
-      <div class="who" id="miniWho"></div>
+      <div class="top">
+        <div>
+          <div class="mark">SuperAuthor</div>
+          <div class="who" id="miniWho"></div>
+        </div>
+        <div id="miniBadge"></div>
+      </div>
       <div class="big" id="miniBig"></div>
       <div class="meta" id="miniMeta"></div>
       <div class="strip" id="miniStrip"></div>
     </div>
-  </section>
-
-  <!-- ============ Your imprint ============ -->
-  <section id="pathSection">
-    <div class="kicker">Your imprint</div>
-    <h2 id="pathTitle"></h2>
-    <p class="note">Every publishing party adds a list to your imprint. It belongs to you, not to a school: if you change rooms or schools, it comes with you.</p>
-
-    <div class="imprint">
-      <div class="seal" aria-hidden="true">
-        <div class="s-name" id="sealName"></div>
-        <div class="s-est" id="sealEst"></div>
-        <div class="s-stars" id="sealStars"></div>
-      </div>
-      <div>
-        <div class="lvl-of" id="lvlOf"></div>
-        <div class="lvl-name" id="lvlName"></div>
-        <p class="lvl-line" id="lvlLine"></p>
-        <div class="lvl-tot" id="lvlTot"></div>
-      </div>
-    </div>
-
-    <div class="ladder-scroll"><div class="ladder" id="ladder"></div></div>
-
-    <div class="rail" id="rail"></div>
-
-    <div class="champ" id="champ">
-      <div class="cs" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" stroke="#93A0B2" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      </div>
-      <div>
-        <div class="ct-name">Community Champion seal</div>
-        <div class="ct-txt" id="champTxt"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Cases ============ -->
-  <section>
-    <div class="kicker">Three worth rereading</div>
-    <h2>Not the three best. Three that did something.</h2>
-    <p class="note">Each one picked for a different reason, so the list isn't just the students you already knew about.</p>
-    <div class="cases" id="cases"></div>
   </section>
 
   <!-- ============ Voices ============ -->
@@ -626,6 +587,49 @@
       <div id="svItems"></div>
       <div class="sv-fine">This is what families said, not a measurement of anyone's writing. Families who answer surveys are usually the ones who had a good year, so these numbers lean positive.</div>
     </div>
+  </section>
+
+  <!-- ============ Your imprint ============ -->
+  <section id="pathSection">
+    <div class="kicker">Your imprint</div>
+    <h2 id="pathTitle"></h2>
+    <p class="note">Every publishing party adds a list to your imprint. It belongs to you, not to a school: if you change rooms or schools, it comes with you.</p>
+
+    <div class="imprint">
+      <div class="badge-col">
+        <div class="badge-lg" id="badgeBig" aria-hidden="true"></div>
+        <div class="b-name" id="sealName"></div>
+        <div class="b-est" id="sealEst"></div>
+      </div>
+      <div>
+        <div class="lvl-of" id="lvlOf"></div>
+        <div class="lvl-name" id="lvlName"></div>
+        <p class="lvl-line" id="lvlLine"></p>
+        <div class="lvl-tot" id="lvlTot"></div>
+      </div>
+    </div>
+
+    <div class="ladder-scroll"><div class="ladder" id="ladder"></div></div>
+
+    <div class="rail" id="rail"></div>
+
+    <div class="champ" id="champ">
+      <div class="cs" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" stroke="#93A0B2" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="ct-name">Community Champion seal</div>
+        <div class="ct-txt" id="champTxt"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Cases ============ -->
+  <section>
+    <div class="kicker">Three worth rereading</div>
+    <h2>Not the three best. Three that did something.</h2>
+    <p class="note">Each one picked for a different reason, so the list isn't just the students you already knew about.</p>
+    <div class="cases" id="cases"></div>
   </section>
 
   <!-- ============ Spotlight ============ -->
@@ -699,6 +703,7 @@
         <div class="glow glow-tr" aria-hidden="true"></div>
         <span class="eyebrow">Your imprint</span>
         <div class="rbody">
+          <div class="path-badge" data-path-badge aria-hidden="true"></div>
           <div class="path-imprint" data-path-imprint></div>
           <div class="path-of" data-path-of></div>
           <div class="path-level" data-path-level></div>
@@ -767,8 +772,13 @@
         <div class="glow glow-bl" aria-hidden="true"></div>
         <span class="eyebrow">Share your year</span>
         <div class="share-card">
-          <div class="mark">SuperAuthor</div>
-          <div class="who" data-share-who></div>
+          <div class="share-top">
+            <div>
+              <div class="mark">SuperAuthor</div>
+              <div class="who" data-share-who></div>
+            </div>
+            <div class="share-badge" data-share-badge aria-hidden="true"></div>
+          </div>
           <div class="big" data-share-number></div>
           <div class="meta" data-share-meta></div>
           <div class="share-strip" data-share-strip></div>
@@ -847,15 +857,20 @@ var CONFIG = {
      has become. */
   levels: [
     { parties:1, name:"New Imprint",
-      line:"One list, one class of authors. Every imprint starts here." },
+      line:"One list, one class of authors. Every imprint starts here.",
+      badge:{ disc:"#FFF6DC", ink:"#12294B", ring:"#12294B" } },
     { parties:2, name:"Returning Imprint",
-      line:"A second list. You came back, and your room knows how this goes now." },
+      line:"A second list. You came back, and your room knows how this goes now.",
+      badge:{ disc:"#00A0D9", ink:"#FFF6DC", ring:"#12294B", ribbon:true } },
     { parties:3, name:"Established Imprint",
-      line:"Three lists in a row. This isn't a project anymore. It's how your room writes." },
+      line:"Three lists in a row. This isn't a project anymore. It's how your room writes.",
+      badge:{ disc:"#FFCC2A", ink:"#12294B", ring:"#12294B", ribbon:true } },
     { parties:4, name:"Signature Imprint",
-      line:"Four lists. Your first authors are old enough to read your newest ones." },
+      line:"Four lists. Your first authors are old enough to read your newest ones.",
+      badge:{ disc:"#12294B", ink:"#FFCC2A", ring:"#F5B800", ribbon:true, laurel:true } },
     { parties:5, name:"Landmark Imprint",
-      line:"Five lists. A body of work a school can point to." }
+      line:"Five lists. A body of work a school can point to.",
+      badge:{ disc:"#FFCC2A", ink:"#12294B", ring:"#12294B", ribbon:true, laurel:true } }
   ],
 
   /* Community Champion seal. true once a school this teacher invited has
@@ -1084,7 +1099,6 @@ $("#ctx").textContent = IMPRINT + " · " + CONFIG.room + " · " + CONFIG.school 
 
 /* ================= Your imprint ================= */
 var STAR = "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z";
-var CHECK = "M5 12.5l4.2 4.2L19 7";
 var SPINE_COLORS = ["#12294B", "#F5B800", "#00A0D9", "#009A80", "#E33D57", "#0C1D36"];
 
 function svgIcon(path, fill, stroke){
@@ -1105,6 +1119,47 @@ function svgIcon(path, fill, stroke){
   return s;
 }
 
+/* The year badge. Drawn from the level's own tokens, at one viewBox, so the
+   same object works at 42px in the share card and 156px in the imprint card.
+   A locked badge is the same shape with no fill: the teacher can see what the
+   next years look like before she gets there. */
+function badgeSVG(i, state){
+  var l = CONFIG.levels[i];
+  var b = l.badge || {};
+  var locked = state === "locked";
+  var disc = locked ? "none"    : (b.disc || "#FFCC2A");
+  var ring = locked ? "#93A0B2" : (b.ring || "#12294B");
+  var ink  = locked ? "#93A0B2" : (b.ink  || "#12294B");
+  var yr = l.parties;
+  var o = '<svg class="badge" viewBox="0 0 120 126" role="img" aria-label="Year ' +
+    yr + ' badge">';
+  if (b.ribbon){
+    o += '<path d="M40 74 L40 122 L60 110 L80 122 L80 74Z" fill="' +
+      (locked ? "none" : ring) + '" stroke="' + ring + '" stroke-width="' +
+      (locked ? 2 : 0) + '" stroke-linejoin="round"/>';
+  }
+  if (b.laurel){
+    o += '<path d="M20 40C6 58 9 82 26 94" fill="none" stroke="' + ring +
+      '" stroke-width="4" stroke-linecap="round" opacity="' + (locked ? ".5" : ".9") + '"/>';
+    o += '<path d="M100 40C114 58 111 82 94 94" fill="none" stroke="' + ring +
+      '" stroke-width="4" stroke-linecap="round" opacity="' + (locked ? ".5" : ".9") + '"/>';
+  }
+  o += '<circle cx="60" cy="58" r="47" fill="none" stroke="' + ring +
+    '" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" opacity="' +
+    (locked ? ".55" : "1") + '"/>';
+  o += '<circle cx="60" cy="58" r="42" fill="' + disc + '" stroke="' + ring +
+    '" stroke-width="2.5"' + (locked ? ' stroke-dasharray="5 5"' : '') + '/>';
+  o += '<circle cx="60" cy="58" r="35" fill="none" stroke="' + ring +
+    '" stroke-width="1.4" opacity=".32"/>';
+  o += '<text x="60" y="57" text-anchor="middle" dominant-baseline="central" ' +
+    'font-family="Asap, sans-serif" font-size="40" font-weight="800" ' +
+    'letter-spacing="-2" fill="' + ink + '">' + yr + '</text>';
+  o += '<text x="60" y="84" text-anchor="middle" font-family="Asap, sans-serif" ' +
+    'font-size="11" font-weight="800" letter-spacing="1.4" fill="' + ink +
+    '" opacity=".85">' + (yr === 1 ? "Year" : "Years") + '</text>';
+  return o + '</svg>';
+}
+
 /* One spine per author. Heights and colours are deterministic, so the
    same year always draws the same shelf. */
 function spineRow(n, seed){
@@ -1123,15 +1178,10 @@ function spineRow(n, seed){
   $("#pathTitle").textContent = spelled(PARTIES) +
     (PARTIES === 1 ? " list" : " lists") + " under your name.";
 
-  /* Seal */
+  /* Badge for the year she's on, with the imprint name beneath it */
+  $("#badgeBig").innerHTML = badgeSVG(LV_INDEX, "earned");
   $("#sealName").textContent = IMPRINT;
   $("#sealEst").textContent = "Est. " + HISTORY[0].year;
-  var stars = $("#sealStars");
-  CONFIG.levels.forEach(function(_, i){
-    stars.appendChild(i <= LV_INDEX
-      ? svgIcon(STAR, "#FFCC2A", null)
-      : svgIcon(STAR, "rgba(255,255,255,.18)", null));
-  });
 
   /* Current level */
   $("#lvlOf").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
@@ -1153,8 +1203,7 @@ function spineRow(n, seed){
                 i === LV_INDEX + 1 ? "next" : "locked";
     var step = el("div", "step " + state);
     var dot = el("div", "dot");
-    if (state === "done") dot.appendChild(svgIcon(CHECK, null, "#12294B"));
-    else dot.textContent = String(i + 1);
+    dot.innerHTML = badgeSVG(i, (state === "done" || state === "now") ? "earned" : "locked");
     step.appendChild(dot);
     step.appendChild(el("div", "sn", l.name));
     var sub;
@@ -1470,6 +1519,7 @@ function renderRetro(){
   $("#miniWho").textContent = CONFIG.teacher + "'s Authors";
   $("#miniBig").innerHTML = AUTHORS_ALL + "<span>.</span>";
   $("#miniMeta").textContent = sinceLine;
+  $("#miniBadge").innerHTML = badgeSVG(LV_INDEX, "earned");
   var mini = $("#miniStrip");
   coverSequence(4).forEach(function(u){ mini.appendChild(bookTile(u, null)); });
 
@@ -1500,6 +1550,7 @@ function renderRetro(){
   /* Imprint card: cumulative authors climbing year by year, with the next
      year drawn as an empty outline. The outline is a slot, not a forecast,
      so it carries no number. */
+  $("[data-path-badge]").innerHTML = badgeSVG(LV_INDEX, "earned");
   $("[data-path-imprint]").textContent = IMPRINT;
   $("[data-path-of]").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
   $("[data-path-level]").textContent = LEVEL.name;
@@ -1566,6 +1617,7 @@ function renderRetro(){
     spelled(AUTHORS_NOW) + " stories nobody had ever told before.";
 
   /* Share */
+  $("[data-share-badge]").innerHTML = badgeSVG(LV_INDEX, "earned");
   $("[data-share-who]").textContent = CONFIG.teacher + "'s Authors";
   $("[data-share-number]").innerHTML = AUTHORS_ALL + "<span>.</span>";
   $("[data-share-meta]").textContent = sinceLine;
