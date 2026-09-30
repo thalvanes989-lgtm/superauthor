@@ -165,6 +165,22 @@
   .step.locked .sn{color:var(--grey-soft)}
   .step.now .sy{color:var(--navy)}
 
+  /* The school's own count. Runs on a different clock from the teacher's:
+     it keeps going when she leaves and it started before she arrived. */
+  .school-band{
+    margin-top:22px;background:var(--cream);border:1px solid var(--line);
+    border-left:6px solid var(--yellow-deep);border-radius:20px;
+    padding:24px 26px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  }
+  @media (max-width:560px){.school-band{grid-template-columns:1fr;gap:14px}}
+  .sb-num{font-size:clamp(56px,13vw,76px);line-height:.86;font-weight:800;letter-spacing:-.05em;color:var(--navy)}
+  .sb-num small{display:block;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-top:8px}
+  .sb-line{font-size:clamp(19px,4vw,23px);font-weight:800;letter-spacing:-.025em;color:var(--navy);line-height:1.2}
+  .sb-years{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .sb-years span{font-size:12.5px;font-weight:800;color:var(--grey);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+  .sb-years span.mine{background:var(--navy);border-color:var(--navy);color:var(--cream)}
+  .sb-note{font-size:14.5px;color:var(--grey);margin-top:12px;max-width:52ch}
+
   /* Year rail */
   .rail{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:4px 22px}
   .bar{display:grid;grid-template-columns:70px 1fr 80px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
@@ -174,7 +190,10 @@
   .spines{display:flex;flex-wrap:wrap;gap:3px;align-items:flex-end;min-height:36px}
   .spine{width:8px;border-radius:2px 2px 1px 1px;transform-origin:bottom;transform:scaleY(0);transition:transform .45s ease}
   .rail.is-in .spine{transform:none}
-  .bar .standout{font-size:13px;color:var(--grey);margin-top:8px}
+  .bar .where{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:8px}
+  .bar .where em{font-style:normal;font-weight:600;color:var(--grey)}
+  .bar .moved{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--blue);color:#fff;border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:1px}
+  .bar .standout{font-size:13px;color:var(--grey);margin-top:6px}
   .bar .standout i{color:var(--ink)}
   .bar .ct{text-align:right}
   .bar .ct .n{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.04em;line-height:1}
@@ -611,6 +630,15 @@
 
     <div class="ladder-scroll"><div class="ladder" id="ladder"></div></div>
 
+    <div class="school-band" id="schoolBand">
+      <div class="sb-num" id="sbNum"></div>
+      <div>
+        <div class="sb-line" id="sbLine"></div>
+        <div class="sb-years" id="sbYears" aria-hidden="true"></div>
+        <div class="sb-note" id="sbNote"></div>
+      </div>
+    </div>
+
     <div class="rail" id="rail"></div>
 
     <div class="champ" id="champ">
@@ -713,6 +741,19 @@
         </div>
       </article>
 
+      <!-- The school's count. Dropped with CONFIG.schoolHistory. -->
+      <article class="card card-navy" data-card id="schoolCard">
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">This school</span>
+        <div class="rbody">
+          <div class="huge" data-school-ord></div>
+          <p class="lede" data-school-line></p>
+          <div class="years" data-school-years></div>
+          <div class="rule"></div>
+          <p class="sub" data-school-sub></p>
+        </div>
+      </article>
+
       <article class="card card-navy card-portrait" data-card>
         <div class="glow glow-bl" aria-hidden="true"></div>
         <span class="eyebrow">The author page</span>
@@ -781,6 +822,7 @@
           </div>
           <div class="big" data-share-number></div>
           <div class="meta" data-share-meta></div>
+          <div class="meta" data-share-school-line></div>
           <div class="share-strip" data-share-strip></div>
           <div class="sfoot">
             <span data-share-class></span>
@@ -845,10 +887,27 @@ var CONFIG = {
      · authors .. books published that year
      · standout . one title from that year's list, shown on the rail (optional) */
   history: [
-    { year:"2024", authors:22, standout:"The Owl Who Couldn't Whisper" },
-    { year:"2025", authors:24, standout:"Grandpa's Garden on Mars" },
-    { year:"2026", authors:26, standout:"The Last Bus on Tuesday" }
+    { year:"2024", school:"Riverbend Elementary", schoolParty:3, authors:22,
+      standout:"The Owl Who Couldn't Whisper" },
+    { year:"2025", school:"Riverbend Elementary", schoolParty:4, authors:24,
+      standout:"Grandpa's Garden on Mars" },
+    { year:"2026", school:"Mandarin Charter", schoolParty:4, authors:26,
+      standout:"The Last Bus on Tuesday" }
   ],
+
+  /* The school's own count, which runs on a different clock from the
+     teacher's. A school keeps publishing when a teacher leaves, and it was
+     usually publishing before she arrived: that gap is the evidence that the
+     program belongs to the school, not to one person.
+     · name ........ the school this cycle happened in
+     · partyYears .. every year this school held a publishing party, oldest
+                     first. Its length is the school's party number.
+     Set to null when the school's own history isn't known yet: the band, the
+     retrospective card and the principal's line disappear together. */
+  schoolHistory: {
+    name: "Mandarin Charter",
+    partyYears: ["2023", "2024", "2025", "2026"]
+  },
 
   /* --- Imprint levels. NAMES ARE PROPOSALS, PENDING VALIDATION. ---
      A level is reached by completed publishing parties only, never by book
@@ -878,6 +937,8 @@ var CONFIG = {
   championSeal: false,
 
   /* --- This cycle only. --- */
+  /* school is a fallback: the current school normally comes from the last
+     entry of history. */
   school:     "Mandarin Charter",
   room:       "Room 12",
   grade:      "3",
@@ -1001,8 +1062,8 @@ var CONFIG = {
     { to:"To a parent",
       text:"Your child is a published author. She wrote every word of her book and it went into the world with her name on the cover. What struck me most was how much of her own voice is in it. You can hear her on the page." },
     { to:"To your principal",
-      text:"Twenty-six of my students published books this year, my third class to do it. Between them they wrote over 41,000 words. The books are in the room if you want to see what third graders can do.",
-      spotlightText:"Twenty-six of my students published books this year, my third class to do it. Between them they wrote over 41,000 words, and their books drew 7,412 votes from the community in the national Spotlight contest. The books are in the room if you want to see what third graders can do." },
+      text:"Twenty-six of my students published books this year, my third class to do it and this school's fourth publishing party. Between them they wrote over 41,000 words. The books are in the room if you want to see what third graders can do.",
+      spotlightText:"Twenty-six of my students published books this year, my third class to do it and this school's fourth publishing party. Between them they wrote over 41,000 words, and their books drew 7,412 votes from the community in the national Spotlight contest. The books are in the room if you want to see what third graders can do." },
     { id:"colleague", to:"To a colleague thinking about it",
       text:"It isn't a separate program. I used what I was already teaching, just inside the book. Eight sessions across the year, and the kids ran the publishing party themselves." }
   ],
@@ -1055,6 +1116,20 @@ var AUTHORS_ALL = 0;
 HISTORY.forEach(function(h){ AUTHORS_ALL += h.authors; });
 var NEXT_YEAR = String(Number(CLASS_YEAR) + 1);
 var IMPRINT = CONFIG.imprint || CONFIG.teacher;
+var SCHOOL = CURRENT.school || CONFIG.school;
+
+/* Schools she has run the program in, oldest first. Two counts live on this
+   page and they must never be confused: her lists (the imprint) and each
+   school's publishing parties. */
+var SCHOOLS = [];
+HISTORY.forEach(function(h){
+  var n = h.school || CONFIG.school;
+  if (SCHOOLS.indexOf(n) === -1) SCHOOLS.push(n);
+});
+var SCHOOL_HIST = CONFIG.schoolHistory || null;
+var SCHOOL_PARTIES = SCHOOL_HIST && SCHOOL_HIST.partyYears
+  ? SCHOOL_HIST.partyYears.length
+  : (CURRENT.schoolParty || null);
 
 var LV_INDEX = 0;
 CONFIG.levels.forEach(function(l, i){ if (PARTIES >= l.parties) LV_INDEX = i; });
@@ -1094,7 +1169,7 @@ if (!CONFIG.pilot) drop($("#pilotStrip"));
 var pageTitle = "Your " + lower(ordWordOf(PARTIES)) + " year of authors.";
 $("#pageTitle").textContent = pageTitle;
 document.title = pageTitle + " · SuperAuthor";
-$("#ctx").textContent = IMPRINT + " · " + CONFIG.room + " · " + CONFIG.school +
+$("#ctx").textContent = IMPRINT + " · " + CONFIG.room + " · " + SCHOOL +
   " · Class of " + CLASS_YEAR;
 
 /* ================= Your imprint ================= */
@@ -1188,8 +1263,10 @@ function spineRow(n, seed){
   $("#lvlName").textContent = LEVEL.name;
   $("#lvlLine").textContent = LEVEL.line;
   var tot = $("#lvlTot");
-  [[num(AUTHORS_ALL), "published authors"],
-   [PARTIES, PARTIES === 1 ? "publishing party" : "publishing parties"]].forEach(function(t){
+  var totals = [[num(AUTHORS_ALL), "published authors"],
+    [PARTIES, PARTIES === 1 ? "publishing party" : "publishing parties"]];
+  if (SCHOOLS.length > 1) totals.push([SCHOOLS.length, "schools"]);
+  totals.forEach(function(t){
     var d = el("div", "tot");
     d.appendChild(el("div", "n", String(t[0])));
     d.appendChild(el("div", "l", t[1]));
@@ -1215,6 +1292,48 @@ function spineRow(n, seed){
     ladder.appendChild(step);
   });
 
+  /* The school's band. The teacher's count and the school's count are
+     deliberately shown apart: one is hers and portable, the other belongs to
+     the building and outlives whoever teaches there. */
+  (function(){
+    var band = $("#schoolBand");
+    if (!SCHOOL_PARTIES){ drop(band); return; }
+
+    $("#sbNum").textContent = ordinal(SCHOOL_PARTIES);
+    $("#sbNum").appendChild(el("small", null, "publishing party"));
+    $("#sbLine").textContent = "at " + SCHOOL + ", " +
+      (SCHOOL_HIST && SCHOOL_HIST.partyYears
+        ? SCHOOL_HIST.partyYears[0] + " to " + CLASS_YEAR
+        : "this year");
+
+    var mine = {};
+    HISTORY.forEach(function(h){
+      if ((h.school || CONFIG.school) === SCHOOL) mine[h.year] = true;
+    });
+
+    var before = 0;
+    if (SCHOOL_HIST && SCHOOL_HIST.partyYears){
+      var chips = $("#sbYears");
+      SCHOOL_HIST.partyYears.forEach(function(y){
+        chips.appendChild(el("span", mine[y] ? "mine" : null, y));
+      });
+      for (var i = 0; i < SCHOOL_HIST.partyYears.length; i++){
+        if (mine[SCHOOL_HIST.partyYears[i]]) break;
+        before++;
+      }
+    }
+
+    var yearsHere = 0;
+    for (var k in mine) if (mine[k]) yearsHere++;
+
+    $("#sbNote").textContent = before === 0
+      ? "The first one was yours, and it has run every year since. What you started here didn't stop."
+      : spelled(before) + " of them happened before you arrived, and the school kept going " +
+        "each year. " + (yearsHere === 1
+          ? "This year's is your first in this building."
+          : lower(spelled(yearsHere)) + " of them are yours.");
+  })();
+
   /* Year rail */
   var rail = $("#rail");
   var cum = 0;
@@ -1227,6 +1346,20 @@ function spineRow(n, seed){
 
     var body = el("div", "body");
     body.appendChild(spineRow(h.authors, i));
+
+    /* Where this list happened, and which of that school's parties it was. */
+    var place = h.school || CONFIG.school;
+    if (place){
+      var where = el("div", "where", place);
+      if (h.schoolParty){
+        where.appendChild(el("em", null,
+          " · the school's " + ordinal(h.schoolParty) + " publishing party"));
+      }
+      var prev = i > 0 ? (HISTORY[i - 1].school || CONFIG.school) : null;
+      if (prev && prev !== place) where.appendChild(el("span", "moved", "New school"));
+      body.appendChild(where);
+    }
+
     if (h.standout){
       var so = el("div", "standout", "From this list: ");
       so.appendChild(el("i", null, h.standout));
@@ -1502,7 +1635,7 @@ if (!document.getElementById("say-colleague")){
   if (CONFIG.survey && CONFIG.survey.classResult){
     bits.push(CONFIG.survey.classResult.respondents + " family survey responses");
   }
-  $("#foot").textContent = bits.join(" and ") + " · " + CONFIG.school + ".";
+  $("#foot").textContent = bits.join(" and ") + " · " + SCHOOL + ".";
 })();
 
 /* ================= Retrospective ================= */
@@ -1536,8 +1669,8 @@ function renderRetro(){
   var title = $("[data-cover-title]");
   title.appendChild(el("span", null, ordWord));
   title.appendChild(document.createTextNode(" Year in Review"));
-  $("[data-cover-meta]").textContent = ordWord + " publishing party · " +
-    CONFIG.room + " · " + CONFIG.school;
+  $("[data-cover-meta]").textContent = "Your " + lower(ordWord) + " publishing party · " +
+    CONFIG.room + " · " + SCHOOL;
 
   var years = $("[data-years]");
   HISTORY.forEach(function(h, i){
@@ -1579,7 +1712,35 @@ function renderRetro(){
 
   $("[data-path-sub]").textContent = num(AUTHORS_ALL) + " authors across " +
     lower(spelled(PARTIES)) + (PARTIES === 1 ? " publishing party" : " publishing parties") +
+    (SCHOOLS.length > 1 ? " and " + lower(spelled(SCHOOLS.length)) + " schools" : "") +
     ". The next list is still unwritten.";
+
+  /* The school's card */
+  if (SCHOOL_PARTIES){
+    $("[data-school-ord]").textContent = ordinal(SCHOOL_PARTIES);
+    $("[data-school-line]").textContent = "publishing party at " + SCHOOL + ".";
+    var syears = $("[data-school-years]");
+    if (SCHOOL_HIST && SCHOOL_HIST.partyYears){
+      var here = {};
+      HISTORY.forEach(function(h){
+        if ((h.school || CONFIG.school) === SCHOOL) here[h.year] = true;
+      });
+      SCHOOL_HIST.partyYears.forEach(function(y){
+        syears.appendChild(el("span", "yr" + (here[y] ? " is-now" : ""), y));
+      });
+      var ghostY = el("span", "yr is-next");
+      ghostY.setAttribute("aria-hidden", "true");
+      syears.appendChild(ghostY);
+    }
+    var ordW = lower(ordWordOf(SCHOOL_PARTIES));
+    $("[data-school-sub]").textContent = SCHOOLS.length > 1
+      ? "A tradition that was already here. " + CONFIG.room +
+        " is the " + ordW + " chapter of it."
+      : "Every year, in the same building. " + CONFIG.room + " is the " +
+        ordW + " chapter of it.";
+  } else {
+    drop($("#schoolCard"));
+  }
 
   /* Portrait */
   var portrait = $("#portrait");
@@ -1622,7 +1783,10 @@ function renderRetro(){
   $("[data-share-number]").innerHTML = AUTHORS_ALL + "<span>.</span>";
   $("[data-share-meta]").textContent = sinceLine;
   $("[data-share-class]").textContent = "Class of " + CLASS_YEAR;
-  $("[data-share-school]").textContent = CONFIG.school;
+  $("[data-share-school]").textContent = SCHOOL;
+  $("[data-share-school-line]").textContent = SCHOOL_PARTIES
+    ? ordinal(SCHOOL_PARTIES) + " publishing party at " + SCHOOL
+    : "";
   var strip = $("[data-share-strip]");
   coverSequence(4).forEach(function(u){ strip.appendChild(bookTile(u, null)); });
 }
