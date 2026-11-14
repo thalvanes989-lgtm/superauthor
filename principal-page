@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your school's year of authors · SuperAuthor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --yellow:#FFCC2A;
+    --yellow-deep:#F5B800;
+    --cream:#FFF6DC;
+    --cream-soft:#FFFBEE;
+    --paper:#FFFFFF;
+    --navy:#12294B;
+    --navy-deep:#0C1D36;
+    --ink:#1B2430;
+    --grey:#6A7382;
+    --grey-soft:#93A0B2;
+    --line:#E8DEC2;
+    --blue:#00A0D9;
+    --green:#009A80;
+    --pink:#E33D57;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Asap',system-ui,sans-serif;
+    background:var(--cream-soft);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.is-locked{overflow:hidden}
+  img{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+  [hidden]{display:none!important}
+
+  /* Pilot strip. Visible whenever CONFIG.pilot is true so a screenshot of
+     this prototype can never travel as real data. */
+  .pilot{background:var(--pink);color:#fff;font-size:12.5px;font-weight:700;text-align:center;padding:8px 14px}
+
+  .wrap{max-width:780px;margin:0 auto;padding:36px 22px 100px}
+
+  /* ================= Masthead ================= */
+  .mast{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;flex-wrap:wrap;
+    padding-bottom:16px;border-bottom:2px solid var(--navy);
+  }
+  .mast .ctx{font-size:14px;color:var(--grey);font-weight:600}
+  .lockup{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--navy);color:var(--cream);
+    border-radius:999px;padding:8px 14px;
+    font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+  }
+  .lockup svg{width:13px;height:13px}
+
+  /* ================= Hero ================= */
+  .hero{padding:46px 0 0}
+  .hero h1{
+    font-size:clamp(36px,8.2vw,60px);line-height:.98;letter-spacing:-.045em;
+    font-weight:800;color:var(--navy);max-width:15ch;
+  }
+  .hero h1 span{color:var(--yellow-deep)}
+  .hero-lede{
+    font-family:'Caveat',cursive;font-weight:600;
+    font-size:clamp(27px,5.6vw,36px);line-height:1.12;color:var(--navy);
+    margin-top:20px;max-width:24ch;
+  }
+  .arriving{
+    margin-top:22px;font-size:13.5px;color:var(--grey);
+    background:var(--cream);border:1px dashed var(--yellow-deep);border-radius:14px;
+    padding:12px 16px;max-width:62ch;
+  }
+  .arriving b{color:var(--navy)}
+  .privacy{margin-top:14px;font-size:13.5px;color:var(--grey);max-width:66ch}
+  .privacy b{color:var(--navy);font-weight:700}
+
+  /* ================= Sections ================= */
+  section{margin-top:56px}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft)}
+  h2{font-size:clamp(21px,4.4vw,26px);letter-spacing:-.03em;line-height:1.2;font-weight:800;color:var(--navy);margin-top:8px}
+  h3{font-size:17px;letter-spacing:-.02em;line-height:1.25;font-weight:800;color:var(--navy)}
+  .note{font-size:14px;color:var(--grey);margin-top:8px;max-width:58ch}
+
+  /* ================= Book tile (shared) ================= */
+  .bk{
+    position:relative;background:var(--cream);
+    border-radius:3px;overflow:hidden;
+    box-shadow:0 3px 8px rgba(18,41,75,.16);
+  }
+  .bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:15%;background:var(--navy);z-index:0}
+  .bk::after{content:"";position:absolute;right:14%;top:18%;width:34%;height:24%;background:var(--yellow);border-radius:2px;z-index:0}
+  .bk.c1::after{background:var(--blue)}
+  .bk.c2::after{background:var(--green)}
+  .bk.c3::after{background:var(--pink)}
+  .bk img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+
+  /* ================= Retrospective entry ================= */
+  .retro{
+    background:var(--navy);color:var(--cream);
+    border-radius:22px;padding:26px;
+    display:grid;grid-template-columns:1fr 210px;gap:26px;align-items:center;
+  }
+  section.retro{margin-top:40px}
+  @media (max-width:640px){.retro{grid-template-columns:1fr;gap:22px}}
+  .retro .kicker{color:var(--yellow)}
+  .retro h2{color:var(--cream);margin-top:8px}
+  .retro .blurb{font-size:15px;line-height:1.55;color:#C6D6EC;margin-top:10px;max-width:40ch}
+  .retro .fence{font-size:13px;color:#9DB4D4;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);max-width:44ch}
+  .retro-acts{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .ract{
+    border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:800;
+    display:inline-flex;align-items:center;gap:8px;transition:transform .16s ease;
+  }
+  .ract:hover{transform:translateY(-2px)}
+  .ract-solid{background:var(--yellow);color:var(--navy)}
+  .ract-ghost{border:2px solid rgba(255,255,255,.3);color:var(--cream)}
+  .ract svg{width:16px;height:16px}
+
+  .mini{background:var(--paper);border-radius:16px;padding:18px 16px;color:var(--navy);box-shadow:0 16px 34px rgba(0,0,0,.28)}
+  .mini .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .mini .top .badge{width:42px;flex:0 0 auto}
+  .mini .mark{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  .mini .who{font-family:'Caveat',cursive;font-size:25px;line-height:1.05;margin-top:5px}
+  .mini .big{font-size:40px;line-height:.9;font-weight:800;letter-spacing:-.05em;margin-top:10px}
+  .mini .big span{color:var(--yellow-deep)}
+  .mini .meta{font-size:11.5px;font-weight:700;color:#4C5A6E;margin-top:6px;line-height:1.35}
+  .mini .strip{display:flex;gap:4px;margin-top:12px}
+  .mini .strip .bk{flex:1;aspect-ratio:3/4}
+
+  /* ================= How families showed up ================= */
+  .figs-band{margin-top:22px;background:var(--navy);color:var(--cream);border-radius:20px;padding:30px 28px}
+  .figs{display:grid;gap:28px 26px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .fig .n{font-size:clamp(38px,8vw,50px);line-height:.9;font-weight:800;letter-spacing:-.05em;color:var(--yellow)}
+  .fig .n small{font-size:.42em;letter-spacing:-.02em;color:#C6D6EC;font-weight:700}
+  .fig .l{font-size:14.5px;line-height:1.4;font-weight:600;color:#C6D6EC;margin-top:9px;max-width:24ch}
+
+  /* ================= Surveys ================= */
+  .survey{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .sv-top{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;padding:24px 24px 22px;background:var(--cream);border-bottom:1px solid var(--line)}
+  @media (max-width:560px){.sv-top{grid-template-columns:1fr;gap:10px}}
+  .sv-score{display:flex;align-items:baseline;gap:6px}
+  .sv-score .n{font-size:56px;font-weight:800;letter-spacing:-.05em;line-height:.9;color:var(--navy)}
+  .sv-score .of{font-size:16px;font-weight:700;color:var(--grey)}
+  .stars{position:relative;display:inline-block;font-size:21px;letter-spacing:2px;line-height:1;margin-top:8px}
+  .stars .bg{color:var(--line)}
+  .stars .fg{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:var(--yellow-deep)}
+  .sv-lab{font-size:14.5px;color:var(--ink);font-weight:600;max-width:42ch}
+  .sv-lab small{display:block;font-size:13px;color:var(--grey);font-weight:600;margin-top:6px}
+
+  .sv-sub{padding:14px 24px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-soft);background:var(--cream-soft);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
+  .sv-item{padding:20px 24px;border-bottom:1px dashed var(--line)}
+  .sv-item:last-child{border-bottom:0}
+  .sv-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  .sv-head .cnt{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.03em;white-space:nowrap}
+  .sv-head .txt{font-size:15.5px;color:var(--ink);font-weight:600}
+  .sv-q{font-size:12.5px;color:var(--grey-soft);margin-top:8px;font-style:italic}
+  .sv-all{font-size:13px;font-weight:700;color:var(--grey);margin-top:8px}
+  .sv-all b{color:var(--navy)}
+  .sv-fine{font-size:13px;color:var(--grey);padding:16px 24px;background:var(--cream-soft);border-top:1px solid var(--line)}
+
+  /* Full answer scale, shown as it came in: every option, with its count. */
+  .dist{display:flex;height:14px;border-radius:99px;overflow:hidden;margin-top:14px;background:var(--line)}
+  .dist i{display:block;height:100%}
+  .dist i + i{border-left:2px solid var(--paper)}
+  .dist .s0{background:#C9BFA3}
+  .dist .s1{background:#DDD3B6}
+  .dist .s2{background:var(--yellow-deep)}
+  .dist .s3{background:var(--navy)}
+  .dist-key{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--grey)}
+  .dist-key span{display:inline-flex;align-items:center;gap:6px}
+  .dist-key span::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .dist-key .s0::before{background:#C9BFA3}
+  .dist-key .s1::before{background:#DDD3B6}
+  .dist-key .s2::before{background:var(--yellow-deep)}
+  .dist-key .s3::before{background:var(--navy)}
+  .dist-key b{color:var(--navy)}
+
+  .sv-dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+  .sv-dots i{width:13px;height:13px;border-radius:50%;background:var(--line)}
+  .sv-dots i.on{background:var(--navy)}
+
+  /* ================= In their words ================= */
+  .words{display:flex;gap:16px;margin-top:22px;align-items:flex-start}
+  .words-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
+  @media (max-width:640px){.words{flex-direction:column}.words-col{width:100%}}
+  .word{
+    background:#FFFDF4;border-radius:6px;padding:20px 22px 18px;
+    box-shadow:0 1px 0 rgba(18,41,75,.08),0 14px 24px -16px rgba(18,41,75,.34);
+  }
+  .word p{font-family:'Caveat',cursive;font-weight:500;font-size:23px;line-height:1.3;color:var(--navy-deep)}
+  .word p::before{content:"\201C"}
+  .word p::after{content:"\201D"}
+  .word .by{font-size:12.5px;font-weight:700;color:var(--grey);margin-top:12px;text-align:right}
+  .word.kind-teacher{background:#F2FAFE}
+  .word.kind-teacher .by{color:var(--blue)}
+  .more-btn{
+    margin-top:20px;display:inline-flex;align-items:center;gap:8px;
+    font-size:14px;font-weight:800;color:var(--navy);
+    border:2px solid var(--navy);border-radius:999px;padding:9px 18px;
+    transition:background .16s ease,color .16s ease;
+  }
+  .more-btn:hover{background:var(--navy);color:var(--cream)}
+
+  /* ================= Your turn ================= */
+  .turn{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-left:6px solid var(--yellow-deep);border-radius:20px;padding:26px 26px 24px}
+  .turn fieldset{border:0;margin-top:22px}
+  .turn fieldset:first-of-type{margin-top:0}
+  .turn legend{font-size:16px;font-weight:700;color:var(--navy);line-height:1.35;padding:0;max-width:52ch}
+  .scale{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .scale label{position:relative;cursor:pointer}
+  .scale input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .scale span{
+    display:block;font-size:13px;font-weight:700;color:var(--grey);
+    border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--cream-soft);
+    transition:background .14s ease,color .14s ease,border-color .14s ease;
+  }
+  .scale input:checked + span{background:var(--navy);border-color:var(--navy);color:var(--cream)}
+  .scale input:focus-visible + span{outline:3px solid var(--blue);outline-offset:2px}
+  .turn textarea{
+    width:100%;margin-top:12px;min-height:84px;resize:vertical;
+    font-family:inherit;font-size:15.5px;line-height:1.5;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--cream-soft);
+  }
+  .consent{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:13.5px;color:var(--grey);max-width:56ch;cursor:pointer}
+  .consent input{margin-top:3px;width:16px;height:16px;accent-color:var(--navy);flex:0 0 auto}
+  .turn-send{
+    margin-top:22px;background:var(--navy);color:var(--cream);
+    border-radius:999px;padding:13px 24px;font-size:15px;font-weight:800;
+    transition:transform .16s ease;
+  }
+  .turn-send:hover{transform:translateY(-2px)}
+  .turn-msg{font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px}
+
+  /* ================= Spotlight ================= */
+  .spot-mark{margin-top:14px}
+  .spot-mark img{height:38px;width:auto}
+  .spot-word{
+    display:inline-block;background:var(--navy);color:var(--yellow);border-radius:999px;
+    font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:7px 13px;
+  }
+  .spot-band{position:relative;border-radius:20px;overflow:hidden;margin-top:20px;background:var(--navy);color:var(--cream)}
+  .spot-band .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .spot-band .scrim{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(100deg,rgba(12,29,54,.95) 0%,rgba(12,29,54,.90) 40%,rgba(12,29,54,.66) 78%,rgba(12,29,54,.50) 100%);
+  }
+  .spot-band .inner{position:relative;z-index:2;padding:30px 28px}
+  .spot-say{margin-top:20px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px 26px 28px}
+  .spot-say p{font-size:16.5px;line-height:1.55;color:var(--ink);max-width:60ch}
+  .spot-say p + p{margin-top:14px}
+  .spot-say .close{font-family:'Caveat',cursive;font-size:clamp(25px,5.4vw,31px);line-height:1.25;color:var(--navy);margin-top:20px;max-width:30ch}
+
+  /* =====================================================================
+     THE SCHOOL'S IMPRINT — same logic as the Teacher Page. A level moves
+     with completed publishing parties only, never with book counts, so a
+     small school never climbs slower than a large one.
+     ===================================================================== */
+  .imprint{
+    margin-top:22px;background:var(--navy);color:var(--cream);
+    border-radius:22px;padding:28px 26px;
+    display:grid;grid-template-columns:156px 1fr;gap:28px;align-items:center;
+  }
+  @media (max-width:640px){.imprint{grid-template-columns:1fr;justify-items:start;gap:22px}}
+  .badge{display:block;width:100%;height:auto}
+  .badge-col{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .badge-lg{width:156px}
+  .badge-col .b-name{font-family:'Caveat',cursive;font-size:25px;line-height:1;color:var(--cream);margin-top:14px}
+  .badge-col .b-est{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-top:6px}
+  .lvl-of{font-size:12.5px;font-weight:800;color:var(--yellow)}
+  .lvl-name{font-size:clamp(27px,5.8vw,35px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-top:6px}
+  .lvl-line{font-size:15px;line-height:1.55;color:#C6D6EC;margin-top:10px;max-width:44ch}
+  .lvl-tot{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
+  .tot .n{font-size:32px;font-weight:800;color:var(--yellow);letter-spacing:-.045em;line-height:1}
+  .tot .l{font-size:12.5px;color:#9DB4D4;font-weight:700;margin-top:5px}
+
+  .ladder-scroll{overflow-x:auto;margin-top:20px;padding-bottom:4px}
+  .ladder{display:grid;grid-template-columns:repeat(5,1fr);min-width:560px}
+  .step{position:relative;text-align:center;padding:0 6px}
+  .step::before{content:"";position:absolute;top:24px;left:-50%;width:100%;height:3px;background:var(--line);z-index:0}
+  .step:first-child::before{display:none}
+  .step.done::before,.step.now::before{background:var(--yellow-deep)}
+  .dot{position:relative;z-index:1;margin:0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--cream-soft)}
+  .dot .badge{width:48px}
+  .step.now .dot{box-shadow:0 0 0 5px rgba(255,204,42,.55)}
+  .step.locked .dot,.step.next .dot{opacity:.85}
+  .step .sn{font-size:13px;font-weight:800;color:var(--navy);margin-top:10px;line-height:1.25}
+  .step .sy{font-size:11.5px;font-weight:700;color:var(--grey);margin-top:3px}
+  .step.locked .sn{color:var(--grey-soft)}
+  .step.now .sy{color:var(--navy)}
+
+  .rail{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:4px 22px}
+  .bar{display:grid;grid-template-columns:70px 1fr 84px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .bar:last-child{border-bottom:0}
+  .bar .yr{font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-.03em;line-height:1}
+  .bar .yr small{display:block;font-size:11.5px;color:var(--grey);font-weight:700;letter-spacing:0;margin-top:5px}
+  .spines{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;min-height:30px}
+  .spine{width:5px;border-radius:2px 2px 1px 1px;transform-origin:bottom;transform:scaleY(0);transition:transform .45s ease}
+  .rail.is-in .spine{transform:none}
+  .bar .where{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:8px}
+  .bar .ct{text-align:right}
+  .bar .ct .n{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.04em;line-height:1}
+  .bar .ct .l{font-size:11.5px;color:var(--grey);font-weight:700;margin-top:4px}
+  .bar.next .yr{color:var(--grey-soft)}
+  .slot{border:2px dashed var(--yellow-deep);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--navy);background:var(--cream-soft)}
+  @media (max-width:560px){
+    .bar{grid-template-columns:1fr auto}
+    .bar .body{grid-column:1 / -1;grid-row:2}
+  }
+
+  /* ================= Show your community ================= */
+  .says{display:grid;gap:12px;margin-top:22px}
+  .say{background:var(--navy);color:var(--cream);border-radius:16px;padding:20px 22px}
+  .say .to{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow)}
+  .say .for{font-size:12.5px;font-weight:700;color:#9DB4D4;margin-top:4px}
+  .say p{font-size:16px;line-height:1.5;margin-top:10px;color:#E7EFFA}
+  .say button{margin-top:14px;font-size:12.5px;font-weight:800;border:2px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 14px;color:var(--cream)}
+  .say button:hover{background:rgba(255,255,255,.14)}
+
+  .assets{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:4px 22px}
+  .asset{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+  .asset:last-child{border-bottom:0}
+  .asset .an{font-size:15px;font-weight:800;color:var(--navy)}
+  .asset .ad{font-size:13.5px;color:var(--grey);margin-top:2px;max-width:46ch}
+  .asset button{font-size:13px;font-weight:800;color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:8px 16px;white-space:nowrap}
+  .asset button:hover{background:var(--navy);color:var(--cream)}
+
+  /* ================= Pass the Pen ================= */
+  .pass{margin-top:64px;background:var(--yellow);color:var(--navy);border-radius:24px;padding:32px 28px;position:relative;overflow:hidden}
+  .pass .kicker{color:var(--navy);opacity:.7}
+  .pass h2{font-size:clamp(25px,5.4vw,32px);max-width:18ch}
+  .pass p{font-size:16px;line-height:1.55;margin-top:12px;max-width:52ch;color:var(--navy-deep)}
+  .pass .reward{font-size:14.5px;font-weight:700;background:rgba(255,255,255,.55);border-radius:14px;padding:14px 16px;margin-top:18px;max-width:56ch}
+  .pass-btn{
+    display:inline-flex;align-items:center;gap:9px;margin-top:22px;
+    background:var(--navy);color:var(--cream);text-decoration:none;
+    border-radius:999px;padding:14px 24px;font-size:15.5px;font-weight:800;transition:transform .16s ease;
+  }
+  .pass-btn:hover{transform:translateY(-2px)}
+  .pass-btn svg{width:17px;height:17px}
+  .pass .pen{position:absolute;right:-30px;bottom:-40px;width:210px;height:210px;opacity:.14;pointer-events:none}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--grey-soft)}
+
+  @media (prefers-reduced-motion:reduce){
+    .spine{transform:none;transition:none}
+  }
+
+  /* =====================================================================
+     RETROSPECTIVE OVERLAY — the layer the principal sends outward.
+     ===================================================================== */
+  #retroOverlay{position:fixed;inset:0;z-index:200;background:var(--navy-deep);color:var(--cream);display:none;place-items:center;padding:20px 16px}
+  #retroOverlay.is-open{display:grid}
+
+  #retroOverlay .card-cover{padding:0;overflow:hidden}
+  #retroOverlay .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  #retroOverlay .cover-scrim{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(to bottom,rgba(12,29,54,.20) 0%,rgba(12,29,54,.46) 28%,rgba(12,29,54,.80) 56%,rgba(12,29,54,.96) 76%,#0C1D36 100%);
+  }
+  #retroOverlay .cover-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:60px 32px 92px}
+  #retroOverlay .cover-body{margin-top:auto}
+  #retroOverlay .cover-script{font-family:'Caveat',cursive;font-size:clamp(30px,7.5vw,40px);line-height:1;color:#C6D6EC;margin-bottom:4px}
+  #retroOverlay .cover-title{font-size:clamp(36px,9.6vw,50px);font-weight:800;letter-spacing:-.045em;line-height:.96;color:var(--cream)}
+  #retroOverlay .cover-title span{color:var(--yellow)}
+  #retroOverlay .cover-meta{font-size:14px;font-weight:700;color:#C6D6EC;margin-top:16px}
+  #retroOverlay .cover-body .years{margin-top:20px}
+  #retroOverlay .hint{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,246,220,.62);margin-top:20px}
+  #retroOverlay .hint svg{width:14px;height:14px}
+
+  #retroOverlay .frame{width:min(430px,100%);position:relative}
+  #retroOverlay .stage{position:relative;aspect-ratio:9/15.2;border-radius:30px;overflow:hidden;box-shadow:0 34px 80px rgba(0,0,0,.5);background:var(--navy)}
+  @media (max-height:760px){#retroOverlay .stage{aspect-ratio:auto;height:min(82vh,760px)}}
+
+  #retroOverlay .close{position:absolute;top:-46px;right:0;display:inline-flex;align-items:center;gap:7px;color:#9DB4D4;font-size:13px;font-weight:800;border:1.5px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 14px}
+  #retroOverlay .close:hover{color:var(--cream);border-color:rgba(255,255,255,.45)}
+
+  #retroOverlay .progress{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:5px;z-index:30}
+  #retroOverlay .seg{flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.26);overflow:hidden}
+  #retroOverlay .seg i{display:block;height:100%;width:0;background:var(--yellow);border-radius:99px;transition:width .35s ease}
+  #retroOverlay .seg.done i,#retroOverlay .seg.active i{width:100%}
+  #retroOverlay .stage.on-light .seg{background:rgba(18,41,75,.18)}
+  #retroOverlay .stage.on-light .seg i{background:var(--navy)}
+
+  #retroOverlay .card{position:absolute;inset:0;padding:60px 32px 92px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease,visibility .45s}
+  #retroOverlay .card.is-on{opacity:1;visibility:visible;transform:none}
+  #retroOverlay .card-navy{background:var(--navy);color:var(--cream)}
+  #retroOverlay .card-cream{background:var(--cream);color:var(--ink)}
+
+  #retroOverlay .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,204,42,.13);filter:blur(6px);pointer-events:none}
+  #retroOverlay .glow-tr{right:-170px;top:-180px}
+  #retroOverlay .glow-bl{left:-190px;bottom:-160px;background:rgba(0,160,217,.14)}
+
+  #retroOverlay .eyebrow{display:inline-flex;align-self:flex-start;border-radius:999px;padding:6px 13px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.13);color:var(--yellow);border:1px solid rgba(255,255,255,.15);position:relative;z-index:2}
+  #retroOverlay .card-cream .eyebrow{background:var(--navy);color:var(--yellow);border-color:transparent}
+  #retroOverlay .spot-lockup{align-self:flex-start;position:relative;z-index:2}
+  #retroOverlay .spot-lockup img{height:34px;width:auto}
+
+  #retroOverlay .rbody{margin-top:auto;position:relative;z-index:2}
+  #retroOverlay .huge{font-size:clamp(74px,22vw,106px);line-height:.86;letter-spacing:-.055em;font-weight:800;color:var(--yellow)}
+  #retroOverlay .huge.sm{font-size:clamp(50px,14vw,68px);line-height:.92}
+  #retroOverlay .huge.sm small{display:block;font-size:.4em;letter-spacing:-.02em;color:#C6D6EC;margin-top:8px}
+  #retroOverlay .card-cream .huge{color:var(--navy)}
+  #retroOverlay .lede{font-size:clamp(20px,5vw,25px);line-height:1.28;letter-spacing:-.028em;font-weight:700;margin-top:18px;max-width:20ch;color:var(--cream)}
+  #retroOverlay .card-cream .lede{color:var(--ink)}
+  #retroOverlay .sub{font-size:15px;line-height:1.6;margin-top:14px;color:#C6D6EC;max-width:32ch}
+  #retroOverlay .card-cream .sub{color:#4C5A6E}
+  #retroOverlay .rule{width:44px;height:4px;border-radius:99px;background:var(--yellow);margin-top:24px}
+  #retroOverlay .card-cream .rule{background:var(--navy)}
+
+  #retroOverlay .years{display:flex;align-items:center;gap:9px;margin-top:22px;flex-wrap:wrap}
+  #retroOverlay .yr{font-size:13px;font-weight:800;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);color:#C6D6EC}
+  #retroOverlay .yr.is-now{background:var(--yellow);color:var(--navy);border-color:transparent}
+  #retroOverlay .yr.is-next{background:transparent;border:1.5px dashed rgba(255,204,42,.5);width:34px;height:34px;padding:0}
+
+  #retroOverlay .vq{font-family:'Caveat',cursive;font-weight:600;font-size:clamp(30px,7.8vw,40px);line-height:1.12;color:var(--cream)}
+  #retroOverlay .vq::before{content:"\201C"}
+  #retroOverlay .vq::after{content:"\201D"}
+  #retroOverlay .path-badge{width:104px;margin-bottom:10px}
+  #retroOverlay .share-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  #retroOverlay .share-badge{width:58px;flex:0 0 auto}
+  #retroOverlay .path-imprint{font-family:'Caveat',cursive;font-size:32px;line-height:1;color:#C6D6EC}
+  #retroOverlay .path-of{font-size:12.5px;font-weight:800;color:var(--yellow);margin-top:10px}
+  #retroOverlay .path-level{font-size:clamp(30px,8vw,40px);font-weight:800;letter-spacing:-.045em;line-height:.98;color:var(--cream);margin-top:6px;max-width:13ch}
+  #retroOverlay .railmini{display:flex;align-items:flex-end;gap:10px;height:130px;margin-top:24px}
+  #retroOverlay .rm-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  #retroOverlay .rm-n{font-size:19px;font-weight:800;color:var(--cream);margin-bottom:6px;letter-spacing:-.02em}
+  #retroOverlay .rm-bar{width:100%;border-radius:9px 9px 3px 3px;background:var(--yellow);transform-origin:bottom;transform:scaleY(0)}
+  #retroOverlay .card.is-on .rm-bar{animation:rmGrow .6s ease forwards}
+  #retroOverlay .rm-bar.ghost{background:transparent;border:2px dashed rgba(255,204,42,.55);transform:none}
+  #retroOverlay .card.is-on .rm-bar.ghost{animation:none}
+  #retroOverlay .rm-y{font-size:12.5px;font-weight:800;color:#9DB4D4;margin-top:8px}
+  @keyframes rmGrow{to{transform:none}}
+
+  #retroOverlay .shelf{position:relative;z-index:2;margin-top:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:5px}
+  #retroOverlay .shelf .bk{aspect-ratio:3/4;opacity:0;transform:translateY(6px)}
+  #retroOverlay .card.is-on .shelf .bk{animation:bkIn .34s ease forwards}
+  @keyframes bkIn{to{opacity:1;transform:none}}
+
+  #retroOverlay .titles{margin-top:auto;position:relative;z-index:2}
+  #retroOverlay .title-line{font-size:clamp(18px,4.4vw,22px);line-height:1.3;font-weight:700;letter-spacing:-.02em;color:var(--cream);padding:14px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+  #retroOverlay .title-line:first-child{border-top:1px solid rgba(255,255,255,.16)}
+  #retroOverlay .title-line em{font-style:normal;color:var(--yellow)}
+
+  #retroOverlay .share-card{position:relative;z-index:2;margin-top:auto;background:var(--paper);border-radius:22px;padding:26px 24px 22px;color:var(--navy);box-shadow:0 22px 50px rgba(0,0,0,.3)}
+  #retroOverlay .share-card .mark{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  #retroOverlay .share-card .who{font-family:'Caveat',cursive;font-size:36px;line-height:1.05;margin-top:8px}
+  #retroOverlay .share-card .big{font-size:56px;line-height:.9;font-weight:800;letter-spacing:-.05em;margin-top:14px}
+  #retroOverlay .share-card .big span{color:var(--yellow-deep)}
+  #retroOverlay .share-card .meta{font-size:14px;font-weight:700;color:#4C5A6E;margin-top:9px}
+  #retroOverlay .share-strip{display:flex;gap:5px;margin-top:16px}
+  #retroOverlay .share-strip .bk{flex:1;aspect-ratio:3/4}
+  #retroOverlay .share-card .sfoot{margin-top:16px;padding-top:14px;border-top:1px solid #EDE6D0;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+  #retroOverlay .share-card .sfoot b{color:var(--navy);letter-spacing:-.01em;text-transform:none;font-size:14px}
+
+  #retroOverlay .actions{margin-top:14px;display:grid;gap:8px;position:relative;z-index:2}
+  #retroOverlay .act{width:100%;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .16s ease}
+  #retroOverlay .act-primary{background:var(--yellow);color:var(--navy)}
+  #retroOverlay .act-ghost{background:transparent;color:var(--cream);border:2px solid rgba(255,255,255,.3)}
+  #retroOverlay .act:hover{transform:translateY(-2px)}
+
+  #retroOverlay .tap{position:absolute;top:0;bottom:0;width:34%;z-index:20;background:transparent}
+  #retroOverlay .tap-prev{left:0}
+  #retroOverlay .tap-next{right:0;width:66%}
+  #retroOverlay .card:last-of-type{z-index:22}
+  #retroOverlay .dots{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:16px;z-index:25}
+  #retroOverlay .nav-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);display:grid;place-items:center;transition:background .16s ease}
+  #retroOverlay .nav-btn:hover{background:rgba(255,255,255,.3)}
+  #retroOverlay .nav-btn svg{width:18px;height:18px}
+  #retroOverlay .nav-btn[disabled]{opacity:.3;cursor:default}
+  #retroOverlay .stage.on-light .nav-btn{background:rgba(18,41,75,.1);border-color:rgba(18,41,75,.16)}
+  #retroOverlay .stage.on-light .nav-btn svg path{stroke:var(--navy)}
+
+  @media (prefers-reduced-motion:reduce){
+    #retroOverlay .card{transition:none}
+    #retroOverlay .shelf .bk{opacity:1;transform:none}
+    #retroOverlay .card.is-on .shelf .bk{animation:none}
+    #retroOverlay .rm-bar{transform:none}
+    #retroOverlay .card.is-on .rm-bar{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="pilot" id="pilotStrip">Pilot prototype. Every name, number and quote on this page is sample data.</div>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="ctx" id="ctx"></div>
+    <span class="lockup">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 10V7a6 6 0 1112 0v3M5 10h14v11H5z" stroke="#FFF6DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Private
+    </span>
+  </header>
+
+  <div class="hero">
+    <h1 id="heroTitle"></h1>
+    <p class="hero-lede" id="heroLede"></p>
+    <p class="arriving" id="arriving" hidden></p>
+  </div>
+
+  <!-- ============ Retrospective entry ============ -->
+  <section class="retro" id="retro">
+    <div>
+      <div class="kicker">Yours to share</div>
+      <h2>Your school's Year in Review is ready.</h2>
+      <p class="blurb" id="retroBlurb"></p>
+      <div class="retro-acts">
+        <button class="ract ract-solid" type="button" id="openRetro">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#12294B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Open the Year in Review
+        </button>
+        <button class="ract ract-ghost" type="button" data-share>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 8a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6zM15 22a3 3 0 100-6 3 3 0 000 6zM8.6 13.5l5.8 3.4M14.4 7.1L8.6 10.5" stroke="#FFF6DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Share
+        </button>
+      </div>
+      <p class="fence">Built to leave this page: for your families, your team, other principals. No student names, no teacher names, and only words a family cleared for public use.</p>
+    </div>
+
+    <div class="mini" aria-hidden="true">
+      <div class="top">
+        <div>
+          <div class="mark">SuperAuthor</div>
+          <div class="who" id="miniWho"></div>
+        </div>
+        <div id="miniBadge"></div>
+      </div>
+      <div class="big" id="miniBig"></div>
+      <div class="meta" id="miniMeta"></div>
+      <div class="strip" id="miniStrip"></div>
+    </div>
+  </section>
+
+  <p class="privacy">
+    <b>Only you can see this page.</b> Everything here is shown for the school as a whole, never by teacher or by classroom. The Year in Review above is the one part made to be shared.
+  </p>
+
+  <!-- ============ How families showed up ============ -->
+  <section id="showSection">
+    <div class="kicker">What they did</div>
+    <h2>How your families showed up.</h2>
+    <p class="note" id="showNote"></p>
+    <div class="figs-band"><div class="figs" id="showFigs"></div></div>
+  </section>
+
+  <!-- ============ Surveys ============ -->
+  <section id="surveySection">
+    <div class="kicker">What they told us</div>
+    <h2>What families said, in numbers.</h2>
+    <p class="note" id="surveyNote"></p>
+    <div class="survey">
+      <div class="sv-top" id="svTop">
+        <div>
+          <div class="sv-score"><span class="n" id="svRating"></span><span class="of">out of 5</span></div>
+          <div class="stars" aria-hidden="true"><span class="bg">★★★★★</span><span class="fg" id="svStars">★★★★★</span></div>
+        </div>
+        <div class="sv-lab" id="svLab"></div>
+      </div>
+      <div id="svItems"></div>
+      <div id="svTeachers"></div>
+      <div class="sv-fine">These are answers, not a measurement of anyone's reading or writing. People who answer surveys are usually the ones who had a good year, so the numbers lean positive. They are published as they came in.</div>
+    </div>
+  </section>
+
+  <!-- ============ In their words ============ -->
+  <section id="wordsSection">
+    <div class="kicker">In their words</div>
+    <h2 id="wordsTitle"></h2>
+    <p class="note" id="wordsNote"></p>
+    <div class="words" id="words"><div class="words-col"></div><div class="words-col"></div></div>
+    <button class="more-btn" type="button" id="wordsMore" hidden></button>
+  </section>
+
+  <!-- ============ Your turn ============ -->
+  <section id="turnSection">
+    <div class="kicker">Your turn</div>
+    <h2>Families and teachers said theirs. Yours is three questions.</h2>
+    <form class="turn" id="turnForm">
+      <div id="turnFields"></div>
+      <fieldset>
+        <legend id="turnOpenLegend"></legend>
+        <textarea id="turnOpen" aria-labelledby="turnOpenLegend"></textarea>
+        <label class="consent">
+          <input type="checkbox" id="turnPublic" />
+          <span>SuperAuthor may share this sentence publicly, with my name and my school's name. Leave it unticked to keep it private.</span>
+        </label>
+      </fieldset>
+      <button class="turn-send" type="submit">Send my answers</button>
+      <p class="turn-msg" id="turnMsg" hidden></p>
+    </form>
+  </section>
+
+  <!-- ============ Spotlight ============ -->
+  <section id="spotSection">
+    <div class="kicker">Beyond your building</div>
+    <h2>It wasn't only your families.</h2>
+    <div class="spot-mark" id="spotMark"><img id="spotLogo" src="" alt="SuperAuthor Spotlight" /></div>
+    <p class="note" id="spotNote"></p>
+    <div class="spot-band">
+      <img class="bg" id="spotBg" src="" alt="" />
+      <div class="scrim" aria-hidden="true"></div>
+      <div class="inner"><div class="figs" id="spotFigs"></div></div>
+    </div>
+    <div class="spot-say" id="spotSay"></div>
+  </section>
+
+  <!-- ============ The school's imprint ============ -->
+  <section id="pathSection">
+    <div class="kicker">Your school's imprint</div>
+    <h2 id="pathTitle"></h2>
+    <p class="note">Every publishing party adds a list to your school's imprint. The level moves with years, never with book counts, so a small school climbs exactly as fast as a large one.</p>
+
+    <div class="imprint">
+      <div class="badge-col">
+        <div class="badge-lg" id="badgeBig" aria-hidden="true"></div>
+        <div class="b-name" id="sealName"></div>
+        <div class="b-est" id="sealEst"></div>
+      </div>
+      <div>
+        <div class="lvl-of" id="lvlOf"></div>
+        <div class="lvl-name" id="lvlName"></div>
+        <p class="lvl-line" id="lvlLine"></p>
+        <div class="lvl-tot" id="lvlTot"></div>
+      </div>
+    </div>
+
+    <div class="ladder-scroll"><div class="ladder" id="ladder"></div></div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <!-- ============ Show your community ============ -->
+  <section id="kitSection">
+    <div class="kicker">Show your community</div>
+    <h2>Families chose a school where children become authors. Let the next ones see it.</h2>
+    <p class="note">Written from your school's own numbers, ready to paste into a newsletter, an admissions page or a staff email.</p>
+    <div class="says" id="says"></div>
+    <div class="assets" id="assets"></div>
+  </section>
+
+  <!-- ============ Pass the Pen ============ -->
+  <section class="pass" id="passpen">
+    <svg class="pen" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l4-1 11-11a2.1 2.1 0 00-3-3L5 16l-1 4zM14 7l3 3" stroke="#12294B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="kicker">Pass the Pen</div>
+    <h2>Start another school's first list.</h2>
+    <p>You have seen what this does to a room full of families. Somewhere there's a principal you trust whose students haven't found out yet that they're authors. Invite that school, and it starts next year in the same network yours belongs to.</p>
+    <p class="reward" id="passReward"></p>
+    <a class="pass-btn" id="passBtn" href="#" target="_blank" rel="noopener">
+      Invite a school
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#FFF6DC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<!-- ===================== RETROSPECTIVE OVERLAY ===================== -->
+<div id="retroOverlay" role="dialog" aria-modal="true" aria-label="Your school's Year in Review">
+  <div class="frame">
+    <button class="close" type="button" id="closeRetro">Close ✕</button>
+    <div class="stage" id="stage">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <article class="card card-navy card-cover is-on" data-card>
+        <img class="cover-img" id="coverImg" src="" alt="" />
+        <div class="cover-scrim" aria-hidden="true"></div>
+        <div class="cover-inner">
+          <span class="eyebrow" data-cover-eyebrow></span>
+          <div class="cover-body">
+            <div class="cover-script" data-cover-who></div>
+            <div class="cover-title" data-cover-title></div>
+            <div class="years" data-years></div>
+            <div class="cover-meta" data-cover-meta></div>
+            <div class="hint">
+              Tap right to begin
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- The value, stated as this school's own count. -->
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow" data-count-eyebrow></span>
+        <div class="rbody">
+          <div class="huge" data-count-number></div>
+          <p class="lede">children became published authors this year.</p>
+          <div class="rule"></div>
+          <p class="sub" data-count-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-cream" data-card data-light>
+        <span class="eyebrow">The shelf</span>
+        <div class="shelf" data-shelf></div>
+        <div class="rbody">
+          <div class="huge" data-shelf-count></div>
+          <p class="lede">books that did not exist in September.</p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">Every word theirs</span>
+        <div class="rbody">
+          <div class="huge sm" data-words-number></div>
+          <p class="lede">words written by hand and by keyboard.</p>
+          <div class="rule"></div>
+          <p class="sub" data-words-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">What they wrote about</span>
+        <div class="titles" data-titles></div>
+        <div class="rbody">
+          <p class="lede" data-titles-line></p>
+        </div>
+      </article>
+
+      <!-- The room. Dropped when attendance isn't known. -->
+      <article class="card card-navy" data-card id="roomCard">
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">The publishing party</span>
+        <div class="rbody">
+          <div class="huge" data-room-number></div>
+          <p class="lede">people came to hear them read.</p>
+          <div class="rule"></div>
+          <p class="sub" data-room-sub></p>
+        </div>
+      </article>
+
+      <!-- One survey result. Dropped until the family survey exists. -->
+      <article class="card card-navy" data-card id="surveyCard">
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">Families told us</span>
+        <div class="rbody">
+          <div class="huge sm" data-survey-number></div>
+          <p class="lede" data-survey-line></p>
+          <div class="rule"></div>
+          <p class="sub" data-survey-sub></p>
+        </div>
+      </article>
+
+      <!-- One family's words. Only a voice marked public:true travels, and it
+           travels without any name. -->
+      <article class="card card-navy" data-card id="voiceCard">
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">A family wrote</span>
+        <div class="rbody">
+          <p class="vq" data-voice-text></p>
+          <div class="rule"></div>
+          <p class="sub" data-voice-from></p>
+        </div>
+      </article>
+
+      <!-- The team, as a count. No names: recognition without ranking. -->
+      <article class="card card-navy" data-card id="teamCard">
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">The editors</span>
+        <div class="rbody">
+          <div class="huge" data-team-number></div>
+          <p class="lede" data-team-line></p>
+          <div class="rule"></div>
+          <p class="sub" data-team-sub></p>
+        </div>
+      </article>
+
+      <!-- Spotlight card. Removed entirely when voting hasn't closed. -->
+      <article class="card card-navy" data-card id="spotCard">
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="spot-lockup"><img data-spot-logo src="" alt="SuperAuthor Spotlight" /></span>
+        <div class="rbody">
+          <div class="huge sm" data-spot-votes></div>
+          <p class="lede">votes for books written in this school.</p>
+          <div class="rule"></div>
+          <p class="sub" data-spot-sub></p>
+        </div>
+      </article>
+
+      <!-- The school's imprint: cumulative authors, next year as an outline. -->
+      <article class="card card-navy" data-card>
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">Our imprint</span>
+        <div class="rbody">
+          <div class="path-badge" data-path-badge aria-hidden="true"></div>
+          <div class="path-imprint" data-path-imprint></div>
+          <div class="path-of" data-path-of></div>
+          <div class="path-level" data-path-level></div>
+          <div class="railmini" data-railmini></div>
+          <p class="sub" data-path-sub></p>
+        </div>
+      </article>
+
+      <article class="card card-navy" data-card>
+        <div class="glow glow-bl" aria-hidden="true"></div>
+        <span class="eyebrow">Share your school's year</span>
+        <div class="share-card">
+          <div class="share-top">
+            <div>
+              <div class="mark">SuperAuthor</div>
+              <div class="who" data-share-who></div>
+            </div>
+            <div class="share-badge" data-share-badge aria-hidden="true"></div>
+          </div>
+          <div class="big" data-share-number></div>
+          <div class="meta" data-share-meta></div>
+          <div class="share-strip" data-share-strip></div>
+          <div class="sfoot">
+            <span data-share-class></span>
+            <b data-share-level></b>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="act act-primary" type="button" data-share>Send to your families</button>
+          <button class="act act-ghost" type="button" data-share>Send to your team</button>
+          <button class="act act-ghost" type="button" data-share>Share anywhere</button>
+        </div>
+      </article>
+
+      <button class="tap tap-prev" type="button" id="tapPrev" aria-label="Previous"></button>
+      <button class="tap tap-next" type="button" id="tapNext" aria-label="Next"></button>
+
+      <div class="dots">
+        <button class="nav-btn" type="button" id="btnPrev" aria-label="Previous card">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="nav-btn" type="button" id="btnNext" aria-label="Next card">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   PILOT CONFIG — the analyst edits this block only.
+
+   THE PAGE'S ONE JOB: prove to the principal that
+   "Families love seeing their children become published authors."
+   Every section is a different kind of evidence for that sentence:
+   what families did, what they said, what they wrote, who else noticed.
+
+   RULES THIS PAGE NEVER BREAKS
+   · School aggregate only. No teacher names, no per-classroom results.
+   · No revenue. Volume and impact only.
+   · No renewal ask. Next year is drawn as already there.
+   · Survey results as counts with the total and the question beside them,
+     published as they came in.
+
+   THE PAGE FILLS OVER TIME. Every data block is optional: set it to null (or
+   leave its list empty) and its section, its Year in Review card and any
+   line that quotes it disappear together. The "still on its way" note under
+   the hero lists what is null. Each block that lands also triggers an email
+   to the principal:
+     1. after the party ...... hero, Year in Review, showedUp, voices
+        → "Your school's year is ready"
+     2. following weeks ...... survey.parents, survey.teachers
+        → "What your families told us"
+     3. Spotlight closes ..... spotlight
+        → "Your authors left the building"
+     4. enrollment season .... kit
+        → "Show your community"
+   ========================================================================= */
+var CONFIG = {
+
+  /* Shows the red "sample data" strip. false only when every figure is real. */
+  pilot: true,
+
+  school:    "Mandarin Charter",
+  principal: "Dr. Okafor",
+
+  /* The school's imprint name, shown on its seal. If null, the school name. */
+  imprint:   "Mandarin Charter Press",
+
+  /* --- Hero. ---
+     headline null = built from the data:
+     "{families} {school} families saw their child become a published author."
+     The lede promises the evidence; the rest of the page delivers it. */
+  hero: {
+    headline: null,
+    lede: "Here's how we know they loved it."
+  },
+
+  /* One entry per completed publishing party, oldest first. Drives the
+     level, the all-time author count, the rail and the Year in Review.
+     · classrooms .. classrooms that held a party that year
+     · authors ..... books published that year */
+  history: [
+    { year:"2023", classrooms:3, authors:64  },
+    { year:"2024", classrooms:5, authors:112 },
+    { year:"2025", classrooms:6, authors:139 },
+    { year:"2026", classrooms:7, authors:168 }
+  ],
+
+  /* --- School levels. NAMES ARE PROPOSALS, PENDING VALIDATION. ---
+     Same logic as the Teacher Page: one level per completed publishing
+     party, never by book count. No level unlocks a prize: each one names
+     what the school has become. The three names agreed so far (SuperAuthor
+     School, Publishing School, Publishing House) sit at years 1, 2 and 4;
+     years 3 and 5 are new proposals. */
+  levels: [
+    { parties:1, name:"SuperAuthor School",
+      line:"One list, one year of authors. Every publishing school starts here.",
+      badge:{ disc:"#FFF6DC", ink:"#12294B", ring:"#12294B" } },
+    { parties:2, name:"Publishing School",
+      line:"A second list. Families now expect a book with their child's name on it.",
+      badge:{ disc:"#00A0D9", ink:"#FFF6DC", ring:"#12294B", ribbon:true } },
+    { parties:3, name:"Established Publishing School",
+      line:"Three lists in a row. This isn't a project anymore. It's part of how your school teaches writing.",
+      badge:{ disc:"#FFCC2A", ink:"#12294B", ring:"#12294B", ribbon:true } },
+    { parties:4, name:"Publishing House",
+      line:"Four lists. Your first authors are old enough to read your newest ones.",
+      badge:{ disc:"#12294B", ink:"#FFCC2A", ring:"#F5B800", ribbon:true, laurel:true } },
+    { parties:5, name:"Landmark Publishing House",
+      line:"Five lists. A body of work a community can point to.",
+      badge:{ disc:"#FFCC2A", ink:"#12294B", ring:"#12294B", ribbon:true, laurel:true } }
+  ],
+
+  /* --- This cycle only. --- */
+  partyMonth:        "March 2026",
+  grades:            "K to 5",
+  families:          168,     /* families with a published author this year */
+  teachers:          7,       /* count only, never names */
+  returningTeachers: 5,       /* of those, how many had published before */
+  words:             266904,
+  wordsCompare:      "Moby-Dick",
+
+  heroImage: "https://superauthor.com/wp-content/uploads/2026/07/imagem-1-scaled.png",
+
+  titles: [
+    ["A dragon who was ", "afraid of fire"],
+    ["A grandmother's kitchen in ", "Caracas"],
+    ["A dog named Pickle who ", "ran for president"]
+  ],
+
+  /* --- How families showed up. SIMULATED for the pilot. ---
+     Behaviour, not opinion: what families did because their child was
+     published. Volume and impact only, never revenue.
+     · n ..... the number
+     · of .... optional total, shown as "149 of 168"
+     · l ..... the label
+     · room .. true on the one figure that feeds the Year in Review's
+               "people came to hear them read" card
+     Sources: QR form ("how many people came with you?"), orders, invite
+     messages copied, book-page visits. Drop any line you can't source. */
+  showedUp: [
+    { n:149, of:168, l:"families were in the room at a publishing party" },
+    { n:512, l:"people came in all: parents, grandparents, siblings, neighbours", room:true },
+    { n:231, l:"books went home with families" },
+    { n:388, l:"invitations sent by families to relatives and friends" },
+    { n:47,  l:"books ordered by a relative outside the household" },
+    { n:2940, l:"visits to your authors' book pages" }
+  ],
+
+  /* --- Surveys. SIMULATED RESULTS for the pilot. ---
+     Every item reports what people SAID, never what changed. q is the
+     question as asked: keep it identical to the live survey.
+
+     parents: each item shows its full answer scale with counts, lowest
+     option first. "positive" is how many options, counted from the top,
+     make up the headline count.
+     teachers: school aggregate only. Hidden automatically when fewer than
+     minTeachers answered, so no answer can be traced to a person.
+     "all" adds the all-families line; set it to null to hide it. */
+  survey: {
+    parents: {
+      respondents: 141,
+      pride: 4.8,
+      prideQ: "How proud are you of your child's book? (1 to 5)",
+      all: { label:"all SuperAuthor families this cycle", respondents:3214, pride:4.7 },
+      items: [
+        { says:"said their child's interest in reading increased",
+          q:"Since writing their own book, my child's interest in reading has…",
+          scale:[["decreased",2],["stayed the same",21],["increased a little",63],["increased a lot",55]],
+          positive:2, allPct:81 },
+        { says:"said their child talks about writing or stories at home more",
+          q:"Since writing their own book, my child talks about writing or stories at home…",
+          scale:[["less",1],["the same",31],["more",68],["much more",41]],
+          positive:2, allPct:76 }
+      ]
+    },
+    teachers: {
+      respondents: 7,
+      minTeachers: 4,
+      items: [
+        { says:"said their students' engagement with writing increased",
+          q:"Since doing SuperAuthor, my students' engagement with writing has…", yes:6 },
+        { says:"said their students' confidence as writers increased",
+          q:"Since doing SuperAuthor, my students' confidence as writers has…", yes:7 },
+        { says:"said they would publish with a class again next year",
+          q:"Would you publish with a class again next year? (yes / maybe / no)", yes:6 }
+      ]
+    }
+  },
+
+  /* --- In their words. FICTIONAL PLACEHOLDERS for the pilot. ---
+     Deliberately quiet: plain cards, no featured letter. The loud version
+     of these words belongs to the teacher, on her own page.
+     · kind "family" ... a thank-you note. Appears here ONLY when the family
+                         ticked "share with the school".
+     · kind "teacher" .. her "one moment you won't forget" answer, when she
+                         ticked school use. Always unnamed.
+     · by .............. role and grade only. No names of adults or children.
+     · public .......... true only when external use was ticked. The first
+                         public family voice also travels in the Year in
+                         Review.
+     · never edited for polish, no impact claims.
+     visible = how many show before "Read all". */
+  voices: {
+    visible: 4,
+    quotes: [
+      { kind:"family", by:"3rd grade dad", public:true,
+        text:"He used to say he hated writing. Last week he corrected my grocery list and called it editing." },
+      { kind:"family", by:"2nd grade mom",
+        text:"English is not the language we speak at home. Her book is the first thing she has written that I could read out loud with her." },
+      { kind:"teacher", by:"A 3rd grade teacher",
+        text:"A boy who had not read aloud all year stood up at the party and read his whole book. His mother was filming and had to stop because her hands were shaking." },
+      { kind:"family", by:"Kindergarten grandma",
+        text:"I flew in for this. I have been to graduations that felt smaller." },
+      { kind:"family", by:"5th grade mom", public:true,
+        text:"We picked this school for a lot of reasons. This is the one I tell people about." },
+      { kind:"family", by:"1st grade dad",
+        text:"My husband took it to work. His entire office has read it now. He will not stop." },
+      { kind:"teacher", by:"A 1st grade teacher",
+        text:"They started calling each other authors in the hallway. Nobody told them to." },
+      { kind:"family", by:"4th grade mom",
+        text:"She keeps it on the shelf turned face out, like a store. She rearranges the other books so hers has room." }
+    ]
+  },
+
+  /* --- Your turn: the principal's three questions. ---
+     Asked as written in the decisions doc. The open answer is also where
+     the principal's reason for continuing gets recorded, in his own words,
+     since this page never asks about renewal. Set to null once answered. */
+  principalSurvey: {
+    scale: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+    statements: [
+      "SuperAuthor strengthened our school's writing culture this year.",
+      "SuperAuthor strengthened our connection with families."
+    ],
+    open: "In one sentence, what did SuperAuthor bring to your school?"
+  },
+
+  /* --- Spotlight. FICTIONAL PLACEHOLDERS for the pilot. ---
+     null until voting closes. Reach only: no rank, no comparison, no prize.
+     closedMonth is editable: the contest calendar is still being confirmed. */
+  spotlight: {
+    votes:                 31870,
+    votedAuthors:          96,
+    participatingAuthors:  121,
+    readers:               6240,
+    closedMonth:           "May 2026",
+    logo:  "https://superauthor.com/wp-content/uploads/2026/07/logo-concurso.png",
+    image: "https://superauthor.com/wp-content/uploads/2026/07/imagem-4.png"
+  },
+
+  /* --- Show your community: the kit. ---
+     The page's call to action. Not "renew": "show this", to keep the
+     families you have and attract the ones you don't.
+     The numbers inside each text are typed by hand: check them against the
+     blocks above whenever a figure changes.
+     · for ............ what the text is for
+     · surveyText ..... replaces text once survey.parents exists
+     assets are stubs in the prototype. */
+  kit: {
+    says: [
+      { to:"To your current families", for:"Newsletter, re-enrollment season",
+        text:"This year, 168 of our students became published authors. Each one wrote and illustrated a book of their own, and 512 of you came to hear them read from it. It was our fourth publishing party. The Class of 2027 starts writing in the fall." },
+      { to:"To families considering your school", for:"Admissions page, open house",
+        text:"At Mandarin Charter, students write, illustrate and publish a book of their own. 483 of our students have become published authors since 2023. Ask to see the shelf when you visit." },
+      { to:"To your team", for:"Staff email, staff meeting",
+        text:"168 books exist because seven of you made room for them. 512 people came to our publishing parties to hear children read their own words. Thank you for a fourth year of this.",
+        surveyText:"168 books exist because seven of you made room for them. Families told us what it meant: 118 of the 141 who answered our survey said their child's interest in reading increased. Thank you for a fourth year of this." },
+      { to:"To another principal, or your board", for:"A conversation, a board update",
+        text:"Seven of our classrooms ran SuperAuthor this year. 168 students published a book and 149 of their families came to the publishing party.",
+        surveyText:"Seven of our classrooms ran SuperAuthor this year. 168 students published a book, 149 of their families came to the publishing party, and 118 of 141 surveyed families said their child's interest in reading increased." }
+    ],
+    assets: [
+      { name:"Year in Review images", desc:"Story and post sizes, for your school's social channels and newsletter.", cta:"Get images" },
+      { name:"Published Authors badge", desc:"Your school's current level, for your website and email signature.", cta:"Get badge" },
+      { name:"Your public school page", desc:"Counts, level and family words cleared for public use. Link it from your admissions page.", cta:"Copy link" }
+    ]
+  },
+
+  /* --- Pass the Pen (referral). ---
+     A cohort invitation, not a vendor recommendation. Rewards are tied to
+     the invited school completing its teacher training, never to an
+     intermediate step. BOTH REWARDS ARE NULL ON PURPOSE: the gift-card
+     structure is under legal review for public and charter staff. Do not
+     fill them in until it is approved. */
+  referral: {
+    url:            "https://superauthor.com/referral/",
+    referrerReward: null,
+    schoolReward:   null
+  }
+};
+
+/* ========================================================================= */
+
+var ORDINALS = ["", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
+var ORDINAL_WORDS = ["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth",
+  "Seventh", "Eighth", "Ninth", "Tenth"];
+var SPELLED = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+  "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+  "Eighteen", "Nineteen", "Twenty"];
+
+function $(s){ return document.querySelector(s); }
+function el(tag, cls, txt){
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+}
+function ordinal(n){ return ORDINALS[n] || (n + "th"); }
+function ordWordOf(n){ return ORDINAL_WORDS[n] || (n + "th"); }
+function spelled(n){ return SPELLED[n] || String(n); }
+function lower(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+function num(n){ return Number(n).toLocaleString("en-US"); }
+function drop(node){ if (node && node.parentNode) node.parentNode.removeChild(node); }
+function joinList(a){
+  if (a.length < 2) return a.join("");
+  return a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+}
+
+/* ================= Derived ================= */
+var HISTORY = CONFIG.history;
+var PARTIES = HISTORY.length;
+var CURRENT = HISTORY[PARTIES - 1];
+var CLASS_YEAR = CURRENT.year;
+var AUTHORS_NOW = CURRENT.authors;
+var AUTHORS_ALL = 0;
+HISTORY.forEach(function(h){ AUTHORS_ALL += h.authors; });
+var NEXT_YEAR = String(Number(CLASS_YEAR) + 1);
+var SCHOOL = CONFIG.school;
+var IMPRINT = CONFIG.imprint || SCHOOL;
+var FAMILIES = CONFIG.families || AUTHORS_NOW;
+
+var LV_INDEX = 0;
+CONFIG.levels.forEach(function(l, i){ if (PARTIES >= l.parties) LV_INDEX = i; });
+var LEVEL = CONFIG.levels[LV_INDEX];
+var NEXT_LEVEL = CONFIG.levels[LV_INDEX + 1] || null;
+
+var SV = CONFIG.survey || {};
+var PARENTS = (SV.parents && SV.parents.items && SV.parents.items.length) ? SV.parents : null;
+var TEACH = (SV.teachers && SV.teachers.items && SV.teachers.items.length &&
+  SV.teachers.respondents >= (SV.teachers.minTeachers || 4)) ? SV.teachers : null;
+var SPOT = (CONFIG.spotlight && CONFIG.spotlight.votes) ? CONFIG.spotlight : null;
+var SHOWED = (CONFIG.showedUp && CONFIG.showedUp.length) ? CONFIG.showedUp : null;
+var VOICES = (CONFIG.voices && CONFIG.voices.quotes && CONFIG.voices.quotes.length)
+  ? CONFIG.voices : null;
+var KIT = CONFIG.kit || null;
+
+function positiveCount(it){
+  var s = 0, sc = it.scale;
+  for (var i = sc.length - (it.positive || 1); i < sc.length; i++) s += sc[i][1];
+  return s;
+}
+
+/* A book tile, drawn in CSS so it reads as a book with no image at all. */
+function bookTile(i, delay){
+  var d = el("div", "bk c" + (i % 4));
+  if (delay != null) d.style.animationDelay = delay + "ms";
+  return d;
+}
+
+/* ================= Masthead and hero ================= */
+if (!CONFIG.pilot) drop($("#pilotStrip"));
+
+var pageTitle = SCHOOL + "'s " + lower(ordWordOf(PARTIES)) + " year of authors";
+document.title = pageTitle + " · SuperAuthor";
+$("#ctx").textContent = SCHOOL + " · Class of " + CLASS_YEAR + " · For " + CONFIG.principal;
+
+(function(){
+  var h1 = $("#heroTitle");
+  if (CONFIG.hero && CONFIG.hero.headline){
+    h1.textContent = CONFIG.hero.headline;
+  } else {
+    h1.appendChild(el("span", null, num(FAMILIES)));
+    h1.appendChild(document.createTextNode(" " + SCHOOL +
+      " families saw their child become a published author."));
+  }
+  $("#heroLede").textContent = (CONFIG.hero && CONFIG.hero.lede) || "";
+
+  /* What hasn't landed yet. The page is honest about being unfinished. */
+  var waiting = [];
+  if (!PARENTS) waiting.push("the family survey");
+  if (!TEACH) waiting.push("the teacher survey");
+  if (!SPOT) waiting.push("Spotlight results");
+  if (!KIT) waiting.push("your community kit");
+  if (waiting.length){
+    var a = $("#arriving");
+    a.hidden = false;
+    a.appendChild(el("b", null, "Still on its way: "));
+    a.appendChild(document.createTextNode(joinList(waiting) +
+      ". This page fills in as each one arrives, and you'll get an email when it does."));
+  }
+})();
+
+/* ================= How families showed up ================= */
+var ROOM = null;
+(function(){
+  if (!SHOWED){ drop($("#showSection")); return; }
+  $("#showNote").textContent = "Before anyone was asked an opinion, this is what " +
+    "families did because their child had a book with their name on the cover.";
+  var box = $("#showFigs");
+  SHOWED.forEach(function(f){
+    if (f.room) ROOM = f;
+    var d = el("div", "fig");
+    var n = el("div", "n", num(f.n));
+    if (f.of) n.appendChild(el("small", null, " of " + num(f.of)));
+    d.appendChild(n);
+    d.appendChild(el("div", "l", f.l));
+    box.appendChild(d);
+  });
+})();
+
+/* ================= Surveys ================= */
+(function(){
+  if (!PARENTS && !TEACH){ drop($("#surveySection")); return; }
+
+  var box = $("#svItems");
+  if (PARENTS){
+    var p = PARENTS;
+    $("#surveyNote").textContent = "One short survey, by QR code at the publishing party " +
+      "and by email afterwards. " + p.respondents + " of your " + num(FAMILIES) +
+      " families answered. Every result is shown with its full count and the question as asked.";
+
+    if (p.pride){
+      $("#svRating").textContent = p.pride.toFixed(1);
+      $("#svStars").style.width = (p.pride / 5 * 100) + "%";
+      var lab = $("#svLab");
+      lab.appendChild(document.createTextNode("Average answer from " + p.respondents +
+        " families to: “" + p.prideQ + "”"));
+      if (p.all && p.all.pride){
+        lab.appendChild(el("small", null, "Across " + p.all.label + ": " +
+          p.all.pride.toFixed(1) + " from " + num(p.all.respondents) + " responses."));
+      }
+    } else {
+      drop($("#svTop"));
+    }
+
+    p.items.forEach(function(it){
+      var row = el("div", "sv-item");
+      var head = el("div", "sv-head");
+      head.appendChild(el("span", "cnt", positiveCount(it) + " of " + p.respondents));
+      head.appendChild(el("span", "txt", "families " + it.says + "."));
+      row.appendChild(head);
+
+      var dist = el("div", "dist");
+      dist.setAttribute("aria-hidden", "true");
+      var key = el("div", "dist-key");
+      it.scale.forEach(function(s, i){
+        var seg = el("i", "s" + i);
+        seg.style.width = (s[1] / p.respondents * 100) + "%";
+        dist.appendChild(seg);
+        var k = el("span", "s" + i);
+        k.appendChild(el("b", null, String(s[1])));
+        k.appendChild(document.createTextNode(" " + s[0]));
+        key.appendChild(k);
+      });
+      row.appendChild(dist);
+      row.appendChild(key);
+
+      if (p.all && it.allPct != null){
+        var all = el("div", "sv-all", "Across " + p.all.label + ": ");
+        all.appendChild(el("b", null, it.allPct + "%"));
+        all.appendChild(document.createTextNode(" " + it.says + "."));
+        row.appendChild(all);
+      }
+      if (it.q) row.appendChild(el("div", "sv-q", "Asked: " + it.q));
+      box.appendChild(row);
+    });
+  } else {
+    drop($("#svTop"));
+    $("#surveyNote").textContent = "The family survey hasn't closed yet. " +
+      "This is what your teachers told us in the meantime.";
+  }
+
+  var tbox = $("#svTeachers");
+  if (TEACH){
+    var t = TEACH;
+    tbox.appendChild(el("div", "sv-sub", "Your teachers, as a group · " + t.respondents +
+      " of " + CONFIG.teachers + " answered"));
+    t.items.forEach(function(it){
+      var row = el("div", "sv-item");
+      var head = el("div", "sv-head");
+      head.appendChild(el("span", "cnt", it.yes + " of " + t.respondents));
+      head.appendChild(el("span", "txt", "teachers " + it.says + "."));
+      row.appendChild(head);
+      var dots = el("div", "sv-dots");
+      dots.setAttribute("aria-hidden", "true");
+      for (var k = 0; k < t.respondents; k++) dots.appendChild(el("i", k < it.yes ? "on" : null));
+      row.appendChild(dots);
+      if (it.q) row.appendChild(el("div", "sv-q", "Asked: " + it.q));
+      tbox.appendChild(row);
+    });
+  } else {
+    drop(tbox);
+  }
+})();
+
+/* ================= In their words =================
+   Runs before the story-navigation block reads [data-card]. */
+(function(){
+  var shared = null;
+  if (VOICES) VOICES.quotes.forEach(function(q){
+    if (!shared && q.public && q.kind === "family") shared = q;
+  });
+  if (shared){
+    $("[data-voice-text]").textContent = shared.text;
+    $("[data-voice-from]").textContent = "A " + shared.by + ", " + SCHOOL + ".";
+  } else {
+    drop($("#voiceCard"));
+  }
+
+  if (!VOICES){ drop($("#wordsSection")); return; }
+
+  var qs = VOICES.quotes, fam = 0, tea = 0;
+  qs.forEach(function(q){ if (q.kind === "teacher") tea++; else fam++; });
+
+  $("#wordsTitle").textContent = "The same thing, the way they put it.";
+  var parts = [];
+  if (fam) parts.push(spelled(fam) + (fam === 1 ? " note" : " notes") +
+    " from families who chose to share " + (fam === 1 ? "it" : "them") + " with the school");
+  if (tea) parts.push(lower(spelled(tea)) + " from your teachers");
+  $("#wordsNote").textContent = joinList(parts) +
+    ". Shown as written, without names. The notes were written to the teachers, and each teacher has her own.";
+
+  var cols = document.querySelectorAll("#words .words-col");
+  var visible = VOICES.visible || 4;
+  var extra = [];
+  qs.forEach(function(q, i){
+    var card = el("article", "word kind-" + (q.kind || "family"));
+    card.appendChild(el("p", null, q.text));
+    card.appendChild(el("div", "by", q.by));
+    if (i >= visible){ card.hidden = true; extra.push(card); }
+    cols[i % 2].appendChild(card);
+  });
+
+  var more = $("#wordsMore");
+  if (extra.length){
+    more.hidden = false;
+    more.textContent = "Read all " + lower(spelled(qs.length));
+    more.addEventListener("click", function(){
+      extra.forEach(function(c){ c.hidden = false; });
+      more.hidden = true;
+    });
+  }
+})();
+
+/* ================= Your turn ================= */
+(function(){
+  var ps = CONFIG.principalSurvey;
+  if (!ps){ drop($("#turnSection")); return; }
+  var box = $("#turnFields");
+  ps.statements.forEach(function(st, i){
+    var fs = el("fieldset");
+    fs.appendChild(el("legend", null, st));
+    var sc = el("div", "scale");
+    ps.scale.forEach(function(opt){
+      var lab = el("label");
+      var inp = document.createElement("input");
+      inp.type = "radio"; inp.name = "st" + i; inp.value = opt;
+      lab.appendChild(inp);
+      lab.appendChild(el("span", null, opt));
+      sc.appendChild(lab);
+    });
+    fs.appendChild(sc);
+    box.appendChild(fs);
+  });
+  $("#turnOpenLegend").textContent = ps.open;
+
+  /* Stub in the prototype: there is nowhere to send the answers yet. */
+  $("#turnForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var m = $("#turnMsg");
+    m.hidden = false;
+    m.textContent = "Prototype: answers aren't saved yet.";
+  });
+})();
+
+/* ================= Spotlight ================= */
+(function(){
+  if (!SPOT){
+    drop($("#spotSection"));
+    drop($("#spotCard"));
+    return;
+  }
+
+  /* If the logo can't load, a text lockup takes its place. */
+  [].slice.call(document.querySelectorAll("#spotLogo, [data-spot-logo]")).forEach(function(img){
+    function fallback(){
+      var w = el("span", "spot-word", "SuperAuthor Spotlight");
+      if (img.parentNode) img.parentNode.replaceChild(w, img);
+    }
+    if (!SPOT.logo){ fallback(); return; }
+    img.addEventListener("error", fallback);
+    img.src = SPOT.logo;
+  });
+
+  var bg = $("#spotBg");
+  if (SPOT.image){
+    bg.addEventListener("error", function(){ bg.style.display = "none"; });
+    bg.src = SPOT.image;
+  } else {
+    bg.style.display = "none";
+  }
+
+  $("#spotNote").textContent = "Spotlight is the national contest where communities " +
+    "vote for books written by published SuperAuthors. Voting for the Class of " +
+    CLASS_YEAR + " closed in " + SPOT.closedMonth + ".";
+
+  var figs = [
+    { n:num(SPOT.votes), l:"votes for books written at " + SCHOOL },
+    SPOT.participatingAuthors
+      ? { n:SPOT.votedAuthors, of:SPOT.participatingAuthors, l:"authors with a voting page were voted for" }
+      : { n:num(SPOT.votedAuthors), l:"of your authors were voted for" },
+    SPOT.readers ? { n:num(SPOT.readers), l:"people opened a book page from your school" } : null
+  ];
+  var box = $("#spotFigs");
+  figs.forEach(function(f){
+    if (!f) return;
+    var d = el("div", "fig");
+    var n = el("div", "n", String(f.n));
+    if (f.of) n.appendChild(el("small", null, " of " + num(f.of)));
+    d.appendChild(n);
+    d.appendChild(el("div", "l", f.l));
+    box.appendChild(d);
+  });
+
+  var say = $("#spotSay");
+  say.appendChild(el("p", null,
+    "A vote isn't a prize and it isn't a score. It's a person who read a child's name " +
+    "on a cover and decided that what the child had to say was worth their attention."));
+  say.appendChild(el("p", null,
+    "Most of those people have never set foot in your building. They met " + SCHOOL +
+    " through a book one of your students wrote."));
+  say.appendChild(el("p", "close",
+    "Your families were proud first. Then the pride travelled."));
+
+  $("[data-spot-votes]").textContent = num(SPOT.votes);
+  $("[data-spot-sub]").textContent = "From families, neighbours and people who had never " +
+    "met them. " + num(SPOT.votedAuthors) + " of our " +
+    (SPOT.participatingAuthors ? num(SPOT.participatingAuthors) + " Spotlight authors"
+                               : "authors") + " were voted for.";
+})();
+
+/* ================= The school's imprint ================= */
+var SPINE_COLORS = ["#12294B", "#F5B800", "#00A0D9", "#009A80", "#E33D57", "#0C1D36"];
+
+/* The year badge, drawn from the level's own tokens at one viewBox, so the
+   same object works at 42px in the share card and 156px in the imprint
+   card. A locked badge is the same shape with no fill. */
+function badgeSVG(i, state){
+  var l = CONFIG.levels[i];
+  var b = l.badge || {};
+  var locked = state === "locked";
+  var disc = locked ? "none"    : (b.disc || "#FFCC2A");
+  var ring = locked ? "#93A0B2" : (b.ring || "#12294B");
+  var ink  = locked ? "#93A0B2" : (b.ink  || "#12294B");
+  var yr = l.parties;
+  var o = '<svg class="badge" viewBox="0 0 120 126" role="img" aria-label="Year ' + yr + ' badge">';
+  if (b.ribbon){
+    o += '<path d="M40 74 L40 122 L60 110 L80 122 L80 74Z" fill="' +
+      (locked ? "none" : ring) + '" stroke="' + ring + '" stroke-width="' +
+      (locked ? 2 : 0) + '" stroke-linejoin="round"/>';
+  }
+  if (b.laurel){
+    o += '<path d="M20 40C6 58 9 82 26 94" fill="none" stroke="' + ring +
+      '" stroke-width="4" stroke-linecap="round" opacity="' + (locked ? ".5" : ".9") + '"/>';
+    o += '<path d="M100 40C114 58 111 82 94 94" fill="none" stroke="' + ring +
+      '" stroke-width="4" stroke-linecap="round" opacity="' + (locked ? ".5" : ".9") + '"/>';
+  }
+  o += '<circle cx="60" cy="58" r="47" fill="none" stroke="' + ring +
+    '" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" opacity="' +
+    (locked ? ".55" : "1") + '"/>';
+  o += '<circle cx="60" cy="58" r="42" fill="' + disc + '" stroke="' + ring +
+    '" stroke-width="2.5"' + (locked ? ' stroke-dasharray="5 5"' : '') + '/>';
+  o += '<circle cx="60" cy="58" r="35" fill="none" stroke="' + ring +
+    '" stroke-width="1.4" opacity=".32"/>';
+  o += '<text x="60" y="57" text-anchor="middle" dominant-baseline="central" ' +
+    'font-family="Asap, sans-serif" font-size="40" font-weight="800" ' +
+    'letter-spacing="-2" fill="' + ink + '">' + yr + '</text>';
+  o += '<text x="60" y="84" text-anchor="middle" font-family="Asap, sans-serif" ' +
+    'font-size="11" font-weight="800" letter-spacing="1.4" fill="' + ink +
+    '" opacity=".85">' + (yr === 1 ? "Year" : "Years") + '</text>';
+  return o + '</svg>';
+}
+
+/* One spine per author. Deterministic, so a year always draws the same shelf. */
+function spineRow(n, seed){
+  var box = el("div", "spines");
+  for (var i = 0; i < n; i++){
+    var s = el("span", "spine");
+    s.style.height = (16 + ((i * 7 + seed * 5) % 11)) + "px";
+    s.style.background = SPINE_COLORS[(i * 5 + seed * 2) % SPINE_COLORS.length];
+    s.style.transitionDelay = (seed * 120 + i * 4) + "ms";
+    box.appendChild(s);
+  }
+  return box;
+}
+
+(function(){
+  $("#pathTitle").textContent = spelled(PARTIES) +
+    (PARTIES === 1 ? " list" : " lists") + " under your school's name.";
+
+  $("#badgeBig").innerHTML = badgeSVG(LV_INDEX, "earned");
+  $("#sealName").textContent = IMPRINT;
+  $("#sealEst").textContent = "Est. " + HISTORY[0].year;
+
+  $("#lvlOf").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
+  $("#lvlName").textContent = LEVEL.name;
+  $("#lvlLine").textContent = LEVEL.line;
+  var tot = $("#lvlTot");
+  [[num(AUTHORS_ALL), "published authors"],
+   [PARTIES, PARTIES === 1 ? "year of publishing parties" : "years of publishing parties"]
+  ].forEach(function(t){
+    var d = el("div", "tot");
+    d.appendChild(el("div", "n", String(t[0])));
+    d.appendChild(el("div", "l", t[1]));
+    tot.appendChild(d);
+  });
+
+  var ladder = $("#ladder");
+  CONFIG.levels.forEach(function(l, i){
+    var state = i < LV_INDEX ? "done" : i === LV_INDEX ? "now" :
+                i === LV_INDEX + 1 ? "next" : "locked";
+    var step = el("div", "step " + state);
+    var dot = el("div", "dot");
+    dot.innerHTML = badgeSVG(i, (state === "done" || state === "now") ? "earned" : "locked");
+    step.appendChild(dot);
+    step.appendChild(el("div", "sn", l.name));
+    var sub;
+    if (state === "done")      sub = HISTORY[l.parties - 1] ? HISTORY[l.parties - 1].year : "Reached";
+    else if (state === "now")  sub = "You are here";
+    else if (state === "next") sub = "Class of " + NEXT_YEAR;
+    else                       sub = ordinal(l.parties) + " year";
+    step.appendChild(el("div", "sy", sub));
+    ladder.appendChild(step);
+  });
+
+  var rail = $("#rail");
+  var cum = 0;
+  HISTORY.forEach(function(h, i){
+    cum += h.authors;
+    var bar = el("div", "bar");
+    var yr = el("div", "yr", h.year);
+    yr.appendChild(el("small", null, "List " + (i + 1)));
+    bar.appendChild(yr);
+
+    var body = el("div", "body");
+    body.appendChild(spineRow(h.authors, i));
+    if (h.classrooms){
+      body.appendChild(el("div", "where", h.classrooms +
+        (h.classrooms === 1 ? " classroom" : " classrooms")));
+    }
+    bar.appendChild(body);
+
+    var ct = el("div", "ct");
+    ct.appendChild(el("div", "n", String(h.authors)));
+    ct.appendChild(el("div", "l", num(cum) + " in all"));
+    bar.appendChild(ct);
+    rail.appendChild(bar);
+  });
+
+  /* Next year: drawn as already there. A slot, not a question. */
+  var nx = el("div", "bar next");
+  var nyr = el("div", "yr", NEXT_YEAR);
+  nyr.appendChild(el("small", null, "List " + (PARTIES + 1)));
+  nx.appendChild(nyr);
+  var nbody = el("div", "body");
+  nbody.appendChild(el("div", "slot",
+    "The Class of " + NEXT_YEAR + " starts here" +
+    (NEXT_LEVEL ? ", and it makes " + SCHOOL + " a " + NEXT_LEVEL.name + "." : ".")));
+  nx.appendChild(nbody);
+  nx.appendChild(el("div", "ct"));
+  rail.appendChild(nx);
+
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!("IntersectionObserver" in window) || reduced){
+    rail.classList.add("is-in");
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ rail.classList.add("is-in"); io.disconnect(); }
+      });
+    }, { threshold:.2 });
+    io.observe(rail);
+  }
+})();
+
+/* ================= Show your community ================= */
+(function(){
+  if (!KIT){ drop($("#kitSection")); return; }
+
+  (KIT.says || []).forEach(function(s){
+    var text = (s.surveyText && PARENTS) ? s.surveyText : s.text;
+    var box = el("article", "say");
+    box.appendChild(el("div", "to", s.to));
+    if (s["for"]) box.appendChild(el("div", "for", s["for"]));
+    box.appendChild(el("p", null, text));
+    var b = el("button", null, "Copy");
+    b.type = "button";
+    b.addEventListener("click", function(){
+      function ok(){ b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy"; }, 1600); }
+      function no(){ b.textContent = "Select the text to copy"; setTimeout(function(){ b.textContent = "Copy"; }, 2200); }
+      try {
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, no);
+        else no();
+      } catch (e){ no(); }
+    });
+    box.appendChild(b);
+    $("#says").appendChild(box);
+  });
+
+  var ab = $("#assets");
+  if (!KIT.assets || !KIT.assets.length){ drop(ab); return; }
+  KIT.assets.forEach(function(a){
+    var row = el("div", "asset");
+    var t = el("div");
+    t.appendChild(el("div", "an", a.name));
+    t.appendChild(el("div", "ad", a.desc));
+    row.appendChild(t);
+    var b = el("button", null, a.cta || "Get it");
+    b.type = "button";
+    b.setAttribute("data-share", "");
+    row.appendChild(b);
+    ab.appendChild(row);
+  });
+})();
+
+/* ================= Pass the Pen ================= */
+(function(){
+  var r = CONFIG.referral;
+  if (!r || !r.url){ drop($("#passpen")); return; }
+  $("#passBtn").href = r.url;
+
+  var parts = [];
+  if (r.referrerReward) parts.push("you receive " + r.referrerReward);
+  if (r.schoolReward) parts.push("they receive " + r.schoolReward);
+  $("#passReward").textContent = "When the school you invite completes its teacher training, " +
+    (parts.length ? parts.join(" and ") + ", and " : "") +
+    "the Community Champion seal is added to " + SCHOOL + "'s imprint.";
+})();
+
+/* ================= Footer ================= */
+(function(){
+  var bits = [num(AUTHORS_NOW) + " final books"];
+  if (PARENTS) bits.push(PARENTS.respondents + " family survey responses");
+  if (TEACH) bits.push(TEACH.respondents + " teacher survey responses");
+  $("#foot").textContent = "Built from " + joinList(bits) + " · " + SCHOOL + ".";
+})();
+
+/* ================= Retrospective ================= */
+var sinceLine = PARTIES > 1
+  ? "published authors since " + HISTORY[0].year
+  : "first published authors";
+
+function renderRetro(){
+  $("#retroBlurb").textContent = num(AUTHORS_NOW) + " authors, " + num(CONFIG.words) +
+    " words, and your school's " + ordinal(PARTIES) +
+    " year of publishing parties. Made for you to show.";
+
+  $("#miniWho").textContent = SCHOOL + "'s Authors";
+  $("#miniBig").innerHTML = num(AUTHORS_ALL) + "<span>.</span>";
+  $("#miniMeta").textContent = sinceLine + " · " + LEVEL.name;
+  $("#miniBadge").innerHTML = badgeSVG(LV_INDEX, "earned");
+  var mini = $("#miniStrip");
+  for (var m = 0; m < 4; m++) mini.appendChild(bookTile(m, null));
+
+  /* Cover */
+  var cover = $("#coverImg");
+  if (CONFIG.heroImage){
+    cover.addEventListener("error", function(){ cover.style.display = "none"; });
+    cover.src = CONFIG.heroImage;
+  } else {
+    cover.style.display = "none";
+  }
+  $("[data-cover-eyebrow]").textContent = CONFIG.partyMonth;
+  $("[data-cover-who]").textContent = SCHOOL + "'s";
+  var ordWord = ordWordOf(PARTIES);
+  var title = $("[data-cover-title]");
+  title.appendChild(el("span", null, ordWord));
+  title.appendChild(document.createTextNode(" Year in Review"));
+  $("[data-cover-meta]").textContent = LEVEL.name + " · Class of " + CLASS_YEAR;
+  var years = $("[data-years]");
+  HISTORY.forEach(function(h, i){
+    years.appendChild(el("span", "yr" + (i === PARTIES - 1 ? " is-now" : ""), h.year));
+  });
+  var ghost = el("span", "yr is-next");
+  ghost.setAttribute("aria-hidden", "true");
+  years.appendChild(ghost);
+
+  /* The count */
+  $("[data-count-eyebrow]").textContent = SCHOOL + " · Class of " + CLASS_YEAR;
+  $("[data-count-number]").textContent = num(AUTHORS_NOW);
+  $("[data-count-sub]").textContent = "Each one wrote and illustrated a book of their own" +
+    (CURRENT.classrooms ? ", across " + lower(spelled(CURRENT.classrooms)) +
+      (CURRENT.classrooms === 1 ? " classroom" : " classrooms") : "") +
+    (CONFIG.grades ? ", grades " + CONFIG.grades : "") + ".";
+
+  /* Shelf: capped so the tiles stay readable on a phone. */
+  $("[data-shelf-count]").textContent = num(AUTHORS_NOW);
+  var shelf = $("[data-shelf]");
+  var tiles = Math.min(AUTHORS_NOW, 64);
+  for (var i = 0; i < tiles; i++) shelf.appendChild(bookTile(i * 3 + (i % 5), i * 14));
+
+  /* Words */
+  $("[data-words-number]").textContent = num(CONFIG.words);
+  if (CONFIG.wordsCompare){
+    var ws = $("[data-words-sub]");
+    ws.appendChild(document.createTextNode("That's longer than "));
+    ws.appendChild(el("em", null, CONFIG.wordsCompare));
+    ws.appendChild(document.createTextNode("."));
+  }
+
+  /* Titles */
+  var titles = $("[data-titles]");
+  CONFIG.titles.forEach(function(t){
+    var line = el("div", "title-line");
+    line.appendChild(document.createTextNode(t[0]));
+    line.appendChild(el("em", null, t[1]));
+    titles.appendChild(line);
+  });
+  $("[data-titles-line]").textContent = num(AUTHORS_NOW) + " stories nobody had ever told before.";
+
+  /* The room */
+  if (ROOM){
+    $("[data-room-number]").textContent = num(ROOM.n);
+    $("[data-room-sub]").textContent = "Parents, grandparents, siblings and neighbours, " +
+      "in the room while a child read their own book out loud.";
+  } else {
+    drop($("#roomCard"));
+  }
+
+  /* One survey result */
+  if (PARENTS){
+    var it = PARENTS.items[0];
+    var sn = $("[data-survey-number]");
+    sn.textContent = String(positiveCount(it));
+    sn.appendChild(el("small", null, "of " + PARENTS.respondents + " families who answered"));
+    $("[data-survey-line]").textContent = it.says + ".";
+    $("[data-survey-sub]").textContent = "Asked: " + it.q;
+  } else {
+    drop($("#surveyCard"));
+  }
+
+  /* The team */
+  if (CONFIG.teachers){
+    $("[data-team-number]").textContent = String(CONFIG.teachers);
+    $("[data-team-line]").textContent = (CONFIG.teachers === 1 ? "teacher" : "teachers") +
+      " edited, encouraged and published every one of them.";
+    $("[data-team-sub]").textContent = CONFIG.returningTeachers
+      ? spelled(CONFIG.returningTeachers) + " of them had done it before, and came back."
+      : "Behind every young writer is someone who believed first.";
+  } else {
+    drop($("#teamCard"));
+  }
+
+  /* Imprint */
+  $("[data-path-badge]").innerHTML = badgeSVG(LV_INDEX, "earned");
+  $("[data-path-imprint]").textContent = IMPRINT;
+  $("[data-path-of]").textContent = "Level " + (LV_INDEX + 1) + " of " + CONFIG.levels.length;
+  $("[data-path-level]").textContent = LEVEL.name;
+  var rm = $("[data-railmini]");
+  var cum = 0, cols = [];
+  HISTORY.forEach(function(h){ cum += h.authors; cols.push({ y:h.year, v:cum }); });
+  var max = cum + AUTHORS_NOW;
+  cols.forEach(function(c, k){
+    var col = el("div", "rm-col");
+    col.appendChild(el("div", "rm-n", String(c.v)));
+    var b = el("div", "rm-bar");
+    b.style.height = Math.max(8, c.v / max * 100) + "%";
+    b.style.animationDelay = (k * 140) + "ms";
+    col.appendChild(b);
+    col.appendChild(el("div", "rm-y", c.y));
+    rm.appendChild(col);
+  });
+  var gcol = el("div", "rm-col");
+  gcol.appendChild(el("div", "rm-n", ""));
+  var gb = el("div", "rm-bar ghost");
+  gb.style.height = "100%";
+  gcol.appendChild(gb);
+  gcol.appendChild(el("div", "rm-y", NEXT_YEAR));
+  rm.appendChild(gcol);
+  $("[data-path-sub]").textContent = num(AUTHORS_ALL) + " published authors since " +
+    HISTORY[0].year + ". The Class of " + NEXT_YEAR + " is next.";
+
+  /* Share */
+  $("[data-share-badge]").innerHTML = badgeSVG(LV_INDEX, "earned");
+  $("[data-share-who]").textContent = SCHOOL + "'s Authors";
+  $("[data-share-number]").innerHTML = num(AUTHORS_ALL) + "<span>.</span>";
+  $("[data-share-meta]").textContent = sinceLine + " · " + num(AUTHORS_NOW) + " this year";
+  $("[data-share-class]").textContent = "Class of " + CLASS_YEAR;
+  $("[data-share-level]").textContent = LEVEL.name;
+  var strip = $("[data-share-strip]");
+  for (var s = 0; s < 5; s++) strip.appendChild(bookTile(s, null));
+}
+
+/* Boot the retrospective before navigation reads [data-card], so dropped
+   cards never enter the sequence or the progress bar. */
+renderRetro();
+
+/* ---- Story navigation ---- */
+var overlay = $("#retroOverlay");
+var stage = $("#stage");
+var progress = $("#progress");
+var btnPrev = $("#btnPrev");
+var btnNext = $("#btnNext");
+var cards = [].slice.call(document.querySelectorAll("[data-card]"));
+var index = 0;
+
+cards.forEach(function(){
+  var seg = el("span", "seg");
+  seg.appendChild(document.createElement("i"));
+  progress.appendChild(seg);
+});
+var segs = [].slice.call(progress.children);
+
+function renderStory(){
+  cards.forEach(function(card, i){
+    if (i === index) card.classList.add("is-on");
+    else card.classList.remove("is-on");
+  });
+  segs.forEach(function(seg, i){
+    seg.className = "seg" + (i < index ? " done" : i === index ? " active" : "");
+  });
+  if (cards[index].hasAttribute("data-light")) stage.classList.add("on-light");
+  else stage.classList.remove("on-light");
+  btnPrev.disabled = index === 0;
+  btnNext.disabled = index === cards.length - 1;
+}
+
+function go(step){
+  var next = index + step;
+  if (next < 0 || next > cards.length - 1) return;
+  index = next;
+  renderStory();
+}
+
+btnPrev.addEventListener("click", function(){ go(-1); });
+btnNext.addEventListener("click", function(){ go(1); });
+$("#tapPrev").addEventListener("click", function(){ go(-1); });
+$("#tapNext").addEventListener("click", function(){ go(1); });
+
+function openRetro(){
+  index = 0;
+  renderStory();
+  overlay.classList.add("is-open");
+  document.body.classList.add("is-locked");
+  $("#closeRetro").focus();
+}
+function closeRetro(){
+  overlay.classList.remove("is-open");
+  document.body.classList.remove("is-locked");
+  $("#openRetro").focus();
+}
+
+$("#openRetro").addEventListener("click", openRetro);
+$("#closeRetro").addEventListener("click", closeRetro);
+overlay.addEventListener("click", function(e){ if (e.target === overlay) closeRetro(); });
+
+document.addEventListener("keydown", function(e){
+  if (!overlay.classList.contains("is-open")) return;
+  if (e.key === "Escape") closeRetro();
+  if (e.key === "ArrowRight") go(1);
+  if (e.key === "ArrowLeft") go(-1);
+});
+
+/* Share and asset buttons are stubs in the prototype. The real build
+   exports a story-sized and a post-sized image. */
+[].slice.call(document.querySelectorAll("[data-share]")).forEach(function(b){
+  b.addEventListener("click", function(){
+    var label = b.textContent.trim();
+    b.textContent = "Prototype: not wired yet";
+    setTimeout(function(){ b.textContent = label; }, 1800);
+  });
+});
+
+renderStory();
+</script>
+</body>
+</html>
