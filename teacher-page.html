@@ -51,8 +51,21 @@
     gap:20px;flex-wrap:wrap;
     padding-bottom:22px;border-bottom:2px solid var(--navy);
   }
-  .mast h1{font-size:clamp(28px,6vw,38px);letter-spacing:-.035em;line-height:1.08;font-weight:800;color:var(--navy)}
-  .mast .ctx{font-size:14px;color:var(--grey);margin-top:6px;font-weight:600}
+  .mast{align-items:center;padding-bottom:16px}
+  .mast .ctx{font-size:14px;color:var(--grey);font-weight:600}
+  [hidden]{display:none!important}
+
+  /* ================= Hero ================= */
+  .hero{padding:46px 0 0}
+  .hero h1{
+    font-size:clamp(40px,9.6vw,70px);line-height:.96;letter-spacing:-.045em;
+    font-weight:800;color:var(--navy);max-width:12ch;
+  }
+  .hero-lede{
+    font-family:'Caveat',cursive;font-weight:600;
+    font-size:clamp(27px,5.6vw,36px);line-height:1.12;color:var(--navy);
+    margin-top:20px;max-width:24ch;
+  }
   .lockup{
     display:inline-flex;align-items:center;gap:7px;
     background:var(--navy);color:var(--cream);
@@ -86,7 +99,7 @@
     border-radius:22px;padding:26px;
     display:grid;grid-template-columns:1fr 210px;gap:26px;align-items:center;
   }
-  section.retro{margin-top:26px}
+  section.retro{margin-top:56px}
   @media (max-width:640px){.retro{grid-template-columns:1fr;gap:22px}}
   .retro .kicker{color:var(--yellow)}
   .retro h2{color:var(--cream);margin-top:8px}
@@ -230,24 +243,120 @@
   .case blockquote{font-size:16.5px;line-height:1.5;font-style:italic;color:var(--ink);margin-top:12px;padding-left:14px;border-left:2px solid var(--line)}
   .case .because{font-size:14px;color:var(--grey);margin-top:12px}
 
-  /* ================= Voices ================= */
-  .voices{columns:2;column-gap:14px;margin-top:22px}
-  @media (max-width:640px){.voices{columns:1}}
-  .voice{break-inside:avoid;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
-  .voice p{font-size:16px;line-height:1.5;color:var(--ink)}
-  .voice p::before{content:"\201C"}
-  .voice p::after{content:"\201D"}
-  .voice .from{font-size:12.5px;font-weight:800;color:var(--grey);margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-  .voice.is-teacher{border-left:5px solid var(--yellow)}
-  .voice-count{font-size:13px;color:var(--grey-soft);margin-top:4px}
+  /* =====================================================================
+     LETTERS — the families' and authors' words, delivered as sealed mail.
+     Each envelope opens in place and stays open, so after the first visit
+     the section reads as a wall of letters with nothing hidden.
+     ===================================================================== */
+  .letters-sec{
+    margin-top:44px;
+    --env:#F1E3BC;--env-side:#ECDBAD;--env-fold:#E5D098;--env-flap:#EAD7A4;--env-edge:#D9C383;
+    --paper:#FFFDF4;--rule:rgba(0,160,217,.2);
+  }
 
-  .kids{margin-top:26px}
-  .kids .note{margin-top:6px}
-  .kid-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-  @media (max-width:640px){.kid-grid{grid-template-columns:1fr}}
-  .kid{background:var(--cream);border-radius:16px;padding:22px 22px 18px;border:1px solid var(--line)}
-  .kid p{font-family:'Caveat',cursive;font-size:25px;line-height:1.2;color:var(--navy)}
-  .kid .from{font-size:12.5px;font-weight:800;color:var(--grey);margin-top:12px}
+  .paper{
+    background:var(--paper);border-radius:6px;
+    padding:24px 24px 20px;position:relative;
+    box-shadow:0 1px 0 rgba(18,41,75,.08),0 16px 28px -16px rgba(18,41,75,.38);
+  }
+  .paper:focus-visible{outline-offset:6px}
+  .paper-text{
+    font-family:'Caveat',cursive;font-weight:500;
+    font-size:25px;line-height:34px;color:var(--navy-deep);
+    background:repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px);
+  }
+  .paper-text::before{content:"\201C"}
+  .paper-text::after{content:"\201D"}
+  .sign{margin-top:16px;display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+  .sign-name{font-family:'Caveat',cursive;font-weight:700;font-size:28px;line-height:1;color:var(--navy)}
+  .sign-role{font-size:12.5px;font-weight:700;color:var(--grey);margin-top:5px}
+  .paper.kind-author{--paper:#F2FAFE;--rule:rgba(227,61,87,.2)}
+  .paper.kind-author .sign-name{color:var(--blue)}
+
+  /* The one letter that arrives already open, half out of its envelope. */
+  .feat{position:relative;margin-top:26px;padding-bottom:58px}
+  .feat .paper{margin:0 18px;padding:34px 34px 112px;z-index:1;transform:rotate(-.5deg)}
+  .feat .paper-text{
+    font-size:clamp(28px,5.6vw,36px);line-height:46px;
+    background:repeating-linear-gradient(to bottom,transparent 0 45px,var(--rule) 45px 46px);
+  }
+  .feat .sign-name{font-size:34px}
+  .pocket,.pocket-fold{position:absolute;left:0;right:0;bottom:0;height:132px;border-radius:0 0 14px 14px}
+  .pocket{z-index:2;background:var(--env);clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%)}
+  .pocket-fold{z-index:3;background:var(--env-fold);clip-path:polygon(0 100%,50% 52%,100% 100%)}
+  @media (max-width:560px){
+    .feat .paper{margin:0 10px;padding:26px 22px 104px}
+    .feat .paper-text{line-height:40px;background:repeating-linear-gradient(to bottom,transparent 0 39px,var(--rule) 39px 40px)}
+  }
+
+  /* Count of sealed letters, and the way to open them at once. */
+  .mailbar{
+    margin-top:30px;display:flex;align-items:center;justify-content:space-between;
+    gap:14px;flex-wrap:wrap;padding-bottom:16px;border-bottom:2px solid var(--navy);
+  }
+  .mb-count{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+  .mb-btn{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    font-size:14px;font-weight:800;color:var(--navy);
+    border:2px solid var(--navy);border-radius:999px;padding:9px 18px;
+    transition:background .16s ease,color .16s ease;
+  }
+  .mb-btn:hover{background:var(--navy);color:var(--cream)}
+  .mb-next{background:var(--yellow);border-color:var(--yellow)}
+  .mb-next:hover{background:var(--yellow-deep);border-color:var(--yellow-deep);color:var(--navy)}
+
+  .mail{display:flex;gap:18px;margin-top:22px;align-items:flex-start}
+  .mail-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
+  @media (max-width:640px){.mail{flex-direction:column}.mail-col{width:100%}}
+
+  .env{
+    position:relative;display:block;width:100%;aspect-ratio:16/10;
+    border-radius:10px;background:var(--env);overflow:hidden;
+    box-shadow:0 1px 0 rgba(18,41,75,.08),0 16px 26px -16px rgba(18,41,75,.42);
+    perspective:700px;transition:transform .18s ease;
+  }
+  .env:hover{transform:translateY(-4px) rotate(-.5deg)}
+  .env .side{position:absolute;inset:0;background:var(--env-side);clip-path:polygon(0 0,50% 54%,0 100%)}
+  .env .side.r{clip-path:polygon(100% 0,50% 54%,100% 100%)}
+  .env .fold{position:absolute;inset:0;background:var(--env-fold);clip-path:polygon(0 100%,50% 44%,100% 100%)}
+  .env .flap-edge,.env .flap{
+    position:absolute;left:0;right:0;top:0;height:62%;
+    clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;
+    transition:transform .42s ease;
+  }
+  .env .flap-edge{height:63.6%;background:var(--env-edge)}
+  .env .flap{background:var(--env-flap)}
+  .env:hover .flap,.env:hover .flap-edge{transform:rotateX(18deg)}
+  .env .seal{
+    position:absolute;left:50%;top:60%;width:48px;height:48px;border-radius:50%;
+    transform:translate(-50%,-50%);display:grid;place-items:center;
+    background:var(--yellow-deep);
+    box-shadow:inset 0 0 0 3px rgba(255,255,255,.28),inset 0 -3px 0 rgba(18,41,75,.16),0 3px 6px rgba(18,41,75,.3);
+    transition:transform .3s ease,opacity .3s ease;
+  }
+  .env .seal svg{width:22px;height:22px}
+  .env .to{
+    position:absolute;left:0;right:0;bottom:11px;text-align:center;
+    font-family:'Caveat',cursive;font-weight:700;font-size:23px;line-height:1;color:var(--navy);
+  }
+  .env.kind-author{--env:#D2EAF6;--env-side:#C6E3F2;--env-fold:#B7DAEE;--env-flap:#C0DFF0;--env-edge:#9CCAE4}
+  .env.kind-author .seal{background:var(--navy)}
+
+  .letter-item.opening .env .flap,.letter-item.opening .env .flap-edge{transform:rotateX(178deg)}
+  .letter-item.opening .env .seal{transform:translate(-50%,-50%) scale(.2);opacity:0}
+  .letter-item.is-open .env{display:none}
+  .letter-item .paper{display:none}
+  .letter-item.is-open .paper{display:block;animation:letterIn .5s ease both}
+  .letter-item:nth-child(odd) .paper{transform:rotate(-.45deg)}
+  .letter-item:nth-child(even) .paper{transform:rotate(.4deg)}
+  @keyframes letterIn{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+
+  .mail-done{font-family:'Caveat',cursive;font-weight:600;font-size:clamp(24px,5vw,30px);line-height:1.2;color:var(--navy);margin-top:26px;max-width:30ch}
+
+  @media (prefers-reduced-motion:reduce){
+    .env,.env .flap,.env .flap-edge,.env .seal{transition:none}
+    .letter-item.is-open .paper{animation:none}
+  }
 
   /* ================= Family survey ================= */
   .survey{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden}
@@ -446,6 +555,9 @@
   #retroOverlay .yr.is-next{background:transparent;border:1.5px dashed rgba(255,204,42,.5);width:34px;height:34px;padding:0}
 
   /* Path card */
+  #retroOverlay .vq{font-family:'Caveat',cursive;font-weight:600;font-size:clamp(30px,7.8vw,40px);line-height:1.12;color:var(--cream)}
+  #retroOverlay .vq::before{content:"\201C"}
+  #retroOverlay .vq::after{content:"\201D"}
   #retroOverlay .path-badge{width:104px;margin-bottom:10px}
   #retroOverlay .share-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
   #retroOverlay .share-badge{width:58px;flex:0 0 auto}
@@ -526,22 +638,42 @@
 <div class="wrap">
 
   <header class="mast">
-    <div>
-      <h1 id="pageTitle"></h1>
-      <div class="ctx" id="ctx"></div>
-    </div>
+    <div class="ctx" id="ctx"></div>
     <span class="lockup">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 10V7a6 6 0 1112 0v3M5 10h14v11H5z" stroke="#FFF6DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Private
     </span>
   </header>
 
+  <div class="hero">
+    <h1 id="heroTitle"></h1>
+    <p class="hero-lede" id="heroLede"></p>
+  </div>
+
+  <!-- ============ Letters ============ -->
+  <section id="lettersSection" class="letters-sec">
+    <div class="kicker">Written to you</div>
+    <h2 id="lettersTitle"></h2>
+    <p class="note" id="lettersNote"></p>
+
+    <div class="feat" id="letterFeatured"></div>
+
+    <div class="mailbar" id="mailbar">
+      <div class="mb-count" id="mbCount" aria-live="polite"></div>
+      <button class="mb-btn" type="button" id="openAll">Open them all</button>
+      <a class="mb-btn mb-next" id="mbNext" href="#retro" hidden>See your Year in Review</a>
+    </div>
+
+    <div class="mail" id="mail"><div class="mail-col"></div><div class="mail-col"></div></div>
+    <p class="mail-done" id="mailDone" hidden></p>
+  </section>
+
   <p class="privacy">
     <b>Only you can see this page.</b> Not your principal, not the families, not other teachers. The one exception is your Year in Review below, and only if you decide to send it.
   </p>
 
   <!-- ============ Retrospective entry ============ -->
-  <section class="retro">
+  <section class="retro" id="retro">
     <div>
       <div class="kicker">Yours to share</div>
       <h2>Your Year in Review is ready.</h2>
@@ -570,23 +702,6 @@
       <div class="big" id="miniBig"></div>
       <div class="meta" id="miniMeta"></div>
       <div class="strip" id="miniStrip"></div>
-    </div>
-  </section>
-
-  <!-- ============ Voices ============ -->
-  <section id="voicesSection">
-    <div class="kicker">What families said</div>
-    <h2>The part we can't read from the books.</h2>
-    <div id="parentBlock">
-      <p class="note">Collected from families in the week after the publishing party. One question, answered by whoever wanted to answer, so read it as what some families felt, not as what all of them did.</p>
-      <p class="voice-count" id="voiceCount"></p>
-      <div class="voices" id="voices"></div>
-    </div>
-
-    <div class="kids" id="kidsBlock">
-      <h3>And from the authors themselves.</h3>
-      <p class="note" id="kidsNote"></p>
-      <div class="kid-grid" id="kids"></div>
     </div>
   </section>
 
@@ -809,6 +924,18 @@
         </div>
       </article>
 
+      <!-- One family's words. Only a letter marked share:true travels, and
+           it travels without the child's or the parent's name. -->
+      <article class="card card-navy" data-card id="voiceCard">
+        <div class="glow glow-tr" aria-hidden="true"></div>
+        <span class="eyebrow">A family wrote</span>
+        <div class="rbody">
+          <p class="vq" data-voice-text></p>
+          <div class="rule"></div>
+          <p class="sub" data-voice-from></p>
+        </div>
+      </article>
+
       <article class="card card-navy" data-card>
         <div class="glow glow-bl" aria-hidden="true"></div>
         <span class="eyebrow">Share your year</span>
@@ -872,6 +999,16 @@ var CONFIG = {
   /* Shows the red "sample data" strip at the top. Set to false only when
      every figure on the page is real. */
   pilot: true,
+
+  /* --- The opening line. ---
+     The value the page is built to prove: the teacher got her students to
+     love the writing process. It is stated once, and the letters right
+     below it are the evidence, so it never stands as our claim.
+     · fallback .. the lede used when no letters exist yet */
+  hero: {
+    headline: "Your students fell for writing this year.",
+    fallback: "Here is the year they had in your room."
+  },
 
   /* --- The teacher. Permanent. --- */
   teacher:  "Ms. Rivera",
@@ -975,18 +1112,29 @@ var CONFIG = {
       because:"Started the year writing a sentence or two under each drawing. Finished with a fourteen-page book that has a joke running through it." }
   ],
 
-  /* --- Parent voices. FICTIONAL PLACEHOLDERS for the pilot. ---
-     · asked once, in the week after the publishing party, one open question
+  /* --- Letters from families. FICTIONAL PLACEHOLDERS for the pilot. ---
+     Collected when the family orders the book and when they fill in the
+     author bio, always asked for in the teacher's name. Each one becomes a
+     sealed envelope on the page.
      · never edited for polish
      · no impact claims (reading levels, scores, improvement)
-     · a child's name appears only where the family recorded consent
-     · respondents and families are always displayed */
+     · child ....... named only where the family recorded consent
+     · relation .... "mom", "dad", "grandma"… (defaults to "mom" when a child
+                     is named, "parent" otherwise)
+     · forTeacher .. the letter that arrives already open at the top. Pick the
+                     one that speaks about her, not about the book.
+     · share ....... true only when the family ticked external use. That one
+                     letter also appears in the Year in Review, with no names. */
   voices: {
-    respondents: 14,
-    families: 26,
     quotes: [
+      { text:"He talks about you like you are the reason he can do it. I wanted you to hear that from me and not from him.",
+        from:"Kelly", child:"Jonah", grade:"3rd grade", forTeacher:true },
+      { text:"She asked if she could fix chapter two. On a Saturday. I said yes before she changed her mind.",
+        from:"Priya", child:"Anika", grade:"3rd grade" },
       { text:"He read it to his little sister four times the first night. He has never once volunteered to read anything before.",
         from:"Renata", child:"Diego", grade:"3rd grade" },
+      { text:"He used to say he hated writing. Last week he corrected my grocery list and called it editing.",
+        from:"Marcus", child:"Theo", relation:"dad", grade:"3rd grade", share:true },
       { text:"I did not know he thought about his grandmother that way until I got to page six. I had to leave the room for a minute.",
         from:"Ana Lucia", child:"Elias", grade:"3rd grade" },
       { text:"English is not the language we speak at home. Her book is the first thing she has written that I could read out loud with her.",
@@ -994,9 +1142,7 @@ var CONFIG = {
       { text:"She keeps it on the shelf turned face out, like a store. She rearranges the other books so hers has room.",
         from:"Michelle", child:null, grade:"3rd grade" },
       { text:"My husband took it to work. His entire office has read it now. He will not stop.",
-        from:"Deborah", child:null, grade:"3rd grade" },
-      { text:"He talks about you like you are the reason he can do it. I wanted you to hear that from me and not from him.",
-        from:"Kelly", child:"Jonah", grade:"3rd grade", forTeacher:true }
+        from:"Deborah", child:null, grade:"3rd grade" }
     ]
   },
 
@@ -1167,7 +1313,7 @@ function coverSequence(n){
 if (!CONFIG.pilot) drop($("#pilotStrip"));
 
 var pageTitle = "Your " + lower(ordWordOf(PARTIES)) + " year of authors.";
-$("#pageTitle").textContent = pageTitle;
+$("#heroTitle").textContent = (CONFIG.hero && CONFIG.hero.headline) || pageTitle;
 document.title = pageTitle + " · SuperAuthor";
 $("#ctx").textContent = IMPRINT + " · " + CONFIG.room + " · " + SCHOOL +
   " · Class of " + CLASS_YEAR;
@@ -1430,44 +1576,172 @@ CONFIG.cases.forEach(function(c){
   $("#cases").appendChild(box);
 });
 
-/* ================= Voices =================
-   Parent block and student block drop independently. If both are empty the
-   whole section goes, because an empty praise block reads as no praise. */
+/* ================= Letters =================
+   Family letters and author notes become one stack of mail. One letter
+   arrives open; the rest are sealed and open in place. Which ones she has
+   opened is remembered in this browser only, as a convenience: nothing
+   depends on it. With no letters at all the section, the Year in Review
+   card and the hero's reference to them disappear together.
+
+   Runs before the story-navigation block reads [data-card]. */
 (function(){
-  var v = CONFIG.voices;
-  var hasParents = v && v.quotes && v.quotes.length;
-  if (hasParents){
-    $("#voiceCount").textContent = v.respondents + " of " + v.families + " families answered.";
-    v.quotes.forEach(function(q){
-      var card = el("article", "voice" + (q.forTeacher ? " is-teacher" : ""));
-      card.appendChild(el("p", null, q.text));
-      card.appendChild(el("div", "from",
-        q.from + (q.child ? " · " + q.child + "'s mom" : " · parent") +
-        (q.grade ? " · " + q.grade : "")));
-      $("#voices").appendChild(card);
+  var v = CONFIG.voices, sv = CONFIG.studentVoices;
+  var letters = [];
+
+  if (v && v.quotes) v.quotes.forEach(function(q, i){
+    letters.push({
+      id:"f" + i, kind:"family", text:q.text, name:q.from, grade:q.grade,
+      role:(q.child ? q.child + "'s " + (q.relation || "mom") : "parent") +
+           (q.grade ? " · " + q.grade : ""),
+      featured:!!q.forTeacher, share:!!q.share
     });
-  } else {
-    drop($("#parentBlock"));
+  });
+  var families = letters.length;
+
+  var authors = 0;
+  if (sv && sv.quotes && Number(CONFIG.grade) >= sv.fromGrade){
+    sv.quotes.forEach(function(q, i){
+      letters.push({ id:"a" + i, kind:"author", text:q.text, name:q.from,
+        role:q.grade + " author" });
+      authors++;
+    });
   }
 
-  var sv = CONFIG.studentVoices;
-  var hasKids = sv && sv.quotes && sv.quotes.length &&
-    Number(CONFIG.grade) >= sv.fromGrade;
-  if (hasKids){
-    $("#kidsNote").textContent = "From " + ordinal(sv.fromGrade) +
-      " grade up, authors can leave a note on the platform. " +
-      spelled(sv.quotes.length) + " from this year's class:";
-    sv.quotes.forEach(function(q){
-      var card = el("article", "kid");
-      card.appendChild(el("p", null, q.text));
-      card.appendChild(el("div", "from", q.from + " · " + q.grade + " author"));
-      $("#kids").appendChild(card);
-    });
+  /* The one letter that travels in the Year in Review. */
+  var shared = null;
+  letters.forEach(function(l){ if (!shared && l.share) shared = l; });
+  if (shared){
+    $("[data-voice-text]").textContent = shared.text;
+    $("[data-voice-from]").textContent = "A " + (shared.grade ? shared.grade + " " : "") +
+      "parent, " + CONFIG.room + ".";
   } else {
-    drop($("#kidsBlock"));
+    drop($("#voiceCard"));
   }
 
-  if (!hasParents && !hasKids) drop($("#voicesSection"));
+  var lede = $("#heroLede");
+  if (!letters.length){
+    drop($("#lettersSection"));
+    lede.textContent = (CONFIG.hero && CONFIG.hero.fallback) || "";
+    return;
+  }
+  lede.textContent = families
+    ? "That isn't our line. It's what their families wrote to you."
+    : "That isn't our line. It's what your authors wrote to you.";
+
+  var total = letters.length;
+  $("#lettersTitle").textContent = spelled(total) +
+    (total === 1 ? " letter" : " letters") + " came in for you.";
+
+  var parts = [];
+  if (families) parts.push(spelled(families) + " from families, written when they ordered " +
+    "the book or filled in the author page.");
+  if (authors) parts.push(spelled(authors) + " from the authors themselves.");
+  parts.push(total === 1 ? "It's shown exactly as it was written."
+                         : "Each one is shown exactly as it was written.");
+  $("#lettersNote").textContent = parts.join(" ");
+
+  function paper(l){
+    var art = el("article", "paper kind-" + l.kind);
+    art.tabIndex = -1;
+    art.appendChild(el("p", "paper-text", l.text));
+    var sign = el("div", "sign");
+    sign.appendChild(el("span", "sign-name", l.name));
+    sign.appendChild(el("span", "sign-role", l.role));
+    art.appendChild(sign);
+    return art;
+  }
+
+  /* The open letter */
+  var first = letters[0];
+  letters.forEach(function(l){ if (l.featured && !first.featured) first = l; });
+  var feat = $("#letterFeatured");
+  feat.appendChild(paper(first));
+  var pk = el("div", "pocket"); pk.setAttribute("aria-hidden", "true");
+  var pf = el("div", "pocket-fold"); pf.setAttribute("aria-hidden", "true");
+  feat.appendChild(pk);
+  feat.appendChild(pf);
+
+  var sealed = letters.filter(function(l){ return l !== first; });
+  if (!sealed.length){
+    drop($("#mailbar")); drop($("#mail")); drop($("#mailDone"));
+    return;
+  }
+
+  /* Remembered per browser. Fails quietly in private windows. */
+  var KEY = "sa-letters:" + CONFIG.teacher + ":" + CLASS_YEAR;
+  var opened = {};
+  try { opened = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e){ opened = {}; }
+  function remember(){
+    try { localStorage.setItem(KEY, JSON.stringify(opened)); } catch (e){}
+  }
+
+  var reduced = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var PEN = "M4 20l4-1 11-11a2.1 2.1 0 00-3-3L5 16l-1 4zM14 7l3 3";
+  var cols = document.querySelectorAll("#mail .mail-col");
+  var items = [];
+
+  function refresh(){
+    var left = 0;
+    sealed.forEach(function(l){ if (!opened[l.id]) left++; });
+    var done = left === 0;
+    $("#mbCount").textContent = done
+      ? "All " + lower(spelled(total)) + " read."
+      : spelled(left) + " still sealed.";
+    $("#openAll").hidden = done;
+    $("#mbNext").hidden = !done;
+    var md = $("#mailDone");
+    md.hidden = !done;
+    if (done) md.textContent = "They stay here, and they go with you. Now see what the year added up to.";
+  }
+
+  function open(item, l, focus){
+    if (opened[l.id] && item.classList.contains("is-open")) return;
+    opened[l.id] = true;
+    remember();
+    refresh();
+    function finish(){
+      item.classList.remove("opening");
+      item.classList.add("is-open");
+      if (focus) item.querySelector(".paper").focus({ preventScroll:true });
+    }
+    if (reduced){ finish(); return; }
+    item.classList.add("opening");
+    setTimeout(finish, 400);
+  }
+
+  sealed.forEach(function(l, i){
+    var item = el("div", "letter-item");
+    var env = el("button", "env kind-" + l.kind);
+    env.type = "button";
+    env.setAttribute("aria-label", "Open the letter from " + l.name + ", " + l.role);
+    ["side", "side r", "fold", "flap-edge", "flap"].forEach(function(c){
+      env.appendChild(el("span", c));
+    });
+    var seal = el("span", "seal");
+    seal.appendChild(l.kind === "author"
+      ? svgIcon(STAR, "#FFCC2A", null)
+      : svgIcon(PEN, null, "#12294B"));
+    env.appendChild(seal);
+    env.appendChild(el("span", "to", "from " + l.name));
+    env.addEventListener("click", function(){ open(item, l, true); });
+    item.appendChild(env);
+    item.appendChild(paper(l));
+    if (opened[l.id]) item.classList.add("is-open");
+    cols[i % 2].appendChild(item);
+    items.push({ item:item, l:l });
+  });
+
+  $("#openAll").addEventListener("click", function(){
+    var n = 0;
+    items.forEach(function(it){
+      if (opened[it.l.id]) return;
+      if (reduced){ open(it.item, it.l, false); return; }
+      setTimeout(function(){ open(it.item, it.l, false); }, n++ * 110);
+    });
+  });
+
+  refresh();
 })();
 
 /* ================= Family survey ================= */
